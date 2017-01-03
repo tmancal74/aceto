@@ -1,1 +1,6 @@
 run_tests
+*.o
+*.mod
+.cproject
+.project
+

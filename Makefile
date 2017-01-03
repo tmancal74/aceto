@@ -19,7 +19,7 @@ LINK = ${FC} ${LFLAGS}
 main: run_tests
 
 # List of library routines
-LIBO = trp2.o
+LIBO = lib/trp2.o
 
 #-----------------------------------------------------------
 # Test driver
@@ -36,11 +36,7 @@ aceto_test.o: aceto_test.f03 aceto.o
 aceto.o: aceto.f03 ${LIBO}
 	${COMP} aceto.o  aceto.f03
  
-#----------------------------------------------------------
-# Library routines
-#----------------------------------------------------------
-trp2.o: trp2.f03
-	${COMP} trp2.o   trp2.f03
+
 
 
 
