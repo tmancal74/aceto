@@ -4,7 +4,7 @@ include ../conf/${COMPILER_SETTINGS}
 
 
 COMP = ${FC} ${PICFLAGS} ${FFLAGS} 
-LINK = ${FC} ${DYNFLAGS}
+LINK = ${CC} ${DYNFLAGS}
 
 # List of library routines
 LIBO = trp2.o

@@ -17,7 +17,8 @@ include conf/${COMPILER_SETTINGS}
 COMP = ${FC} ${FFLAGS}
 LINK = ${FC} -L./lib/ ${LFLAGS}
 
-main: run_tests
+main: aceto_test.x
+
 
 # List of library routines
 LIBO = -laceto
@@ -25,8 +26,9 @@ LIBO = -laceto
 #-----------------------------------------------------------
 # Test driver
 #-----------------------------------------------------------
-run_tests: aceto_test.o
-	${LINK} run_tests  aceto_test.o aceto.o ${LIBO}
+aceto_test.x: aceto_test.o
+	cd lib/; make
+	${LINK} aceto_test.x  aceto_test.o aceto.o ${LIBO}
 
 aceto_test.o: aceto_test.f03 aceto.o
 	${COMP} aceto_test.o  aceto_test.f03
@@ -44,13 +46,16 @@ aceto.o: aceto.f03
 #-----------------------------------------------------------
 # Predefined tasks
 #-----------------------------------------------------------
-run: run_tests
-	./run_tests
+test: aceto_test.x tests.sh
+	./tests.sh
 
-clean: 
-	rm -rf *.o *.mod
+clean:
+	cd lib/; make clean
+	rm -rf *.o *.mod 
 
 delete: clean
-	rm -rf run_tests
+	cd lib/; make delete
+	rm -rf aceto_test.x
+
 
 

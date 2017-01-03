@@ -1,4 +1,5 @@
 FC = gfortran
+CC = gfortran
 FFLAGS = -c -fopenmp -O3 -o 
 LFLAGS = -fopenmp -o
 PICFLAGS = -fPIC
