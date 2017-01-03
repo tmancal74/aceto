@@ -6,7 +6,8 @@
 #
 
 # select suitable predefined variables for compilation
-include gfortran.in
+include conf/conf.in
+include conf/${COMPILER_SETTINGS}
 
 
 #

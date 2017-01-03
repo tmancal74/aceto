@@ -1,4 +1,7 @@
-include ../gfortran.in
+include ../conf/conf.in
+include ../conf/${COMPILER_SETTINGS}
+
+
 COMP = ${FC} ${FFLAGS}
 LINK = ${FC} ${LFLAGS}
 
@@ -7,3 +10,16 @@ LINK = ${FC} ${LFLAGS}
 #----------------------------------------------------------
 trp2.o: trp2.f03
 	${COMP} trp2.o  trp2.f03
+	
+	
+	
+#
+# Predefined tasks
+#
+
+clean: 
+	rm -rf *.o *.mod
+
+delete: clean
+	rm -rf libaceto*
+	
