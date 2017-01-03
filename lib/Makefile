@@ -3,8 +3,14 @@ include ../conf/${COMPILER_SETTINGS}
 #include ../conf/pgi.in
 
 
-COMP = ${FC} ${FFLAGS}
-LINK = ${FC} ${LFLAGS}
+COMP = ${FC} ${PICFLAGS} ${FFLAGS} 
+LINK = ${FC} ${DYNFLAGS}
+
+# List of library routines
+LIBO = trp2.o
+
+libaceto.so: ${LIBO}
+	${LINK} libaceto.so ${LIBO} ${DYNLIBS}
 
 #----------------------------------------------------------
 # Library routines

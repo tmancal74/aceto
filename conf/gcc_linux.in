@@ -1,0 +1,7 @@
+FC = gfortran
+CC = gcc
+FFLAGS = -c -fopenmp -O3 -o 
+LFLAGS = -fopenmp -o
+PICFLAGS = -fPIC
+DYNFLAGS = -shared -Wl,-soname,libaceto.so.1 -o
+DYNLIBS  = -lfortran

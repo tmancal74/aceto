@@ -1,0 +1,6 @@
+FC = gfortran
+FFLAGS = -c -fopenmp -O3 -o 
+LFLAGS = -fopenmp -o
+PICFLAGS = -fPIC
+DYNFLAGS = -fopenmp -shared -o
+DYNLIBS  = 

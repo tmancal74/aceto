@@ -3,4 +3,5 @@ run_tests
 *.mod
 .cproject
 .project
+*.so
 

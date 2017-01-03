@@ -1,1 +1,1 @@
-COMPILER_SETTINGS=gfortran.in
+COMPILER_SETTINGS=gcc_mac.in

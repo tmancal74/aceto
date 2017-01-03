@@ -15,12 +15,12 @@ include conf/${COMPILER_SETTINGS}
 #
 
 COMP = ${FC} ${FFLAGS}
-LINK = ${FC} ${LFLAGS}
+LINK = ${FC} -L./lib/ ${LFLAGS}
 
 main: run_tests
 
 # List of library routines
-LIBO = lib/trp2.o
+LIBO = -laceto
 
 #-----------------------------------------------------------
 # Test driver
@@ -34,16 +34,16 @@ aceto_test.o: aceto_test.f03 aceto.o
 #-----------------------------------------------------------
 # Library control module
 #-----------------------------------------------------------
-aceto.o: aceto.f03 ${LIBO}
+aceto.o: aceto.f03 
 	${COMP} aceto.o  aceto.f03
  
 
 
 
 
-#
+#-----------------------------------------------------------
 # Predefined tasks
-#
+#-----------------------------------------------------------
 run: run_tests
 	./run_tests
 
