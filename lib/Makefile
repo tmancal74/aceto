@@ -1,5 +1,6 @@
 include ../conf/conf.in
 include ../conf/${COMPILER_SETTINGS}
+#include ../conf/pgi.in
 
 
 COMP = ${FC} ${FFLAGS}
