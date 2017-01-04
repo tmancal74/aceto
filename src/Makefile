@@ -7,9 +7,9 @@ COMP = ${FC} ${FFLAGS}
 #-----------------------------------------------------------
 # Library control module
 #-----------------------------------------------------------
-aceto.o: aceto.f03 
+aceto.o: aceto.f95
 	@echo "Building control module"
-	${COMP} aceto.o  aceto.f03
+	${COMP} aceto.o  aceto.f95
 	@echo "...control module built"
 	
 .PHONY: clean delete

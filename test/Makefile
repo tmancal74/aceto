@@ -19,8 +19,8 @@ aceto_test.x: aceto_test.o
 	${LINK} aceto_test.x  aceto_test.o ${LIBO}
 	@echo "...test driver built"
 	
-aceto_test.o: aceto_test.f03 
-	${COMP} aceto_test.o  aceto_test.f03
+aceto_test.o: aceto_test.f95
+	${COMP} aceto_test.o  aceto_test.f95
 
 #-----------------------------------------------------------
 # Predefined tasks

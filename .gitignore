@@ -3,6 +3,7 @@ run_tests
 *.mod
 .cproject
 .project
+.spyproject
 *.so
 *.x
 
