@@ -49,11 +49,15 @@ clean:
 	cd lib/; make clean
 	cd src/; make clean
 	cd test/; make clean
+	cd aceto; make clean
 
 delete: clean
 	cd lib/; make delete
 	cd src/; make delete
 	cd test/; make delete
+	cd aceto/; make clean
+
+
 
 
 
