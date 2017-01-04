@@ -63,10 +63,8 @@ program aceto_test
   allocate(x1(1:N1), x(1:N), y(1:N,1:Nd))
   allocate(yout(1:N,1:Nd), yI(1:Nd))
 
-  open(unit=10, file="test.in")
-
+  open(unit=10, file="aceto_test.conf")
   read(10,*) test
-
   close(10)
 
 

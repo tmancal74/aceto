@@ -8,8 +8,6 @@
 # select suitable predefined variables for compilation
 include conf/conf.in
 include conf/${COMPILER_SETTINGS}
-include conf/pgi_lib.in
-
 
 
 #
@@ -17,43 +15,53 @@ include conf/pgi_lib.in
 #
 
 COMP = ${FC} ${FFLAGS}
-LINK = ${FC} ${LFLAGS}
+LINK = ${FC} -L./lib/ ${LFLAGS}
 
+main: aceto_test.x
 
-main: run_tests
 
 # List of library routines
-LIBO = lib/trp2.o
+LIBO = -laceto
 
 #-----------------------------------------------------------
 # Test driver
 #-----------------------------------------------------------
-run_tests: aceto_test.o
-	${LINK} run_tests ${FLIBDIR} aceto_test.o aceto.o ${LIBO} ${FLIB}
 
+aceto_test.x: aceto_test.o
+	cd lib/; make
+	@echo "Building test driver ..."
+	${LINK} aceto_test.x  aceto_test.o aceto.o ${LIBO}
+	@echo "...test driver built"
+	
 aceto_test.o: aceto_test.f03 aceto.o
 	${COMP} aceto_test.o  aceto_test.f03
 
 #-----------------------------------------------------------
 # Library control module
 #-----------------------------------------------------------
-aceto.o: aceto.f03 ${LIBO}
+aceto.o: aceto.f03 
+	@echo "Building control module"
 	${COMP} aceto.o  aceto.f03
- 
+	@echo "...control module built"
 
 
 
 
-#
+#-----------------------------------------------------------
 # Predefined tasks
-#
-run: run_tests
-	./run_tests
+#-----------------------------------------------------------
+test: aceto_test.x tests.sh
+	./tests.sh
 
-clean: 
-	rm -rf *.o *.mod
+.PHONY: clean delete
+
+clean:
+	cd lib/; make clean
+	rm -rf *.o *.mod 
 
 delete: clean
-	rm -rf run_tests
+	cd lib/; make delete
+	rm -rf aceto_test.x
+
 
 

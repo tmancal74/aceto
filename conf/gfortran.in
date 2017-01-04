@@ -1,3 +1,0 @@
-FC = gfortran
-FFLAGS = -c -fopenmp -O3 -o 
-LFLAGS = -fopenmp -o

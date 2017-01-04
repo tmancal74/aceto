@@ -3,9 +3,19 @@ include ../conf/conf.in
 include ../conf/pgi.in
 
 
-COMP = ${FC} ${FFLAGS}
-LINK = ${FC} ${LFLAGS}
+COMP = ${FC} ${PICFLAGS} ${FFLAGS} 
+LINK = ${CC} ${DYNFLAGS}
 
+# List of library routines
+LIBO = trp2.o
+
+libaceto.so: echo_building_library ${LIBO}
+	${LINK} libaceto.so ${LIBO} ${DYNLIBS}
+	@echo "...library built"
+
+echo_building_library:
+	@echo "Building library ..."
+	
 #----------------------------------------------------------
 # Library routines
 #----------------------------------------------------------
@@ -17,6 +27,8 @@ trp2.o: trp2.f03
 #
 # Predefined tasks
 #
+
+.PHONY: clean delete
 
 clean: 
 	rm -rf *.o *.mod
