@@ -1,1 +1,1 @@
-COMPILER_SETTINGS=gcc_mac.in
+COMPILER_SETTINGS=pgi_linux.in
