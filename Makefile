@@ -17,32 +17,19 @@ include conf/${COMPILER_SETTINGS}
 COMP = ${FC} ${FFLAGS}
 LINK = ${FC} -L./lib/ ${LFLAGS}
 
-all: aceto_test.x
+all: library src aceto_test
 
+.PHONY: library src aceto_test
 
-# List of library routines
-LIBO = -laceto
+library: 
+	cd lib; make 
 
-#-----------------------------------------------------------
-# Test driver
-#-----------------------------------------------------------
-
-aceto_test.x: aceto_test.o
-	cd lib/; make
-	@echo "Building test driver ..."
-	${LINK} aceto_test.x  aceto_test.o aceto.o ${LIBO}
-	@echo "...test driver built"
+src:
+	cd src; make
 	
-aceto_test.o: aceto_test.f03 aceto.o
-	${COMP} aceto_test.o  aceto_test.f03
+aceto_test:
+	cd test; make
 
-#-----------------------------------------------------------
-# Library control module
-#-----------------------------------------------------------
-aceto.o: aceto.f03 
-	@echo "Building control module"
-	${COMP} aceto.o  aceto.f03
-	@echo "...control module built"
 
 
 
@@ -50,18 +37,23 @@ aceto.o: aceto.f03
 #-----------------------------------------------------------
 # Predefined tasks
 #-----------------------------------------------------------
-test: aceto_test.x tests.sh
-	./tests.sh
+.PHONY: test
+
+test: 
+	cd test; make aceto_test.x; ./tests.sh
+
 
 .PHONY: clean delete
 
 clean:
 	cd lib/; make clean
-	rm -rf *.o *.mod 
+	cd src/; make clean
+	cd test/; make clean
 
 delete: clean
 	cd lib/; make delete
-	rm -rf aceto_test.x
+	cd src/; make delete
+	cd test/; make delete
 
 
 
