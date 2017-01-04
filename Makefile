@@ -8,6 +8,8 @@
 # select suitable predefined variables for compilation
 include conf/conf.in
 include conf/${COMPILER_SETTINGS}
+include conf/pgi_lib.in
+
 
 
 #
@@ -16,6 +18,7 @@ include conf/${COMPILER_SETTINGS}
 
 COMP = ${FC} ${FFLAGS}
 LINK = ${FC} ${LFLAGS}
+
 
 main: run_tests
 
@@ -26,7 +29,7 @@ LIBO = lib/trp2.o
 # Test driver
 #-----------------------------------------------------------
 run_tests: aceto_test.o
-	${LINK} run_tests  aceto_test.o aceto.o ${LIBO}
+	${LINK} run_tests ${FLIBDIR} aceto_test.o aceto.o ${LIBO} ${FLIB}
 
 aceto_test.o: aceto_test.f03 aceto.o
 	${COMP} aceto_test.o  aceto_test.f03

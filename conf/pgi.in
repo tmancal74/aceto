@@ -1,4 +1,6 @@
 FC = pgfortran
 FFLAGS = -c -fast -Mipa=fast,inline -mp -o
 LFLAGS = -mp -o
+FLIBDIR = -L/opt/pgi/linux86-64/16.10/REDIST
+FLIB = -lpgf90
 
