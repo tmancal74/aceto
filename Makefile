@@ -26,10 +26,13 @@ LIBO = -laceto
 #-----------------------------------------------------------
 # Test driver
 #-----------------------------------------------------------
+
 aceto_test.x: aceto_test.o
 	cd lib/; make
+	@echo "Building test driver ..."
 	${LINK} aceto_test.x  aceto_test.o aceto.o ${LIBO}
-
+	@echo "...test driver built"
+	
 aceto_test.o: aceto_test.f03 aceto.o
 	${COMP} aceto_test.o  aceto_test.f03
 
@@ -37,8 +40,9 @@ aceto_test.o: aceto_test.f03 aceto.o
 # Library control module
 #-----------------------------------------------------------
 aceto.o: aceto.f03 
+	@echo "Building control module"
 	${COMP} aceto.o  aceto.f03
- 
+	@echo "...control module built"
 
 
 
@@ -48,6 +52,8 @@ aceto.o: aceto.f03
 #-----------------------------------------------------------
 test: aceto_test.x tests.sh
 	./tests.sh
+
+.PHONY: clean delete
 
 clean:
 	cd lib/; make clean

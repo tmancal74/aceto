@@ -4,4 +4,6 @@ run_tests
 .cproject
 .project
 *.so
+*.x
+
 
