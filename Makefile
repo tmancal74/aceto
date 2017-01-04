@@ -17,7 +17,7 @@ include conf/${COMPILER_SETTINGS}
 COMP = ${FC} ${FFLAGS}
 LINK = ${FC} -L./lib/ ${LFLAGS}
 
-main: aceto_test.x
+all: aceto_test.x
 
 
 # List of library routines
