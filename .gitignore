@@ -7,5 +7,6 @@ run_tests
 *.so
 *.x
 aceto/*.so*
+build
 
 
