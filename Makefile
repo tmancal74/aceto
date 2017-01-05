@@ -56,6 +56,8 @@ delete: clean
 	cd src/; make delete
 	cd test/; make delete
 	cd aceto/; make clean
+	rm -rf build
+     
 
 
 
