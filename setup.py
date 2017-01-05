@@ -17,8 +17,7 @@ ext1 = Extension(name="aceto",
                  define_macros = [('F2PY_REPORT_ON_ARRAY_COPY','1')]
                 )
 
-setup(
-      name = "aceto",
+setup(name = "aceto",
       version="0.0.1",
       
       description = "Accelerated Charge and Energy Transfer Objects",
@@ -61,7 +60,8 @@ setup(
 
       keywords='physics, chemistry, quantum mechanics, open quantum systems',
       
+      #packages = find_packages(exclude=[' lib','conf','src','tests','docs']),
+
       ext_modules = [ext1]
       
       )
-
