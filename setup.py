@@ -14,7 +14,9 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     
 ext1 = Extension(name="aceto",
                  sources=["lib/trp2.f95"],
-                 define_macros = [('F2PY_REPORT_ON_ARRAY_COPY','1')]
+                 define_macros = [('F2PY_REPORT_ON_ARRAY_COPY','1')],
+                 extra_f90_compile_args=["-mp"],
+                 extra_link_args=["-mp"]
                 )
 
 setup(name = "aceto",

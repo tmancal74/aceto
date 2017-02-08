@@ -6,7 +6,7 @@ COMP = ${FC} ${PICFLAGS} ${FFLAGS}
 LINK = ${CC} ${DYNFLAGS}
 
 # List of library routines
-LIBO = trp2.o
+LIBO = trp2.o nresp3o.o
 
 libaceto.so: echo_building_library ${LIBO}
 	${LINK} libaceto.so ${LIBO} ${DYNLIBS}
@@ -14,15 +14,16 @@ libaceto.so: echo_building_library ${LIBO}
 
 echo_building_library:
 	@echo "Building library ..."
-	
+
 #----------------------------------------------------------
 # Library routines
 #----------------------------------------------------------
 trp2.o: trp2.f95
 	${COMP} trp2.o  trp2.f95
-	
-	
-	
+
+nresp3o.o: nresp3o.f95
+	${COMP} nresp3o.o nresp3o.f95
+
 #
 # Predefined tasks
 #
@@ -34,4 +35,4 @@ clean:
 
 delete: clean
 	rm -rf libaceto*
-	
+
