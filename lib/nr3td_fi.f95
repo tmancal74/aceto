@@ -5,7 +5,7 @@
 !
 
 subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
-                    t2, t1s, t3s, resp)
+                    t2, t1s, t3s, rwa, resp)
     !
     ! R2g response of an three band multi-level system
     !
@@ -31,6 +31,7 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     ! original arguments           
     real(8), intent(in) :: t2
     real(8), dimension(:), intent(in) :: t1s,t3s
+    real(8), intent(in) :: rwa
     complex(8), dimension(:,:), intent(inout) :: resp
            
     ! local
@@ -56,6 +57,12 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     ! initial and final states (normally there is a sum over them)
     g1 = 1
     f1 = 1 ! this points to ground state
+
+! The order of loops may be switched for better performace with larger
+! systems
+!      do e1 = 1, Ne
+!      do e2 = 1, Ne
+
     
     do it1 = 1,Nt1
     do it3 = 1,Nt3
@@ -63,10 +70,12 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       r = 0.0d0
       t1 = t1s(it1)
       t3 = t3s(it3)
-     
+
       ! assuming Ng = 1
       do e1 = 1, Ne
-        do e2 = 1, Ne
+      do e2 = 1, Ne
+
+     
         
           oafac = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
                                    nnge(:,f1,e1),nnge(:,f1,e2))
@@ -78,8 +87,8 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
             
             
           ! frequencies
-          exparg = -j1*(omge(e1,1)*t1 - omge(e2,1)*t3) &
-                   +j1*(omge(e2,1)-omge(e1,1))*t2
+          exparg = -j1*((omge(1,e1)+rwa)*t1 - (omge(1,e2)+rwa)*t3) &
+                   +j1*(omge(1,e2)-omge(1,e1))*t2
     
           ! dephasing and decay
           exparg = exparg + & 
@@ -94,14 +103,19 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
           
           r = r + prod
     
-    
-        end do
       end do
+      end do
+    
     
       resp(it1,it3) = resp(it1,it3) + r
     
     end do
     end do
+
+!      end do
+!      end do
+
+
 
 
 end subroutine nr3_r2g_fi

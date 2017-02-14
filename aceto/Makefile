@@ -20,4 +20,9 @@ re:
 	cd ../lib; make clean; make
 	make clean; make
 
+cleanall:
+	cd ../src; make clean
+	cd ../lib; make clean
+	make clean
+
 

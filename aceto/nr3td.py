@@ -15,7 +15,7 @@ def nr3_r1g(lab, sys, t2, t1s, t3s, resp):
     pass    
 
 
-def nr3_r2g(lab, sys, t2, t1s, t3s, resp):
+def nr3_r2g(lab, sys, t2, t1s, t3s, rwa, resp):
     """ Calculates R2g response function
     
     
@@ -60,7 +60,7 @@ def nr3_r2g(lab, sys, t2, t1s, t3s, resp):
     
     
     nr3td_fi.nr3_r2g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
-                        sys.dd01, sys.Kd01, sys.Kd11, t2, t1s, t3s, resp)
+                        sys.dd01, sys.Kd01, sys.Kd11, t2, t1s, t3s, rwa, resp)
 
 
 def nr3_r3g(lab, sys, t2, t1s, t3s, resp):

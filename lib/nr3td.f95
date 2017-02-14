@@ -9,7 +9,7 @@ module nr3td
 !
 interface 
   subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
-                        t2, t1s, t3s, resp)
+                        t2, t1s, t3s, rwa, resp)
     !
     ! R2g response of an three band multi-level system
     !
@@ -26,6 +26,7 @@ interface
         
     ! arguments representing band_system
     integer, dimension(:) :: Ns
+    real(8) :: rwa
     real(8), dimension(:,:) :: omge
     real(8), dimension(:,:,:) :: nnge
     real(8), dimension(:,:) :: ddge
@@ -41,7 +42,7 @@ end interface
 
 contains
 
-  subroutine nr3_r2g(LAB, SYS, t2, t1s, t3s, resp)
+  subroutine nr3_r2g(LAB, SYS, t2, t1s, t3s, rwa, resp)
     !
     ! R2g response of an three band multi-level system
     !
@@ -59,12 +60,13 @@ contains
     type(band_system)  :: SYS
     real(dp), intent(in) :: t2
     real(dp), dimension(:), intent(in) :: t1s,t3s
+    real(dp), intent(in) :: rwa
     complex(dpc), dimension(:,:), intent(inout) :: resp
            
            
     call nr3_r2g_fi(LAB%orient_aver, &
                     SYS%Ns, SYS%om01, SYS%nn01, SYS%dd01, SYS%Kd01, SYS%Kd11, &
-                    t2, t1s, t3s, resp)
+                    t2, t1s, t3s, rwa, resp)
     
   end subroutine nr3_r2g
 
