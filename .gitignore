@@ -8,5 +8,6 @@ run_tests
 *.x
 aceto/*.so*
 build
+__pycache__
 
 

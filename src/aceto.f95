@@ -14,7 +14,10 @@
 !************************************************************************************
 module acetolib
   use iso_c_binding
+  use acetodef
+  
   implicit none
+
 
 
   type aceto_properties

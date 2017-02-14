@@ -16,7 +16,10 @@
 !******************************************************************
 program aceto_test
   use iso_c_binding
+  
   use acetolib
+  use acetosys
+  
   implicit none
 
   integer(c_long) :: N, N1, Nd
@@ -26,6 +29,9 @@ program aceto_test
   real(c_double), dimension(:,:), allocatable :: y, yout
 
   real(c_double), dimension(:), allocatable :: yI
+
+  integer, dimension(3) :: Ns
+  type(band_system) :: bs
 
   type(aceto) :: acc_openacc, acc_openmp, acc_none
   type(aceto_properties) :: prop
@@ -148,9 +154,12 @@ program aceto_test
 
   end select
 
-
-
   print *, "Time = ", real(countf-counti)/real(count_rate)
+
+
+  
+  
+
 
   ! close aceto
   call acc_openacc%destroy()
