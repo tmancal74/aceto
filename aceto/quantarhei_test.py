@@ -162,8 +162,8 @@ print(it2)
 #
 print("calculating response: ")
 t1 = time.time()
-#nr3td.nr3_r2g(lab, sys, it2, t1s, t3s, rwa, resp)
-nr3td.nr3_r3g(lab, sys, it2, t1s, t3s, rwa, resp)
+nr3td.nr3_r2g(lab, sys, it2, t1s, t3s, rwa, resp)
+#nr3td.nr3_r3g(lab, sys, it2, t1s, t3s, rwa, resp)
 t2 = time.time()
 print("... calculated in ",t2-t1, " sec")
 
@@ -182,5 +182,5 @@ om3 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t3s), d=dt)) + rwa
 print("max = ", numpy.max(numpy.real(ftresp)))
                                      
 plt.contourf(om1,om3,numpy.real(ftresp),100)
-plt.savefig("fig"+str(it2)+".jpg")
+#plt.savefig("fig"+str(it2)+".gif")
 plt.show()

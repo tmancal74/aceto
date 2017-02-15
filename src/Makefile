@@ -6,9 +6,9 @@ COMP = ${FC} -fPIC ${FFLAGS}
 LINK = ${CC} ${DYNFLAGS}
 
 
-LIBO =  aceto.o acetosys.o acetodef.o acetolab.o
+LIBO =  acetosys.o acetodef.o acetolab.o
 
-all: ${LIBO} libsrcaceto.so
+all: aceto.o ${LIBO} libsrcaceto.so
 
 libsrcaceto.so: ${LIBO}
 	${LINK} libsrcaceto.so ${LIBO} ${DYNLIBS}

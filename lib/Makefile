@@ -3,13 +3,13 @@ include ../conf/${COMPILER_SETTINGS}
 
 
 COMP = ${FC} -I../src  ${PICFLAGS} ${FFLAGS}  
-LINK = ${CC} ${DYNFLAGS}
+LINK = ${CC} -L../src  ${DYNFLAGS}
 
 # List of library routines
-LIBO = trp2.o nresp3o.o nr3td.o 
+LIBO = trp2.o nr3td.o nr3td_fi.o
 
 libaceto.so: echo_building_library ${LIBO}
-	${LINK} libaceto.so ${LIBO} ${DYNLIBS}
+	${LINK} libaceto.so ${LIBO} -lsrcaceto ${DYNLIBS}
 	@echo "...library built"
 
 echo_building_library:
@@ -20,9 +20,6 @@ echo_building_library:
 #----------------------------------------------------------
 trp2.o: trp2.f95
 	${COMP} trp2.o  trp2.f95
-
-nresp3o.o: nresp3o.f95
-	${COMP} nresp3o.o nresp3o.f95
 
 
 nr3td_fi.o: nr3td_fi.f95

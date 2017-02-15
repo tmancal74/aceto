@@ -44,7 +44,7 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     integer :: it1, it3
     integer :: e1, e2, g1, f1, k
     real(8) :: t1,t2,t3, tt1, tt2
-    real(8) :: oafac
+    real(8), dimension(:,:), allocatable :: oafac
     complex(8) :: r, prod, exparg, aa, bb
            
     real(8), dimension(:,:,:), allocatable :: ss2
@@ -59,7 +59,11 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     ! reconstruction of the LAB object
     type(lab_settings) :: LAB
     
+    real(8) :: minfac    
+        
     LAB%orient_aver = orient_av
+    
+    minfac = 0.01
     
     Nt1 = size(t1s)
     Nt3 = size(t3s)
@@ -71,6 +75,7 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     g1 = 1
     f1 = 1 ! this points to ground state
 
+    allocate(oafac(Ne,Ne))
     allocate(ss2(Ne,Ne,Ne))
     allocate(gn_t1(Ne), gn_t2(Ne), gn_t3(Ne))
     allocate(gn_t1t2(Ne), gn_t2t3(Ne), gn_t1t2t3(Ne))
@@ -78,6 +83,9 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     do e1 = 1, Ne
     do e2 = 1, ne
        ss2(:,e1,e2) = (SS1(:,e1)**2)*(SS1(:,e2)**2)
+       oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
+                                       nnge(:,f1,e1),nnge(:,f1,e2))
+       !print *, oafac(e1,e2)
     end do
     end do
 
@@ -147,7 +155,9 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
 !      ! assuming Ng = 1
       do e1 = 1, Ne
       do e2 = 1, Ne
-
+          
+          if (oafac(e1,e2) > minfac) then
+             
           gg_21_t1 = dot_product(ss2(:,e2,e1),gn_t1)
           gg_21_t2 = dot_product(ss2(:,e2,e1),gn_t2)
           gg_21_t3 = dot_product(ss2(:,e2,e1),gn_t3)
@@ -155,13 +165,10 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
           gg_11_t2t3 = dot_product(ss2(:,e1,e1),gn_t2t3)
           gg_21_t1t2t3 = dot_product(ss2(:,e2,e1),gn_t1t2t3)
           
-
-          oafac = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
-                                   nnge(:,f1,e1),nnge(:,f1,e2))
           
           ! transition dipole moments
           prod = &
-            oafac*ddge(g1,e1)*ddge(g1,e2)*ddge(f1,e1)*ddge(f1,e2)
+            oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)*ddge(f1,e1)*ddge(f1,e2)
             
           ! frequencies
           exparg = -j1*((omge(1,e1)+rwa)*t1 - (omge(1,e2)+rwa)*t3) &
@@ -186,6 +193,8 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
           prod = prod*exp(exparg)
           
           r = r + prod
+          
+          end if
     
       end do
       end do
