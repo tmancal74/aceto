@@ -44,6 +44,15 @@ type band_system
   real(dp), dimension(:,:), pointer :: Kd11 => null()
   ! dephasing rates
   real(dp), dimension(:,:), pointer :: Kd12 => null()
+  ! lineshape functions
+  complex(dpc), dimension(:,:), pointer :: gofts => null()
+  ! pointer from sites to goft
+  integer, dimension(:,:), pointer :: ptn => null()
+  ! transformation matrix, block 1
+  real(dp), dimension(:,:), pointer :: SS1 => null()
+  ! transformation matrix, block 2
+  real(dp), dimension(:,:), pointer :: SS2 => null()
+  
       
 contains
 

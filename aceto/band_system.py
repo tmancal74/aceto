@@ -23,6 +23,10 @@ class band_system:
         self.Kd01 = None
         self.Kd11 = None
         self.Kd12 = None
+        self.gofts = None
+        self.ptn = None
+        self.SS1 = None
+        self.SS2 = None
         
         
     def set_energies(self, en):
@@ -71,7 +75,22 @@ class band_system:
         else:
             raise Exception("Attempt to assing unsupported dipole block")
             
+
+    def set_gofts(self,gofts):
+        self.gofts = gofts
         
+    def set_sitep(self, ptn):
+        self.ptn = ptn
+        self.fptn = self.ptn + 1
+        
+    def set_transcoef(self, Nb, SS):
+        if Nb == 1:
+            self.SS1 = SS
+        elif Nb == 2:
+            self.SS2 = SS
+        else:
+            raise Exception("Attempt to assign unsupported block")
+
     
     def set_relaxation_rates(self, Nb, RR):
         if Nb == 1:

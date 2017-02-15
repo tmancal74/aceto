@@ -15,7 +15,7 @@ def nr3_r1g(lab, sys, t2, t1s, t3s, resp):
     pass    
 
 
-def nr3_r2g(lab, sys, t2, t1s, t3s, rwa, resp):
+def nr3_r2g(lab, sys, it2, t1s, t3s, rwa, resp):
     """ Calculates R2g response function
     
     
@@ -30,9 +30,9 @@ def nr3_r2g(lab, sys, t2, t1s, t3s, rwa, resp):
     sys : band_system
         System to be calculated on expressed through the band_system class
         
-    t2 : float
-        The so-called waiting or population time of non-linear spectroscopic
-        techniques
+    it2 : integer
+        Index of the so-called waiting or population time of non-linear 
+        spectroscopic techniques
         
     t1s : float array
         Values of t1 time for which response should be calculated
@@ -60,15 +60,21 @@ def nr3_r2g(lab, sys, t2, t1s, t3s, rwa, resp):
     
     
     nr3td_fi.nr3_r2g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
-                        sys.dd01, sys.Kd01, sys.Kd11, t2, t1s, t3s, rwa, resp)
+                        sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
+                        sys.SS1, it2, t1s, t3s, rwa, resp)
 
 
-def nr3_r3g(lab, sys, t2, t1s, t3s, resp):
+def nr3_r3g(lab, sys, it2, t1s, t3s, rwa, resp):
     """ Calculates R2g response function
     
     
     """
-    pass
+    
+    
+    nr3td_fi.nr3_r3g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
+                        sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
+                        sys.SS1, it2, t1s, t3s, rwa, resp)
+
 
 def nr3_r4g(lab, sys, t2, t1s, t3s, resp):
     """ Calculates R2g response function
