@@ -195,7 +195,11 @@ tots = numpy.real(ftresp_r) + numpy.real(ftresp_n)
 
 #plt.contourf(om1,om3,numpy.real(ftresp_r),100)
 #plt.contourf(om1,om3,numpy.real(ftresp_n),100)
-plt.contourf(om1,om3,numpy.real(tots),100)
+Np = resp_r.shape[0]
+Nst = 44*Np//100
+print(Nst, Np)
+Nfi = Np - Nst
+plt.contourf(om1[Nst:Nfi],om3[Nst:Nfi],numpy.real(tots[Nst:Nfi,Nst:Nfi]),100)
 
 t_end = time.time()
 print("Finished in ", t_end-t_start, " secs")

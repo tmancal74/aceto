@@ -8,9 +8,6 @@ all: f2py
 f2py:
 	f2py -I../lib/ -L../lib -m nr3td_fi -c ../lib/nr3td_fi.f95 -laceto
 
-test:
-	./test_quantarhei
-
     
 clean:
 	rm -rf *.so

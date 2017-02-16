@@ -40,10 +40,14 @@ aceto_test:
 #-----------------------------------------------------------
 # Predefined tasks
 #-----------------------------------------------------------
-.PHONY: test
+.PHONY: test quantarhei_test
 
-test: 
-	cd test; make aceto_test.x; ./tests.sh
+test: quantarhei_test 
+
+
+quantarhei_test:
+	cd tests; python quantarhei_test.py
+
 
 
 .PHONY: clean delete
