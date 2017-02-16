@@ -1,55 +1,18 @@
-# select suitable predefined variables for compilation
-include ../conf/conf.in
-include ../conf/${COMPILER_SETTINGS}
 
-COMP = ${FC} -I../src/ -I../lib ${FFLAGS} 
-LINK = ${FC} -L../lib/ -L../src/ -I../src/ ${LFLAGS}
-
-# List of library routines
-LIBO =  ../src/aceto.o -laceto
-
-all: libaceto.so aceto_test.x band_system_test.x 
-
-#-----------------------------------------------------------
-# Test drivers
-#-----------------------------------------------------------
-
-aceto_test.x: aceto_test.o
-	@echo "Building test driver ..."
-	${LINK} aceto_test.x  aceto_test.o ${LIBO}
-	@echo "...test driver built"
-	
-aceto_test.o: aceto_test.f95
-	${COMP} aceto_test.o  aceto_test.f95
-
-band_system_test.x: band_system_test.o
-	${LINK} band_system_test.x band_system_test.o ${LIBO}
-
-band_system_test.o: band_system_test.f95
-	${COMP} band_system_test.o band_system_test.f95
+all: quantarhei
 
 
-#-----------------------------------------------------------
-# Predefined tasks
-#-----------------------------------------------------------
-test: test_aceto test_bs
+quantarhei: libaceto.so
+	python quantarhei_test.py
+    
+    
 
-
-test_aceto: aceto_test.x tests_aceto.sh
-	./tests_aceto.sh
-
-test_bs: band_system_test.x tests_bs.sh
-	./tests_bs.sh
 
 libaceto.so:
 	cd ../lib; make;
 	cp ../lib/libaceto.so .
 
-
-.PHONY: clean delete
-
 clean:
-	rm -rf *.o *.mod *.so
-
-delete: clean
-	rm -rf *.x
+	rm -rf *.so 
+	cd fortran; make clean
+    
