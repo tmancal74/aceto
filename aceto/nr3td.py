@@ -8,14 +8,19 @@
 
 import nr3td_fi
 
-def nr3_r1g(lab, sys, t2, t1s, t3s, resp):
+def nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     """ Calculates R2g response function
     
+    
     """
-    pass    
+    
+    
+    nr3td_fi.nr3_r1g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
+                        sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
+                        sys.SS1, it2, t1s, t3s, rwa, rmin, resp)   
 
 
-def nr3_r2g(lab, sys, it2, t1s, t3s, rwa, resp):
+def nr3_r2g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     """ Calculates R2g response function
     
     
@@ -40,6 +45,13 @@ def nr3_r2g(lab, sys, it2, t1s, t3s, rwa, resp):
     t3s : float array
         Values of t3 time for which response shuld be calculated
         
+    rwa: float
+        Rotating wave frequency
+        
+    rmin: float
+        Minimal value of the dipole prefactor, relative to its max value,
+        which is taken into account
+        
     resp : complex 2d array
         Non-linear response 
         
@@ -61,11 +73,11 @@ def nr3_r2g(lab, sys, it2, t1s, t3s, rwa, resp):
     
     nr3td_fi.nr3_r2g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
                         sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
-                        sys.SS1, it2, t1s, t3s, rwa, resp)
+                        sys.SS1, it2, t1s, t3s, rwa, rmin, resp)
 
 
-def nr3_r3g(lab, sys, it2, t1s, t3s, rwa, resp):
-    """ Calculates R2g response function
+def nr3_r3g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
+    """ Calculates R3g response function
     
     
     """
@@ -73,15 +85,21 @@ def nr3_r3g(lab, sys, it2, t1s, t3s, rwa, resp):
     
     nr3td_fi.nr3_r3g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
                         sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
-                        sys.SS1, it2, t1s, t3s, rwa, resp)
+                        sys.SS1, it2, t1s, t3s, rwa, rmin, resp)
 
 
-def nr3_r4g(lab, sys, t2, t1s, t3s, resp):
-    """ Calculates R2g response function
+
+def nr3_r4g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
+    """ Calculates R4g response function
     
     
     """
-    pass
+    
+    
+    nr3td_fi.nr3_r4g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
+                        sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
+                        sys.SS1, it2, t1s, t3s, rwa, rmin, resp)
+    
 
 def nr3_r1f(lab, sys, t2, t1s, t3s, resp):
     """ Calculates R2g response function

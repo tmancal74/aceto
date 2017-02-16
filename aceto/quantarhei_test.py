@@ -15,6 +15,7 @@ from band_system import band_system
 
 import nr3td
 
+t_start = time.time()
 
 ###############################################################################
 #
@@ -144,12 +145,13 @@ lab.set_laser_polarizations(X, X, X, X)
 # Initialize response storage
 #
 Nr = 1000
-resp = numpy.zeros((Nr, Nr), dtype=numpy.complex128, order='F')
+resp_r = numpy.zeros((Nr, Nr), dtype=numpy.complex128, order='F')
+resp_n = numpy.zeros((Nr, Nr), dtype=numpy.complex128, order='F')
 
 #
 # Other parameters
 #
-t2 = 100.0
+t2 = 50.0
 dt = ta.step
 t1s = ta.data 
 t3s = ta.data 
@@ -161,9 +163,12 @@ print(it2)
 # calcute response
 #
 print("calculating response: ")
+rmin = 0.01
 t1 = time.time()
-nr3td.nr3_r2g(lab, sys, it2, t1s, t3s, rwa, resp)
-#nr3td.nr3_r3g(lab, sys, it2, t1s, t3s, rwa, resp)
+nr3td.nr3_r2g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
+nr3td.nr3_r3g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
+nr3td.nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
+nr3td.nr3_r4g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
 t2 = time.time()
 print("... calculated in ",t2-t1, " sec")
 
@@ -172,15 +177,29 @@ print("... calculated in ",t2-t1, " sec")
 #
 import matplotlib.pyplot as plt
 
-ftresp = numpy.fft.fft(resp,axis=0)
+ftresp = numpy.fft.fft(resp_r,axis=0)
 ftresp = numpy.fft.ifft(ftresp,axis=1)
-ftresp = numpy.fft.fftshift(ftresp)
+ftresp_r = numpy.fft.fftshift(ftresp)
+
+ftresp = numpy.fft.ifft(resp_n,axis=0)
+ftresp = numpy.fft.ifft(ftresp,axis=1)*ftresp.shape[1]
+ftresp_n = numpy.fft.fftshift(ftresp)
+
 
 om1 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t1s), d=dt)) + rwa
 om3 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t3s), d=dt)) + rwa
 
-print("max = ", numpy.max(numpy.real(ftresp)))
+print("max = ", numpy.max(numpy.real(ftresp_r)))
+print("max = ", numpy.max(numpy.real(ftresp_n)))
                                      
-plt.contourf(om1,om3,numpy.real(ftresp),100)
-#plt.savefig("fig"+str(it2)+".gif")
+tots = numpy.real(ftresp_r) + numpy.real(ftresp_n)
+
+#plt.contourf(om1,om3,numpy.real(ftresp_r),100)
+#plt.contourf(om1,om3,numpy.real(ftresp_n),100)
+plt.contourf(om1,om3,numpy.real(tots),100)
+
+t_end = time.time()
+print("Finished in ", t_end-t_start, " secs")
+
+plt.savefig("fig"+str(it2)+".jpg")
 plt.show()
