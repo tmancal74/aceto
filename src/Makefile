@@ -2,41 +2,20 @@
 include ../conf/conf.in
 include ../conf/${COMPILER_SETTINGS}
 
-COMP = ${FC} -fPIC ${FFLAGS}
-LINK = ${CC} ${DYNFLAGS}
+COMP = ${FC} -fPIC  -I../lib ${FFLAGS}
+LINK = ${CC} -L../lib ${DYNFLAGS} -laceto
 
-
-LIBO =  acetosys.o acetodef.o acetolab.o
-
-all: aceto.o ${LIBO} libsrcaceto.so
-
-libsrcaceto.so: ${LIBO}
-	${LINK} libsrcaceto.so ${LIBO} ${DYNLIBS}
-
+all: aceto.o 
 
 
 #-----------------------------------------------------------
 # Library control module
 #-----------------------------------------------------------
-aceto.o: aceto.f95 acetodef.o
+aceto.o: aceto.f95 
 	@echo "Building control module"
 	${COMP} aceto.o  aceto.f95
 	@echo "... control module built"
 
-#-----------------------------------------------------------
-# Library classes 
-#-----------------------------------------------------------
-acetosys.o: acetosys.f95 acetodef.o
-	@echo "Building systems module"
-	${COMP} acetosys.o acetosys.f95
-	@echo "... systems module built"
-	
-
-acetodef.o: acetodef.f95
-	${COMP} acetodef.o acetodef.f95
-
-acetolab.o: acetolab.f95
-	${COMP} acetolab.o acetolab.f95
 
 .PHONY: clean delete
 

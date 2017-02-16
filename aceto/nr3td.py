@@ -6,7 +6,7 @@
 
 """
 
-import nr3td_fi
+import aceto.nr3td_fi as nr3td_fi
 
 def nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     """ Calculates R2g response function

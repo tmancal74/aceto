@@ -10,10 +10,10 @@ import numpy
 import scipy
 import time
 
-from lab_settings import lab_settings
-from band_system import band_system
+from aceto.lab_settings import lab_settings
+from aceto.band_system import band_system
 
-import nr3td
+import aceto.nr3td as nr3td
 
 t_start = time.time()
 
@@ -185,7 +185,6 @@ ftresp = numpy.fft.ifft(resp_n,axis=0)
 ftresp = numpy.fft.ifft(ftresp,axis=1)*ftresp.shape[1]
 ftresp_n = numpy.fft.fftshift(ftresp)
 
-
 om1 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t1s), d=dt)) + rwa
 om3 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t3s), d=dt)) + rwa
 
@@ -201,5 +200,5 @@ plt.contourf(om1,om3,numpy.real(tots),100)
 t_end = time.time()
 print("Finished in ", t_end-t_start, " secs")
 
-plt.savefig("fig"+str(it2)+".jpg")
+#plt.savefig("fig"+str(it2)+".jpg")
 plt.show()

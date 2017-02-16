@@ -17,7 +17,7 @@ include conf/${COMPILER_SETTINGS}
 COMP = ${FC} ${FFLAGS}
 LINK = ${FC} -L./lib/ ${LFLAGS}
 
-all: library src aceto_test
+all: library src aceto_pkg aceto_test
 
 .PHONY: library src aceto_test
 
@@ -27,8 +27,11 @@ library:
 src:
 	cd src; make
 	
+aceto_pkg:
+	cd aceto; make
+    
 aceto_test:
-	cd test; make
+	cd tests; make
 
 
 

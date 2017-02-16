@@ -18,8 +18,6 @@ module acetolib
   
   implicit none
 
-
-
   type aceto_properties
     character(64) :: accelerator 
   end type

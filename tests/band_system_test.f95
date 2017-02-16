@@ -21,7 +21,7 @@ program band_system_test
   
   complex(dpc), dimension(:,:), allocatable :: resp
   real(dp), dimension(:), allocatable :: t1, t3
-      
+  real(dp) :: rwa, rmin
   integer :: i
       
   print *, ""
@@ -85,7 +85,10 @@ program band_system_test
     t3(i) = t1(i)
   end do
   
-  call nr3_r2g(LAB, bs, 20.0d0, t1, t3, resp)
+  rwa = 1.0d0
+  rmin = 0.01d0
+  
+  call nr3_r2g(LAB, bs, 20, t1, t3, rwa, rmin, resp)
   
   print *, resp
   

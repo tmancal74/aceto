@@ -143,7 +143,7 @@ subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     
 end subroutine set_dipole_factor_f
 
-subroutine set_goft(gn, it, nmax, gofts, ptn, t1s)
+subroutine set_goft_g(gn, it, nmax, gofts, ptn, t1s)
     implicit none
     complex(8), dimension(:), intent(out) :: gn
     integer :: nmax
@@ -173,7 +173,7 @@ subroutine set_goft(gn, it, nmax, gofts, ptn, t1s)
     end if
                       
     
-end subroutine set_goft
+end subroutine set_goft_g
 
 subroutine set_goft_mixing(SS1, ss2)
     real(8), dimension(:,:), intent(in) :: SS1
@@ -280,12 +280,12 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
       
 !      ! assuming Ng = 1
       do e1 = 1, Ne
@@ -428,12 +428,12 @@ subroutine nr3_r3g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
       
 !      ! assuming Ng = 1
       do e1 = 1, Ne
@@ -571,12 +571,12 @@ subroutine nr3_r1g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
       
 !      ! assuming Ng = 1
       do e1 = 1, Ne
@@ -717,12 +717,12 @@ subroutine nr3_r4g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
       
 !      ! assuming Ng = 1
       do e1 = 1, Ne
@@ -866,12 +866,12 @@ subroutine nr3_r1f_fi(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
       
 !      ! assuming Ng = 1
       do e1 = 1, Ne
@@ -1023,12 +1023,12 @@ subroutine nr3_r2g_trans_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
       
 !      ! assuming Ng = 1
       do e1 = 1, Ne
