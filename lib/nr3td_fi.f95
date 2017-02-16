@@ -6,7 +6,8 @@
 module tt
 
 contains
-subroutine set_dipole_factor(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
+
+subroutine set_dipole_factor_g(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
                              oafac, rtol, minfac)
     use acetolab
     implicit none
@@ -72,7 +73,75 @@ subroutine set_dipole_factor(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     minfac = rtol*maxval(oafac)
     print *, minfac
     
-end subroutine set_dipole_factor
+end subroutine set_dipole_factor_g
+
+subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
+                             oafac, rtol, minfac)
+    use acetolab
+    implicit none
+
+    integer, intent(in) :: g1, f1
+    character(3) :: pathw
+    real(8), dimension(:), intent(in) :: orient_av
+    integer, intent(in) :: Ne
+    real(8), dimension(:,:), intent(in) :: ddge
+    real(8), dimension(:,:,:), intent(in) :: nnge
+    
+    real(8), dimension(:,:), intent(out) :: oafac
+    real(8), intent(in)   :: rtol
+    real(8), intent(out)  :: minfac
+    
+    integer :: e1, e2
+    
+    ! reconstruction of the LAB object
+    type(lab_settings) :: LAB
+
+    LAB%orient_aver = orient_av
+
+    if (pathw == 'R1f') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
+                                           nnge(:,f1,e2),nnge(:,f1,e1))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
+                                       ddge(f1,e2)*ddge(f1,e1)       
+        end do
+        end do       
+    else if (pathw == 'R2f') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
+                                           nnge(:,f1,e1),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
+                                       ddge(f1,e1)*ddge(f1,e2)       
+        end do
+        end do
+    else if (pathw == 'R3f') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+                                           nnge(:,f1,e2),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+                                       ddge(f1,e2)*ddge(f1,e2)       
+        end do
+        end do                        
+    else if (pathw == 'R4f') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+                                           nnge(:,f1,e2),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+                                       ddge(f1,e2)*ddge(f1,e2)       
+        end do
+        end do                        
+    else
+        stop "Unsupported pathway"
+    end if
+
+    minfac = rtol*maxval(oafac)
+    print *, minfac
+    
+end subroutine set_dipole_factor_f
 
 subroutine set_goft(gn, it, nmax, gofts, ptn, t1s)
     implicit none
@@ -198,7 +267,7 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     g1 = 1
     f1 = 1 ! this points to ground state
     
-    call set_dipole_factor(g1, f1, "R2g", orient_av, Ne, ddge, nnge, oafac, &
+    call set_dipole_factor_g(g1, f1, "R2g", orient_av, Ne, ddge, nnge, oafac, &
                            rmin, minfac)
 
     t2 = t1s(it2)
@@ -346,7 +415,7 @@ subroutine nr3_r3g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     g1 = 1
     f1 = 1 ! this points to ground state
     
-    call set_dipole_factor(g1, f1, "R3g", orient_av, Ne, ddge, nnge, oafac, &
+    call set_dipole_factor_g(g1, f1, "R3g", orient_av, Ne, ddge, nnge, oafac, &
                            rmin, minfac)
 
     t2 = t1s(it2)
@@ -489,7 +558,7 @@ subroutine nr3_r1g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     g1 = 1
     f1 = 1 ! this points to ground state
     
-    call set_dipole_factor(g1, f1, "R1g", orient_av, Ne, ddge, nnge, oafac, &
+    call set_dipole_factor_g(g1, f1, "R1g", orient_av, Ne, ddge, nnge, oafac, &
                            rmin, minfac)
 
     t2 = t1s(it2)
@@ -635,7 +704,7 @@ subroutine nr3_r4g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     g1 = 1
     f1 = 1 ! this points to ground state
     
-    call set_dipole_factor(g1, f1, "R4g", orient_av, Ne, ddge, nnge, oafac, &
+    call set_dipole_factor_g(g1, f1, "R4g", orient_av, Ne, ddge, nnge, oafac, &
                            rmin, minfac)
 
     t2 = t1s(it2)
@@ -704,8 +773,9 @@ subroutine nr3_r4g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
 end subroutine nr3_r4g_fi
 
 
-subroutine nr3_r1f_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
-                      gofts, ptn, SS1, &
+subroutine nr3_r1f_fi(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
+                      Kdge, Kdee, Kdef, &
+                      gofts, ptn, SS1, SS2, &
                       it2, t1s, t3s, rwa, rmin, resp)
     !
     ! R2g response of an three band multi-level system
@@ -725,13 +795,17 @@ subroutine nr3_r1f_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     ! arguments representing band_system
     integer, dimension(:) :: Ns
     real(8), dimension(:,:) :: omge
+    real(8), dimension(:,:) :: omef        
     real(8), dimension(:,:,:) :: nnge
     real(8), dimension(:,:) :: ddge
+    real(8), dimension(:,:,:) :: nnef
+    real(8), dimension(:,:) :: ddef        
     real(8), dimension(:,:) :: Kdge
     real(8), dimension(:,:) :: Kdee
+    real(8), dimension(:,:) :: Kdef
     complex(8), dimension(:,:) :: gofts
     integer, dimension(:,:) :: ptn
-    real(8), dimension(:,:) :: SS1    
+    real(8), dimension(:,:) :: SS1, SS2    
         
     ! original arguments           
     integer, intent(in) :: it2
@@ -749,7 +823,7 @@ subroutine nr3_r1f_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     real(8), dimension(:,:), allocatable :: oafac
     complex(8) :: r, prod, exparg
            
-    real(8), dimension(:,:,:), allocatable :: ss2
+    real(8), dimension(:,:,:), allocatable :: zz2
         
     ! lineshape function values
     complex(8), dimension(:), allocatable :: gn_t1, gn_t2, gn_t3
@@ -769,17 +843,17 @@ subroutine nr3_r1f_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     Ne = Ns(2)
     
     allocate(oafac(Ne,Ne))
-    allocate(ss2(Ne,Ne,Ne))
+    allocate(zz2(Ne,Ne,Ne))
     allocate(gn_t1(Ne), gn_t2(Ne), gn_t3(Ne))
     allocate(gn_t1t2(Ne), gn_t2t3(Ne), gn_t1t2t3(Ne))
 
-    call set_goft_mixing(SS1,ss2)
+    call set_goft_mixing(SS1,zz2)
 
     ! initial and final states (normally there is a sum over them)
     g1 = 1
     f1 = 1 ! this points to ground state
     
-    call set_dipole_factor(g1, f1, "R2g", orient_av, Ne, ddge, nnge, oafac, &
+    call set_dipole_factor_f(g1, f1, "R1f", orient_av, Ne, ddge, nnge, oafac, &
                            rmin, minfac)
 
     t2 = t1s(it2)
@@ -806,12 +880,12 @@ subroutine nr3_r1f_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
           if (oafac(e1,e2) > minfac) then
 
               ! frequencies
-              exparg = -j1*((omge(1,e1)+rwa)*t1 - (omge(1,e2)+rwa)*t3) &
+              exparg = -j1*((omge(1,e1)+rwa)*t1 - (omef(e2,1)+rwa)*t3) &
                        -j1*(omge(1,e2)-omge(1,e1))*t2
 
               ! dephasing
               exparg = exparg + & 
-                (-Kdge(1,e1)*t1 - Kdge(1,e2)*t3)
+                (-Kdge(1,e1)*t1 - Kdef(e2,1)*t3)
             
               ! decay
               if (e1 /= e2) then
@@ -821,12 +895,12 @@ subroutine nr3_r1f_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
                   exparg = exparg + Kdee(e2,e1)*t2              
               end if
 
-              gg_21_t1 = dot_product(ss2(:,e2,e1),gn_t1)
-              gg_21_t2 = dot_product(ss2(:,e2,e1),gn_t2)
-              gg_21_t3 = dot_product(ss2(:,e2,e1),gn_t3)
-              gg_22_t1t2 = dot_product(ss2(:,e2,e2),gn_t1t2)
-              gg_11_t2t3 = dot_product(ss2(:,e1,e1),gn_t2t3)
-              gg_21_t1t2t3 = dot_product(ss2(:,e2,e1),gn_t1t2t3)
+              gg_21_t1 = dot_product(zz2(:,e2,e1),gn_t1)
+              gg_21_t2 = dot_product(zz2(:,e2,e1),gn_t2)
+              gg_21_t3 = dot_product(zz2(:,e2,e1),gn_t3)
+              gg_22_t1t2 = dot_product(zz2(:,e2,e2),gn_t1t2)
+              gg_11_t2t3 = dot_product(zz2(:,e1,e1),gn_t2t3)
+              gg_21_t1t2t3 = dot_product(zz2(:,e2,e1),gn_t1t2t3)
         
               ! line-shape functions
               exparg = exparg + &
