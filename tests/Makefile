@@ -1,6 +1,9 @@
 
-all: quantarhei
+all: ftrn
 
+
+ftrn: 
+	cd fortran; make
 
 quantarhei: libaceto.so
 	python quantarhei_test.py
@@ -15,4 +18,6 @@ libaceto.so:
 clean:
 	rm -rf *.so 
 	cd fortran; make clean
-    
+
+delete: clean
+	cd fortran; make delete 

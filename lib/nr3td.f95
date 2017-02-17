@@ -165,7 +165,7 @@ interface
     !
     use acetodef 
     use acetolab
-    use tt
+
     implicit none
     
     ! arguments representing lab_settings

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from setuptools import find_packages
 from numpy.distutils.core import Extension
 from numpy.distutils.core import setup
 
@@ -12,12 +13,16 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
     
-ext1 = Extension(name="aceto",
-                 sources=["lib/trp2.f95"],
+ext1 = Extension(name="nr3td_fi",
+                 sources=["lib/nr3td_fi.f95"],
                  define_macros = [('F2PY_REPORT_ON_ARRAY_COPY','1')],
-                 extra_f90_compile_args=["-mp"],
-                 extra_link_args=["-mp"]
+                 extra_f90_compile_args=["-I./lib"],
+                 extra_f77_compile_args=["-I./lib"],
+                 extra_link_args=["-L./lib -laceto"],
                 )
+
+pkg = find_packages(exclude=['lib','conf','src','tests','docs'])
+print(pkg)
 
 setup(name = "aceto",
       version="0.0.1",
@@ -62,7 +67,7 @@ setup(name = "aceto",
 
       keywords='physics, chemistry, quantum mechanics, open quantum systems',
       
-      #packages = find_packages(exclude=[' lib','conf','src','tests','docs']),
+      packages = find_packages(exclude=[' lib','conf','src','tests','docs']),
 
       ext_modules = [ext1]
       

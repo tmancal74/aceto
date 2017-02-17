@@ -67,7 +67,8 @@ end type band_system
 
 ! all procedures below are private
 private :: bs_init, bs_set_energies
-private :: bs_set_dipoles, bs_set_relaxation_rates
+private :: bs_set_dipoles
+private :: bs_set_relaxation_rates
 private :: bs_update_dephasing_rates
 private :: bs_delete_dephasing_rates
 
