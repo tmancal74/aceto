@@ -205,4 +205,6 @@ t_end = time.time()
 print("Finished in ", t_end-t_start, " secs")
 
 #plt.savefig("fig"+str(it2)+".jpg")
+
 plt.show()
+
