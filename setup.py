@@ -21,9 +21,6 @@ ext1 = Extension(name="aceto.nr3td_fi",
                  extra_link_args=["-L./lib -laceto"],
                 )
 
-pkg = find_packages(exclude=['lib','conf','src','tests','docs'])
-print(pkg)
-
 setup(name = "aceto",
       version="0.0.1",
       
@@ -67,8 +64,11 @@ setup(name = "aceto",
 
       keywords='physics, chemistry, quantum mechanics, open quantum systems',
       
-      packages = find_packages(exclude=[' lib','conf','src','tests','docs']),
+      packages = find_packages(exclude=['lib','conf','src','tests','docs']),
+      data_files = [("/usr/local/lib/",["./lib/libaceto.so"])],
+      include_package_data = True, 
+      ext_modules = [ext1],
+                    
 
-      ext_modules = [ext1]
       
       )
