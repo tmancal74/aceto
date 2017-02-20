@@ -6,7 +6,7 @@
 
 """
 
-import aceto.nr3td_fi as nr3td_fi
+import aceto.nr3td_fic as nr3td_fic
 
 def nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     """ Calculates R2g response function
@@ -15,7 +15,7 @@ def nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     """
     
     
-    nr3td_fi.nr3_r1g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
+    nr3td_fic.nr3_r1g_fic(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
                         sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
                         sys.SS1, it2, t1s, t3s, rwa, rmin, resp)   
 
@@ -71,7 +71,7 @@ def nr3_r2g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
 #    print(resp.flags['F_CONTIGUOUS'])
     
     
-    nr3td_fi.nr3_r2g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
+    nr3td_fic.nr3_r2g_fic(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
                         sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
                         sys.SS1, it2, t1s, t3s, rwa, rmin, resp)
 
@@ -83,7 +83,7 @@ def nr3_r3g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     """
     
     
-    nr3td_fi.nr3_r3g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
+    nr3td_fic.nr3_r3g_fic(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
                         sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
                         sys.SS1, it2, t1s, t3s, rwa, rmin, resp)
 
@@ -96,7 +96,7 @@ def nr3_r4g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     """
     
     
-    nr3td_fi.nr3_r4g_fi(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
+    nr3td_fic.nr3_r4g_fic(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
                         sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
                         sys.SS1, it2, t1s, t3s, rwa, rmin, resp)
     

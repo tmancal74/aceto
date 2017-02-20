@@ -13,8 +13,8 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
     
-ext1 = Extension(name="aceto.nr3td_fi",
-                 sources=["lib/nr3td_fi.f95"],
+ext1 = Extension(name="aceto.nr3td_fic",
+                 sources=["lib/nr3td_fic.f95"],
                  define_macros = [('F2PY_REPORT_ON_ARRAY_COPY','1')],
                  extra_f90_compile_args=["-I./lib"],
                  extra_f77_compile_args=["-I./lib"],                                  

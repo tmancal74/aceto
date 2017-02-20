@@ -36,15 +36,15 @@ Libraries
 ---------
  
     libaceto.so (to be used from fortran)
-        acetocfn.f95
+        acetocfn.f95 *
         acetosys.f95
         acetolab.f95
         acetodef.f95
         acetoaux.f95
-        aceto_fi.f95 (all full interfaces)
+        ? aceto_fi.f95 (all full interfaces)
         nr3td.f95 etc. (abreviated routines)
-        nr3td_fi.f95 etc. (full interfaces)
-        nr3td_code.f95 etc. (full interface code)
+        nr3td_int.f95 etc. (full interfaces)
+        nr3td_fic.f95 etc. (full interface code)
                 
         
 How to use it from Fortran

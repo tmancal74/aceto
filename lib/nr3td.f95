@@ -33,7 +33,7 @@ contains
     complex(dpc), dimension(:,:), intent(inout) :: resp
            
            
-    call nr3_r2g_fi(LAB%orient_aver, &
+    call nr3_r2g_fic(LAB%orient_aver, &
                     SYS%Ns, SYS%om01, SYS%nn01, SYS%dd01, SYS%Kd01, SYS%Kd11, &
                     SYS%gofts, SYS%ptn, SYS%SS1, &
                     it2, t1s, t3s, rwa, rmin, resp)
@@ -62,7 +62,7 @@ contains
     complex(dpc), dimension(:,:), intent(inout) :: resp
            
            
-    call nr3_r3g_fi(LAB%orient_aver, &
+    call nr3_r3g_fic(LAB%orient_aver, &
                     SYS%Ns, SYS%om01, SYS%nn01, SYS%dd01, SYS%Kd01, SYS%Kd11, &
                     SYS%gofts, SYS%ptn, SYS%SS1, &
                     it2, t1s, t3s, rwa, rmin, resp)
@@ -92,7 +92,7 @@ contains
     complex(dpc), dimension(:,:), intent(inout) :: resp
            
            
-    call nr3_r1g_fi(LAB%orient_aver, &
+    call nr3_r1g_fic(LAB%orient_aver, &
                     SYS%Ns, SYS%om01, SYS%nn01, SYS%dd01, SYS%Kd01, SYS%Kd11, &
                     SYS%gofts, SYS%ptn, SYS%SS1, &
                     it2, t1s, t3s, rwa, rmin, resp)
@@ -121,7 +121,7 @@ contains
     complex(dpc), dimension(:,:), intent(inout) :: resp
            
            
-    call nr3_r4g_fi(LAB%orient_aver, &
+    call nr3_r4g_fic(LAB%orient_aver, &
                     SYS%Ns, SYS%om01, SYS%nn01, SYS%dd01, SYS%Kd01, SYS%Kd11, &
                     SYS%gofts, SYS%ptn, SYS%SS1, &
                     it2, t1s, t3s, rwa, rmin, resp)

@@ -6,7 +6,7 @@ all: f2py
 
 
 f2py:
-	f2py -I../lib/ -L../lib -m nr3td_fi -c ../lib/nr3td_fi.f95 -laceto
+	f2py -I../lib/ -L../lib -m nr3td_fic -c ../lib/nr3td_fic.f95 -laceto
 
     
 clean:

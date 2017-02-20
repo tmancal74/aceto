@@ -5,7 +5,7 @@
 !
 
 
-subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
+subroutine nr3_r2g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
                       gofts, ptn, SS1, &
                       it2, t1s, t3s, rwa, rmin, resp)
     !
@@ -149,11 +149,11 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     end do
     end do
 
-end subroutine nr3_r2g_fi
+end subroutine nr3_r2g_fic
 
 
 
-subroutine nr3_r3g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
+subroutine nr3_r3g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
                       gofts, ptn, SS1, &
                       it2, t1s, t3s, rwa, rmin, resp)
     !
@@ -294,9 +294,9 @@ subroutine nr3_r3g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     end do
     end do
 
-end subroutine nr3_r3g_fi
+end subroutine nr3_r3g_fic
 
-subroutine nr3_r1g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
+subroutine nr3_r1g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
                       gofts, ptn, SS1, &
                       it2, t1s, t3s, rwa, rmin, resp)
     !
@@ -440,9 +440,9 @@ subroutine nr3_r1g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     end do
     end do
 
-end subroutine nr3_r1g_fi
+end subroutine nr3_r1g_fic
 
-subroutine nr3_r4g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
+subroutine nr3_r4g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
                       gofts, ptn, SS1, &
                       it2, t1s, t3s, rwa, rmin, resp)
     !
@@ -583,10 +583,10 @@ subroutine nr3_r4g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     end do
     end do
 
-end subroutine nr3_r4g_fi
+end subroutine nr3_r4g_fic
 
 
-subroutine nr3_r1f_fi(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
+subroutine nr3_r1f_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
                       Kdge, Kdee, Kdef, &
                       gofts, ptn, SS1, SS2, &
                       it2, t1s, t3s, rwa, rmin, resp)
@@ -735,7 +735,7 @@ subroutine nr3_r1f_fi(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     end do
     end do
 
-end subroutine nr3_r1f_fi
+end subroutine nr3_r1f_fic
 
 
 !##############################################################################
@@ -746,7 +746,7 @@ end subroutine nr3_r1f_fi
 !##############################################################################
 
 
-subroutine nr3_r2g_trans_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
+subroutine nr3_r2g_trans_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
                       gofts, ptn, SS1, Ueet2, &
                       it2, t1s, t3s, rwa, rmin, resp)
     !
@@ -892,4 +892,4 @@ subroutine nr3_r2g_trans_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     end do
     end do
 
-end subroutine nr3_r2g_trans_fi
+end subroutine nr3_r2g_trans_fic
