@@ -1,6 +1,7 @@
 module acetoaux
 
 contains
+
 subroutine set_dipole_factor_g(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
                              oafac, rtol, minfac)
     use acetolab

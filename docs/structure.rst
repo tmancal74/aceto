@@ -20,7 +20,7 @@ acetolib.f95
         e.g. nr3td.f95 
 
     code of the full interface routines
-        e.g. nr3td_code.f95
+        e.g. nr3td_fic.f95
         
     
 acetoaux.f95

@@ -1,5 +1,5 @@
 !
-! This file contains routines calculating response functions of third
+! This file contains routines calculating response functions of the third
 ! order  
 !
 !
@@ -586,6 +586,14 @@ subroutine nr3_r4g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
 end subroutine nr3_r4g_fic
 
 
+
+!##############################################################################
+!
+!    ESA containing pathways
+!
+!##############################################################################
+
+
 subroutine nr3_r1f_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
                       Kdge, Kdee, Kdef, &
                       gofts, ptn, SS1, SS2, &
@@ -893,3 +901,4 @@ subroutine nr3_r2g_trans_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     end do
 
 end subroutine nr3_r2g_trans_fic
+

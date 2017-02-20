@@ -7,6 +7,7 @@
 """
 
 import aceto.nr3td_fic as nr3td_fic
+    
 
 def nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     """ Calculates R2g response function
