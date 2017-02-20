@@ -6,7 +6,7 @@ COMP = ${FC} -I../src  ${PICFLAGS} ${FFLAGS}
 LINK = ${CC} -L../src  ${DYNFLAGS}
 
 # List of library routines
-LIBO = acetosys.o acetodef.o acetolab.o acetoutils.o trp2.o nr3td.o nr3td_fi.o
+LIBO = acetosys.o acetodef.o acetolab.o acetoaux.o trp2.o nr3td.o nr3td_fi.o
 
 libaceto.so: echo_building_library ${LIBO}
 	${LINK} libaceto.so ${LIBO} ${DYNLIBS}
@@ -22,7 +22,7 @@ trp2.o: trp2.f95
 	${COMP} trp2.o  trp2.f95
 
 
-nr3td_fi.o: nr3td_fi.f95 acetoutils.o
+nr3td_fi.o: nr3td_fi.f95 acetoaux.o
 	${COMP} nr3td_fi.o nr3td_fi.f95
 
 nr3td.o: nr3td.f95 nr3td_fi.o
@@ -40,8 +40,8 @@ acetodef.o: acetodef.f95
 acetolab.o: acetolab.f95
 	${COMP} acetolab.o acetolab.f95
 
-acetoutils.o: acetoutils.f95
-	${COMP} acetoutils.o acetoutils.f95
+acetoaux.o: acetoaux.f95
+	${COMP} acetoaux.o acetoaux.f95
 
 
 #
