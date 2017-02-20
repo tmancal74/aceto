@@ -1,7 +1,6 @@
-module acetoutils
+module acetoaux
 
 contains
-
 subroutine set_dipole_factor_g(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
                              oafac, rtol, minfac)
     use acetolab
@@ -185,4 +184,5 @@ subroutine set_goft_mixing(SS1, ss2)
 
 end subroutine set_goft_mixing
 
-end module acetoutils
+end module acetoaux
+

@@ -17,9 +17,12 @@ ext1 = Extension(name="aceto.nr3td_fi",
                  sources=["lib/nr3td_fi.f95"],
                  define_macros = [('F2PY_REPORT_ON_ARRAY_COPY','1')],
                  extra_f90_compile_args=["-I./lib"],
-                 extra_f77_compile_args=["-I./lib"],
-                 extra_link_args=["-L./lib -laceto"],
+                 extra_f77_compile_args=["-I./lib"],                                  
                 )
+
+
+#                 extra_link_args=["-L./lib -laceto"],
+
 
 setup(name = "aceto",
       version="0.0.1",

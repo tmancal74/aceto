@@ -17,7 +17,7 @@ subroutine nr3_r2g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     !
     use acetodef 
     use acetolab
-    use acetoutils
+    use acetoaux
     implicit none
     
     ! arguments representing lab_settings
@@ -165,7 +165,7 @@ subroutine nr3_r3g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     !
     use acetodef 
     use acetolab
-    use acetoutils
+    use acetoaux
     implicit none
     
     ! arguments representing lab_settings
@@ -308,7 +308,7 @@ subroutine nr3_r1g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     !
     use acetodef 
     use acetolab
-    use acetoutils
+    use acetoaux
     implicit none
     
     ! arguments representing lab_settings
@@ -454,7 +454,7 @@ subroutine nr3_r4g_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     !
     use acetodef 
     use acetolab
-    use acetoutils
+    use acetoaux
     implicit none
     
     ! arguments representing lab_settings
@@ -599,7 +599,7 @@ subroutine nr3_r1f_fi(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     !
     use acetodef 
     use acetolab
-    use acetoutils
+    use acetoaux
     implicit none
     
     ! arguments representing lab_settings
@@ -758,7 +758,7 @@ subroutine nr3_r2g_trans_fi(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     !
     use acetodef 
     use acetolab
-    use acetoutils
+    use acetoaux
     implicit none
     
     ! arguments representing lab_settings
