@@ -70,6 +70,75 @@ subroutine set_dipole_factor_g(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     
 end subroutine set_dipole_factor_g
 
+subroutine set_dipole_factor_gt(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
+                             oafac, rtol, minfac)
+    use acetolab
+    implicit none
+
+    integer, intent(in) :: g1, f1
+    character(4) :: pathw
+    real(8), dimension(:), intent(in) :: orient_av
+    integer, intent(in) :: Ne
+    real(8), dimension(:,:), intent(in) :: ddge
+    real(8), dimension(:,:,:), intent(in) :: nnge
+    
+    real(8), dimension(:,:), intent(out) :: oafac
+    real(8), intent(in)   :: rtol
+    real(8), intent(out)  :: minfac
+    
+    integer :: e1, e2
+    
+    ! reconstruction of the LAB object
+    type(lab_settings) :: LAB
+
+    LAB%orient_aver = orient_av
+
+!    if (pathw == 'R1gt') then
+!        do e1 = 1, Ne
+!        do e2 = 1, ne
+!           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
+!                                           nnge(:,f1,e2),nnge(:,f1,e1))
+!           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
+!                                       ddge(f1,e2)*ddge(f1,e1)       
+!        end do
+!        end do       
+!    else 
+    if (pathw == 'R2gt') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
+                                           nnge(:,f1,e1),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
+                                       ddge(f1,e1)*ddge(f1,e2)       
+        end do
+        end do
+    else if (pathw == 'R3gt') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+                                           nnge(:,f1,e2),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+                                       ddge(f1,e2)*ddge(f1,e2)       
+        end do
+        end do                        
+!    else if (pathw == 'R4gt') then
+!        do e1 = 1, Ne
+!        do e2 = 1, ne
+!           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+!                                           nnge(:,f1,e2),nnge(:,f1,e2))
+!           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+!                                       ddge(f1,e2)*ddge(f1,e2)       
+!        end do
+!        end do                        
+    else
+        stop "Unsupported pathway"
+    end if
+
+    minfac = rtol*maxval(oafac)
+    print *, minfac
+    
+end subroutine set_dipole_factor_gt
+
 subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
                              oafac, rtol, minfac)
     use acetolab
@@ -138,7 +207,79 @@ subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     
 end subroutine set_dipole_factor_f
 
+subroutine set_dipole_factor_ft(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
+                             oafac, rtol, minfac)
+    use acetolab
+    implicit none
+
+    integer, intent(in) :: g1, f1
+    character(4) :: pathw
+    real(8), dimension(:), intent(in) :: orient_av
+    integer, intent(in) :: Ne
+    real(8), dimension(:,:), intent(in) :: ddge
+    real(8), dimension(:,:,:), intent(in) :: nnge
+    
+    real(8), dimension(:,:), intent(out) :: oafac
+    real(8), intent(in)   :: rtol
+    real(8), intent(out)  :: minfac
+    
+    integer :: e1, e2
+    
+    ! reconstruction of the LAB object
+    type(lab_settings) :: LAB
+
+    LAB%orient_aver = orient_av
+
+    if (pathw == 'R1ft') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
+                                           nnge(:,f1,e2),nnge(:,f1,e1))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
+                                       ddge(f1,e2)*ddge(f1,e1)       
+        end do
+        end do       
+    else if (pathw == 'R2ft') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
+                                           nnge(:,f1,e1),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
+                                       ddge(f1,e1)*ddge(f1,e2)       
+        end do
+        end do
+    else if (pathw == 'R3ft') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+                                           nnge(:,f1,e2),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+                                       ddge(f1,e2)*ddge(f1,e2)       
+        end do
+        end do                        
+    else if (pathw == 'R4ft') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+                                           nnge(:,f1,e2),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+                                       ddge(f1,e2)*ddge(f1,e2)       
+        end do
+        end do                        
+    else
+        stop "Unsupported pathway"
+    end if
+
+    minfac = rtol*maxval(oafac)
+    print *, minfac
+    
+end subroutine set_dipole_factor_ft
+
+
 subroutine set_goft_g(gn, it, nmax, gofts, ptn, t1s)
+    ! Assignment of line shapes in single exciton block
+    !
+    !
     implicit none
     complex(8), dimension(:), intent(out) :: gn
     integer :: nmax
@@ -170,6 +311,53 @@ subroutine set_goft_g(gn, it, nmax, gofts, ptn, t1s)
     
 end subroutine set_goft_g
 
+subroutine set_goft_f(gn, it, nmax, gofts, ptn, t1s)
+    ! Assignment of line shapes in the two-exciton block
+    !
+    !
+    !
+    implicit none
+    complex(8), dimension(:), intent(out) :: gn
+    integer :: nmax
+    integer :: it
+    complex(8), dimension(:,:), intent(in) :: gofts
+    integer, dimension(:,:), intent(in) :: ptn
+    real(8), dimension(:), intent(in) :: t1s
+    ! local
+    integer :: k, l, Ne, a
+    real(8) :: tt1, tt2
+    complex(8) :: aa, bb, cc, dd
+          
+    ! pointer to sites has a size corresponding to number of sites
+    Ne = size(ptn,1) 
+    
+    if (it > nmax) then
+        do k = 1, Ne
+        do l = k+1, ne
+            ! linear extrapolation
+            aa = gofts(ptn(k,k),nmax)
+            bb = gofts(ptn(k,k),nmax-1)
+            cc = gofts(ptn(l,l),nmax)
+            dd = gofts(ptn(l,l),nmax-1)
+            tt2 = t1s(nmax)
+            tt1 = t1s(nmax-1)
+            gn(k) = aa + (aa - bb)*((it-nmax))  &
+                  + cc + (cc - dd)*((it-nmax))
+        end do
+        end do
+    else
+        a = 1
+        do k = 1, Ne
+        do l = k+1, ne
+            gn(a) = gofts(ptn(k,k),it) + gofts(ptn(l,l),it)
+            a = a + 1
+        end do
+        end do
+    end if
+                      
+    
+end subroutine set_goft_f
+
 subroutine set_goft_mixing(SS1, ss2)
     real(8), dimension(:,:), intent(in) :: SS1
     real(8), dimension(:,:,:), intent(out) :: ss2 
@@ -184,6 +372,56 @@ subroutine set_goft_mixing(SS1, ss2)
     end do
 
 end subroutine set_goft_mixing
+
+subroutine set_goft_mixing_22(SS2, A22)
+    ! FIXME: finish this
+    implicit none
+    real(8), dimension(:,:), intent(in) :: SS2
+    real(8), dimension(:,:,:), intent(out) :: A22
+    ! local
+    integer :: N1, N2, a, b, c, d, e1, e2
+    N1 = 1
+    N2 = 1
+    e1 = 1
+    do a = 1, N1
+    do b = b+1, N1
+      e2 = 1
+      do c = 1, N1
+      do d = c+1, N1
+        A22(:,e1,e2) = 1.0d0
+
+        e2 = e2 + 1
+      end do
+      end do
+      e1 = e1 + 1
+    end do
+    end do
+end subroutine set_goft_mixing_22
+
+subroutine set_goft_mixing_21(SS2, A21)
+    ! FIXME: finish this
+    implicit none
+    real(8), dimension(:,:), intent(in) :: SS2
+    real(8), dimension(:,:,:), intent(out) :: A21
+    ! local
+    integer :: N1, N2, a, b, c, d, e1, e2
+    N1 = 1
+    N2 = 1
+    e1 = 1
+    do a = 1, N1
+    do b = b+1, N1
+      e2 = 1
+      do c = 1, N1
+      do d = c+1, N1
+        A21(:,e1,e2) = 1.0d0
+        e2 = e2 + 1
+      end do
+      end do
+      e1 = e1 + 1
+    end do
+    end do
+end subroutine set_goft_mixing_21
+
 
 end module acetoaux
 
