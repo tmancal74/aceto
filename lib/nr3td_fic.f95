@@ -636,7 +636,7 @@ subroutine nr3_r1f_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     complex(8), dimension(:,:), intent(inout) :: resp
            
     ! local
-    integer :: Ng, Ne
+    integer :: Ng, Ne, Nf
     integer :: Nt1, Nt3
     integer :: it1, it3
     integer :: e1, e2, g1, f1
@@ -645,6 +645,8 @@ subroutine nr3_r1f_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     complex(8) :: r, prod, exparg
            
     real(8), dimension(:,:,:), allocatable :: zz2
+    real(8), dimension(:,:,:), allocatable :: aa2
+    real(8), dimension(:,:,:), allocatable :: a21
         
     ! lineshape function values
     complex(8), dimension(:), allocatable :: gn_t1, gn_t2, gn_t3
@@ -662,13 +664,18 @@ subroutine nr3_r1f_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     
     Ng = Ns(1)
     Ne = Ns(2)
+    Nf = Ns(3)
     
     allocate(oafac(Ne,Ne))
     allocate(zz2(Ne,Ne,Ne))
+    allocate(aa2(Ne,Nf,Nf))
+    allocate(a21(Ne,Nf,Ne))
     allocate(gn_t1(Ne), gn_t2(Ne), gn_t3(Ne))
     allocate(gn_t1t2(Ne), gn_t2t3(Ne), gn_t1t2t3(Ne))
 
     call set_goft_mixing(SS1,zz2)
+    call set_goft_mixing_22(SS2,aa2,Ne)
+    call set_goft_mixing_21(SS2,SS1,a21)
 
     ! initial and final states (normally there is a sum over them)
     g1 = 1
