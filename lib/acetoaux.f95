@@ -373,53 +373,128 @@ subroutine set_goft_mixing(SS1, ss2)
 
 end subroutine set_goft_mixing
 
-subroutine set_goft_mixing_22(SS2, A22)
-    ! FIXME: finish this
+subroutine set_goft_mixing_22(SS2, A22, N1)
+    ! Mixing matrix for calculation of two-exciton lineshape functions
+    !
+    !
+    !
+    !
     implicit none
     real(8), dimension(:,:), intent(in) :: SS2
     real(8), dimension(:,:,:), intent(out) :: A22
+    integer, intent(in) :: N1
     ! local
-    integer :: N1, N2, a, b, c, d, e1, e2
-    N1 = 1
-    N2 = 1
+    integer :: a, b, c, d
+    integer :: e1, e2, f1, f2
+    integer :: n, m, k, l
+        
+    A22 = 0.0d0
+    
+    ! exciton 1
     e1 = 1
     do a = 1, N1
-    do b = b+1, N1
+    do b = b + 1, N1
+      ! exciton 2
       e2 = 1
       do c = 1, N1
-      do d = c+1, N1
-        A22(:,e1,e2) = 1.0d0
+      do d = c + 1, N1
+        ! local state 1
+        f1 = 1
+        do n = 1, N1
+        do m = n + 1, N1
+          ! local state 2
+          f2 = 1
+          do k = 1, N1
+          do l = k + 1, N1
+            
+            if (n == k) then
+              A22(n,e1,e2) = A22(n,e1,e2) +  &
+                             SS2(e1,f1)*SS2(e1,f1)*SS2(e2,f2)*SS2(e2,f2)
+            end if
+
+            if (n == l) then
+              A22(n,e1,e2) = A22(n,e1,e2) +  &
+                             SS2(e1,f1)*SS2(e1,f1)*SS2(e2,f2)*SS2(e2,f2)
+            end if
+            
+            if (m == k) then
+              A22(m,e1,e2) = A22(m,e1,e2) +  &
+                             SS2(e1,f1)*SS2(e1,f1)*SS2(e2,f2)*SS2(e2,f2)
+            end if
+
+            if (m == l) then
+              A22(m,e1,e2) = A22(m,e1,e2) +  &
+                             SS2(e1,f1)*SS2(e1,f1)*SS2(e2,f2)*SS2(e2,f2)
+            end if
+            
+            f2 = f2 + 1            
+          end do
+          end do
+          
+          f1 = f1 + 1
+        end do
+        end do
 
         e2 = e2 + 1
       end do
       end do
+
       e1 = e1 + 1
     end do
     end do
+
 end subroutine set_goft_mixing_22
 
-subroutine set_goft_mixing_21(SS2, A21)
+subroutine set_goft_mixing_21(SS2, SS1, A21)
     ! FIXME: finish this
     implicit none
     real(8), dimension(:,:), intent(in) :: SS2
+    real(8), dimension(:,:), intent(in) :: SS1
     real(8), dimension(:,:,:), intent(out) :: A21
     ! local
-    integer :: N1, N2, a, b, c, d, e1, e2
-    N1 = 1
-    N2 = 1
+    integer :: N1, N2
+    integer :: a, b, c, d
+    integer :: e1, e2, f1
+    integer :: n, m, k
+    
+    N1 = size(SS1,1)
+    N2 = size(SS2,1)
+
     e1 = 1
     do a = 1, N1
     do b = b+1, N1
-      e2 = 1
-      do c = 1, N1
-      do d = c+1, N1
-        A21(:,e1,e2) = 1.0d0
-        e2 = e2 + 1
+
+      do e2 = 1, N1
+      
+         do k = 1, N1
+
+           f1 = 1
+           do n = 1, N1
+           do m = n + 1, N1
+             
+             if (n == k) then
+               A21(n,e1,e2) = A21(n,e1,e2) + &
+                              SS2(e1,f1)*SS2(e1,f1)*SS1(e2,k)*SS1(e2,k)
+             end if
+
+             if (m == k) then
+               A21(m,e1,e2) = A21(m,e1,e2) + &
+                              SS2(e1,f1)*SS2(e1,f1)*SS1(e2,k)*SS1(e2,k)
+             end if
+
+           
+             f1 = f1 + 1
+           end do
+           end do
+    
+         end do
+         
       end do
-      end do
+      
       e1 = e1 + 1
     end do
     end do
+    
 end subroutine set_goft_mixing_21
 
 
