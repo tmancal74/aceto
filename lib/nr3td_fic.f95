@@ -729,7 +729,15 @@ subroutine nr3_r1f_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
               gg_22_t1t2 = dot_product(zz2(:,e2,e2),gn_t1t2)
               gg_11_t2t3 = dot_product(zz2(:,e1,e1),gn_t2t3)
               gg_21_t1t2t3 = dot_product(zz2(:,e2,e1),gn_t1t2t3)
-        
+
+! Quantathei Symbolic expression
+!
+! -conjg(gg(a, a, t1 + t2 + t3)) - conjg(gg(a, b, t1)) 
+! + conjg(gg(a, b, t1 + t2)) - conjg(gg(a, f, t1 + t2))
+! + conjg(gg(a, f, t1 + t2 + t3)) - gg(a, b, t3) + gg(a, b, t2 + t3)
+! + gg(a, f, t3) - gg(b, b, t2) + gg(f, b, t2) + gg(f, b, t3)
+! - gg(f, b, t2 + t3) - gg(f, f, t3)  
+!      
               ! line-shape functions
               exparg = exparg + &
                 (-conjg(gg_21_t1) -conjg(gg_21_t3) + gg_21_t2 &
