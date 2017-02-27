@@ -64,7 +64,7 @@ with energy_units("1/cm"):
     agg.set_resonance_coupling(1,2, 300.0)
     agg.set_resonance_coupling(0,2, 600.0)
     agg.set_resonance_coupling(1,3, 600.0)
-agg.build()
+agg.build(mult=2)
 
 #
 # hamiltonian and transition dipole moment operators
@@ -90,7 +90,7 @@ sys = band_system(Nb, Ns)
 #
 en = numpy.zeros(sys.Ne, dtype=numpy.float64)
 with eigenbasis_of(H):
-    for i in range(sys.Ne-Ns[2]):
+    for i in range(sys.Ne):
         en[i] = H.data[i,i]
     sys.set_energies(en)
 
@@ -98,18 +98,27 @@ with eigenbasis_of(H):
     # Set transition dipole moments
     #
     dge_wr = D.data[0:Ns[0],Ns[0]:Ns[0]+Ns[1],:]
-    print(dge_wr.shape)
+    def_wr = D.data[Ns[0]:Ns[0]+Ns[1],(Ns[0]+Ns[1]):(Ns[0]+Ns[1]+Ns[2]),:]
+
     dge = numpy.zeros((3,Ns[0],Ns[1]), dtype=numpy.float64)
-    print(dge.shape)
+    deff = numpy.zeros((3,Ns[1],Ns[2]), dtype=numpy.float64)
+    
     for i in range(3):
-        dge[i,:,:] = dge_wr[:,:,i]    
+        dge[i,:,:] = dge_wr[:,:,i]
+        deff[i,:,:] = def_wr[:,:,i]
     sys.set_dipoles(0,1,dge)
+    sys.set_dipoles(1,2,deff)
+    print(sys.dd12.shape)
+    #raise Exception()
+#    for i in range(Ns[1]):
+#        for j in range(Ns[2]):
+#            print(i,j, sys.dd12[i,j])
 
 #
 # Relaxation rates
 #
 KK = agg.get_RedfieldRateMatrix()
-Kr = KK.data[1:,1:]
+Kr = KK.data[Ns[0]:Ns[0]+Ns[1],Ns[0]:Ns[0]+Ns[1]]
 print(1.0/Kr)
 sys.init_dephasing_rates()
 sys.set_relaxation_rates(1,Kr)
@@ -126,13 +135,16 @@ cfm.create_double_integral()
 #
 # Transformation matrices
 #
-SS = H.diagonalize()[1:,1:]
+SS = H.diagonalize()
+SS1 = SS[1:Ns[1]+1,1:Ns[1]+1]
+SS2 = SS[Ns[1]+1:,Ns[1]+1:]
 H.undiagonalize()
 #print(SS)
 
 sys.set_gofts(cfm._gofts)    # line shape functions
 sys.set_sitep(cfm.cpointer)  # pointer to sites
-sys.set_transcoef(1,SS)      # matrix of transformation coefficients  
+sys.set_transcoef(1,SS1)      # matrix of transformation coefficients  
+sys.set_transcoef(2,SS2)      # matrix of transformation coefficients  
 
 #
 # define lab settings
@@ -165,10 +177,13 @@ print(it2)
 print("calculating response: ")
 rmin = 0.01
 t1 = time.time()
-nr3td.nr3_r2g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
-nr3td.nr3_r3g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
-nr3td.nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
-nr3td.nr3_r4g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
+#nr3td.nr3_r2g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
+#nr3td.nr3_r3g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
+#nr3td.nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
+#nr3td.nr3_r4g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
+
+nr3td.nr3_r1fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
+
 t2 = time.time()
 print("... calculated in ",t2-t1, " sec")
 
@@ -191,7 +206,7 @@ om3 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t3s), d=dt)) + rwa
 print("max = ", numpy.max(numpy.real(ftresp_r)))
 print("max = ", numpy.max(numpy.real(ftresp_n)))
                                      
-tots = numpy.real(ftresp_r) + numpy.real(ftresp_n)
+tots = numpy.real(ftresp_r) # + numpy.real(ftresp_n)
 
 #plt.contourf(om1,om3,numpy.real(ftresp_r),100)
 #plt.contourf(om1,om3,numpy.real(ftresp_n),100)

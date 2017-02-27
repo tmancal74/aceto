@@ -140,7 +140,8 @@ subroutine set_dipole_factor_gt(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
 end subroutine set_dipole_factor_gt
 
 subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
-                             oafac, rtol, minfac)
+                               ddef, nnef, &
+                               oafac, rtol, minfac)
     use acetolab
     implicit none
 
@@ -150,32 +151,38 @@ subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     integer, intent(in) :: Ne
     real(8), dimension(:,:), intent(in) :: ddge
     real(8), dimension(:,:,:), intent(in) :: nnge
-    
+    real(8), dimension(:,:), intent(in) :: ddef
+    real(8), dimension(:,:,:), intent(in) :: nnef    
     real(8), dimension(:,:), intent(out) :: oafac
     real(8), intent(in)   :: rtol
     real(8), intent(out)  :: minfac
     
-    integer :: e1, e2
+    integer :: e1, e2, ff
     
     ! reconstruction of the LAB object
     type(lab_settings) :: LAB
 
     LAB%orient_aver = orient_av
-
+    
+    ff = f1
+    !print *, "!!!!!!!!!! ff = ", ff
     if (pathw == 'R1f') then
         do e1 = 1, Ne
-        do e2 = 1, ne
+        do e2 = 1, Ne
            oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
-                                           nnge(:,f1,e2),nnge(:,f1,e1))
+                                           nnef(:,e2,ff),nnge(:,e1,ff))
+           !print *, " > ", e1, e2, "> ", f1
+           !print *, oafac(e1,e2)
            oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
-                                       ddge(f1,e2)*ddge(f1,e1)       
+                                       ddef(e2,ff)*ddef(e1,ff)  
+           !print *, oafac(e1,e2)
         end do
         end do       
     else if (pathw == 'R2f') then
         do e1 = 1, Ne
         do e2 = 1, ne
            oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
-                                           nnge(:,f1,e1),nnge(:,f1,e2))
+                                           nnge(:,ff,e1),nnge(:,ff,e2))
            oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
                                        ddge(f1,e1)*ddge(f1,e2)       
         end do
@@ -202,8 +209,8 @@ subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
         stop "Unsupported pathway"
     end if
 
-    minfac = rtol*maxval(oafac)
-    print *, minfac
+    !minfac = rtol*maxval(oafac)
+    !print *, minfac, "(", rtol, maxval(oafac),")"
     
 end subroutine set_dipole_factor_f
 
@@ -393,7 +400,7 @@ subroutine set_goft_mixing_22(SS2, A22, N1)
     ! exciton 1
     e1 = 1
     do a = 1, N1
-    do b = b + 1, N1
+    do b = a + 1, N1
       ! exciton 2
       e2 = 1
       do c = 1, N1
@@ -459,10 +466,12 @@ subroutine set_goft_mixing_21(SS2, SS1, A21)
     
     N1 = size(SS1,1)
     N2 = size(SS2,1)
+    
+    A21 = 0.0d0 
 
     e1 = 1
     do a = 1, N1
-    do b = b+1, N1
+    do b = a+1, N1
 
       do e2 = 1, N1
       

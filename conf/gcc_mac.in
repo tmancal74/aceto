@@ -1,6 +1,6 @@
 FC = gfortran
 CC = gfortran
-FFLAGS = -c -fopenmp -O3 -o 
+FFLAGS = -c -fopenmp -O3 -Wall -o 
 LFLAGS = -fopenmp -o
 PICFLAGS = -fPIC
 DYNFLAGS = -fopenmp -shared -o
