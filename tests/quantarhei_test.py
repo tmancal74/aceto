@@ -28,17 +28,17 @@ t_start = time.time()
 #
 with energy_units("1/cm"):
     mol1 = Molecule(elenergies=[0.0, 12000.0])
-    mol2 = Molecule(elenergies=[0.0, 12400.0])
-#    mol3 = Molecule(elenergies=[0.0, 12200.0])
-#    mol4 = Molecule(elenergies=[0.0, 12200.0])
+    mol2 = Molecule(elenergies=[0.0, 12800.0])
+    mol3 = Molecule(elenergies=[0.0, 12400.0])
+    mol4 = Molecule(elenergies=[0.0, 12200.0])
 mol1.position = [0.0, 0.0, 0.0]
 mol2.position = [0.0, 10.0, 0.0]
-#mol3.position = [10.0, 0.0, 0.0]
-#mol4.position = [0.0, 0.0, 10.0]
-mol1.set_dipole(0,1,[2.0, 0.0, 0.0])
+mol3.position = [10.0, 0.0, 0.0]
+mol4.position = [0.0, 0.0, 10.0]
+mol1.set_dipole(0,1,[1.0, 0.0, 0.0])
 mol2.set_dipole(0,1,[1.0, 0.0, 0.0])
-#mol3.set_dipole(0,1,[0.0, 0.0, 1.0])
-#mol4.set_dipole(0,1,[0.3, 0.3, 0.3])
+mol3.set_dipole(0,1,[0.0, 0.0, 1.0])
+mol4.set_dipole(0,1,[0.3, 0.3, 0.3])
 
 # rwa frequency as an average transition frequency
 rwa = (mol1.elenergies[1]+mol2.elenergies[1])/2.0
@@ -52,17 +52,17 @@ with energy_units('1/cm'):
     cf = CorrelationFunction(ta, params)
 mol1.set_transition_environment((0,1),cf)
 mol2.set_transition_environment((0,1),cf)
-#mol3.set_transition_environment((0,1),cf)
-#mol4.set_transition_environment((0,1),cf)
+mol3.set_transition_environment((0,1),cf)
+mol4.set_transition_environment((0,1),cf)
 
 #
 # Creating aggregate
 #      
-#agg = Aggregate("Dimer", molecules=[mol1, mol2, mol3, mol4])
-agg = Aggregate("Dimer", molecules=[mol1, mol2])
+agg = Aggregate("Dimer", molecules=[mol1, mol2, mol3, mol4])
+#agg = Aggregate("Dimer", molecules=[mol1, mol2])
 
-with energy_units("1/cm"):
-    agg.set_resonance_coupling(0,1, 300.0)
+#with energy_units("1/cm"):
+#    agg.set_resonance_coupling(0,1, 300.0)
 #    agg.set_resonance_coupling(1,2, 300.0)
 #    agg.set_resonance_coupling(0,2, 600.0)
 #    agg.set_resonance_coupling(1,3, 600.0)
@@ -162,7 +162,7 @@ resp_n = numpy.zeros((Nr, Nr), dtype=numpy.complex128, order='F')
 #
 # Other parameters
 #
-t2 = 100.0
+t2 = 200.0
 dt = ta.step
 t1s = ta.data 
 t3s = ta.data 
@@ -174,7 +174,7 @@ print("it2 = ", it2)
 # calcute response
 #
 print("calculating response: ")
-rmin = 0.01
+rmin = 0.0001
 t1 = time.time()
 
 nr3td.nr3_r2g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
