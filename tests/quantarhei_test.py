@@ -36,9 +36,11 @@ mol2.position = [0.0, 10.0, 0.0]
 mol3.position = [10.0, 0.0, 0.0]
 mol4.position = [0.0, 0.0, 10.0]
 mol1.set_dipole(0,1,[1.0, 0.0, 0.0])
-mol2.set_dipole(0,1,[1.0, 0.0, 0.0])
-mol3.set_dipole(0,1,[0.0, 0.0, 1.0])
-mol4.set_dipole(0,1,[0.3, 0.3, 0.3])
+mol2.set_dipole(0,1,[2.0, 0.0, 0.0])
+mol3.set_dipole(0,1,[0.0, 0.0, 3.0])
+v1 = numpy.array([0.3, 0.3, 0.3])
+v1 = 4.0*v1/numpy.sqrt(numpy.dot(v1,v1))
+mol4.set_dipole(0,1,v1)
 
 # rwa frequency as an average transition frequency
 rwa = (mol1.elenergies[1]+mol2.elenergies[1])/2.0
@@ -61,11 +63,13 @@ mol4.set_transition_environment((0,1),cf)
 agg = Aggregate("Dimer", molecules=[mol1, mol2, mol3, mol4])
 #agg = Aggregate("Dimer", molecules=[mol1, mol2])
 
-#with energy_units("1/cm"):
+with energy_units("1/cm"):
 #    agg.set_resonance_coupling(0,1, 300.0)
 #    agg.set_resonance_coupling(1,2, 300.0)
 #    agg.set_resonance_coupling(0,2, 600.0)
 #    agg.set_resonance_coupling(1,3, 600.0)
+    pass
+
 agg.build(mult=2)
 
 #
@@ -88,7 +92,8 @@ sys = band_system(Nb, Ns)
 # Set energies
 #
 en = numpy.zeros(sys.Ne, dtype=numpy.float64)
-with eigenbasis_of(H):
+if True:
+#with eigenbasis_of(H):
     for i in range(sys.Ne):
         en[i] = H.data[i,i]
     sys.set_energies(en)
@@ -108,10 +113,48 @@ with eigenbasis_of(H):
     sys.set_dipoles(0,1,dge)
     sys.set_dipoles(1,2,deff)
 
+if False:
+    AK = numpy.zeros((D.data.shape[0],D.data.shape[1]))
+    A1 = numpy.zeros((1,Ns[1]))
+    A2 = numpy.zeros((Ns[1],Ns[2]))
+    
+    for n in range(D.data.shape[0]):
+        for m in range(D.data.shape[1]):
+            v = D.data[n,m,:]
+            v2 = numpy.dot(v,v)
+            AK[n,m] = v2
+    print(AK)
+    for n in range(Ns[1]):
+        v = dge[:,0,n]
+        v2 = numpy.dot(v,v)  
+        A1[0,n] = v2
+    for n in range(Ns[1]):
+        for m in range(Ns[2]):
+            v = deff[:,n,m]
+            v2 = numpy.dot(v,v)  
+            A2[n,m] = v2        
+    print(A1)
+    print(A2)
+
+    k = 0
+    for n in range(Ns[1]):
+        for m in range(n+1,Ns[1]):
+            print("*: ", n,m)
+            d1 = dge[:,0,m]
+            d2 = deff[:,n,k]
+            
+            print("0", m, " (g->S) = ", d1)
+            print(n,k, " (S->D) = ", d2)
+            print(n," -> ",k, "(",n,",",m,") is ",m,": difference is ", d2-d1)
+            print(AK[1+n,Ns[1]+k],AK[0,1+m])
+            k += 1
+            
+
     #raise Exception()
-#    for i in range(Ns[1]):
-#        for j in range(Ns[2]):
-#            print(i,j, sys.dd12[i,j])
+
+
+
+
 #
 # Relaxation rates
 #
@@ -162,7 +205,7 @@ resp_n = numpy.zeros((Nr, Nr), dtype=numpy.complex128, order='F')
 #
 # Other parameters
 #
-t2 = 200.0
+t2 = 1.0
 dt = ta.step
 t1s = ta.data 
 t3s = ta.data 

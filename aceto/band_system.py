@@ -47,7 +47,7 @@ class band_system:
         if not (dab.shape == (3,self.Ns[Nbi],self.Ns[Nbf])):
             raise Exception("Wrong shape of dipole matrix")
         if (Nbi == 0) and (Nbf == 1):
-            self.nn01 = dab
+            self.nn01 = dab.copy()
             self.dd01 = numpy.zeros((self.Ns[0],self.Ns[1]),
                                     dtype=numpy.float64, order='F')
             N1 = self.Ns[0]
@@ -60,7 +60,7 @@ class band_system:
                     if dd != 0.0:
                         self.nn01[:,i,j] = self.nn01[:,i,j]/dd
         elif (Nbi == 1) and (Nbf == 2):
-            self.nn12 = dab
+            self.nn12 = dab.copy()
             self.dd12 = numpy.zeros((self.Ns[1],self.Ns[2]),
                                     dtype=numpy.float64, order='F')
             N1 = self.Ns[1]
