@@ -30,6 +30,8 @@ src:
 aceto_test:
 	cd tests; make
 
+install: 
+	python setup.py install
 
 
 
@@ -39,7 +41,8 @@ aceto_test:
 #-----------------------------------------------------------
 .PHONY: test quantarhei_test
 
-test: quantarhei_test 
+test:  
+	cd tests; ./tests_quantarhei.sh
 
 
 quantarhei_test:

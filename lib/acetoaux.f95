@@ -27,7 +27,7 @@ subroutine set_dipole_factor_g(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
 
     if (pathw == 'R1g') then
         do e1 = 1, Ne
-        do e2 = 1, ne
+        do e2 = 1, Ne
            oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
                                            nnge(:,f1,e2),nnge(:,f1,e1))
            oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
@@ -66,7 +66,7 @@ subroutine set_dipole_factor_g(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     end if
 
     minfac = rtol*maxval(oafac)
-    print *, minfac
+    !print *, minfac
     
 end subroutine set_dipole_factor_g
 
@@ -158,6 +158,7 @@ subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     real(8), intent(out)  :: minfac
     
     integer :: e1, e2, ff
+    real(8) :: aux
     
     ! reconstruction of the LAB object
     type(lab_settings) :: LAB
@@ -169,47 +170,44 @@ subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     if (pathw == 'R1f') then
         do e1 = 1, Ne
         do e2 = 1, Ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
-                                           nnef(:,e2,ff),nnge(:,e1,ff))
-           !print *, " > ", e1, e2, "> ", f1
-           !print *, oafac(e1,e2)
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
+           aux = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
+                                           nnef(:,e2,ff),nnef(:,e1,ff))
+           oafac(e1,e2) = aux*ddge(g1,e1)*ddge(g1,e2)* &
                                        ddef(e2,ff)*ddef(e1,ff)  
-           !print *, oafac(e1,e2)
         end do
         end do       
     else if (pathw == 'R2f') then
         do e1 = 1, Ne
-        do e2 = 1, ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
-                                           nnge(:,ff,e1),nnge(:,ff,e2))
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
-                                       ddge(f1,e1)*ddge(f1,e2)       
+        do e2 = 1, Ne
+           aux = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
+                                           nnef(:,e1,ff),nnef(:,e2,ff))
+           oafac(e1,e2) = aux*ddge(g1,e1)*ddge(g1,e2)* &
+                                       ddef(e1,ff)*ddef(e2,ff)       
         end do
         end do
-    else if (pathw == 'R3f') then
-        do e1 = 1, Ne
-        do e2 = 1, ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
-                                           nnge(:,f1,e2),nnge(:,f1,e2))
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
-                                       ddge(f1,e2)*ddge(f1,e2)       
-        end do
-        end do                        
-    else if (pathw == 'R4f') then
-        do e1 = 1, Ne
-        do e2 = 1, ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
-                                           nnge(:,f1,e2),nnge(:,f1,e2))
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
-                                       ddge(f1,e2)*ddge(f1,e2)       
-        end do
-        end do                        
+!    else if (pathw == 'R3f') then
+!        do e1 = 1, Ne
+!        do e2 = 1, ne
+!           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+!                                           nnge(:,f1,e2),nnge(:,f1,e2))
+!           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+!                                       ddge(f1,e2)*ddge(f1,e2)       
+!        end do
+!        end do                        
+!    else if (pathw == 'R4f') then
+!        do e1 = 1, Ne
+!        do e2 = 1, ne
+!           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+!                                           nnge(:,f1,e2),nnge(:,f1,e2))
+!           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+!                                       ddge(f1,e2)*ddge(f1,e2)       
+!        end do
+!        end do                        
     else
         stop "Unsupported pathway"
     end if
 
-    !minfac = rtol*maxval(oafac)
+    minfac = rtol*maxval(oafac)
     !print *, minfac, "(", rtol, maxval(oafac),")"
     
 end subroutine set_dipole_factor_f
