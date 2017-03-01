@@ -28,18 +28,18 @@ t_start = time.time()
 #
 with energy_units("1/cm"):
     mol1 = Molecule(elenergies=[0.0, 12000.0])
-    mol2 = Molecule(elenergies=[0.0, 12800.0])
+    mol2 = Molecule(elenergies=[0.0, 12200.0])
     mol3 = Molecule(elenergies=[0.0, 12400.0])
-    mol4 = Molecule(elenergies=[0.0, 12200.0])
+    mol4 = Molecule(elenergies=[0.0, 12800.0])
 mol1.position = [0.0, 0.0, 0.0]
 mol2.position = [0.0, 10.0, 0.0]
 mol3.position = [10.0, 0.0, 0.0]
 mol4.position = [0.0, 0.0, 10.0]
 mol1.set_dipole(0,1,[1.0, 0.0, 0.0])
-mol2.set_dipole(0,1,[2.0, 0.0, 0.0])
-mol3.set_dipole(0,1,[0.0, 0.0, 3.0])
+mol2.set_dipole(0,1,[1.0, 0.0, 0.0])
+mol3.set_dipole(0,1,[0.0, 0.0, 1.0])
 v1 = numpy.array([0.3, 0.3, 0.3])
-v1 = 4.0*v1/numpy.sqrt(numpy.dot(v1,v1))
+v1 = 1.0*v1/numpy.sqrt(numpy.dot(v1,v1))
 mol4.set_dipole(0,1,v1)
 
 # rwa frequency as an average transition frequency
@@ -78,6 +78,7 @@ agg.build(mult=2)
 H = agg.get_Hamiltonian()
 D = agg.get_TransitionDipoleMoment()
 
+            
 #
 # Construct band_system object
 #
@@ -88,12 +89,23 @@ Ns[1] = agg.nmono
 Ns[2] = Ns[1]*(Ns[1]-1)/2
 sys = band_system(Nb, Ns)
 
+print(D.data.shape)
+
+for n in range(Ns[1]):
+    m = 0
+    for k in range(Ns[1]):
+        for l in range(k+1,Ns[1]):
+            print(n,m+1+Ns[1],"(",k,l,")", D.data[1+n, 1+Ns[1]+m,:])
+            m += 1
+
+#raise Exception()
+
 #
 # Set energies
 #
 en = numpy.zeros(sys.Ne, dtype=numpy.float64)
-if True:
-#with eigenbasis_of(H):
+#if True:
+with eigenbasis_of(H):
     for i in range(sys.Ne):
         en[i] = H.data[i,i]
     sys.set_energies(en)
@@ -150,7 +162,7 @@ if False:
             k += 1
             
 
-    #raise Exception()
+    raise Exception()
 
 
 
@@ -181,12 +193,20 @@ SS = H.diagonalize()
 SS1 = SS[1:Ns[1]+1,1:Ns[1]+1]
 SS2 = SS[Ns[1]+1:,Ns[1]+1:]
 H.undiagonalize()
-#print(SS)
+
+#NN1 = SS1.shape[0]
+#SS1 = numpy.eye(NN1)
+#NN2 = SS2.shape[0]
+#SS2 = numpy.eye(NN2)
 
 sys.set_gofts(cfm._gofts)    # line shape functions
 sys.set_sitep(cfm.cpointer)  # pointer to sites
 sys.set_transcoef(1,SS1)      # matrix of transformation coefficients  
 sys.set_transcoef(2,SS2)      # matrix of transformation coefficients  
+
+
+sys._check_twoex_dipoles()
+
 
 #
 # define lab settings

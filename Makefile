@@ -30,7 +30,7 @@ src:
 aceto_test:
 	cd tests; make
 
-install: 
+install: library src aceto_test 
 	python setup.py install
 
 

@@ -75,7 +75,47 @@ class band_system:
         else:
             raise Exception("Attempt to assing unsupported dipole block")
             
-
+    def _check_twoex_dipoles(self):
+        """This method assumes that the exciton basis is identical with site basis
+        
+        
+        """
+        
+        print(self.en)
+        
+        print("Monomer 2 transition dipole moment:")
+        print(self.dd01[0,1], self.nn01[:,0,1])
+        print("Trasfer from |1> to |(1,2)> = monomer 2 transition dipole")
+        print(self.dd12[0,0], self.nn12[:,0,0])
+        print("Monomer 3 transition dipole moment:")
+        print(self.dd01[0,2], self.nn01[:,0,2])
+        print("Trasfer from |1> to |(1,3)> = monomer 3 transition dipole")
+        print(self.dd12[0,1], self.nn12[:,0,1])
+        print("Monomer 4 transition dipole moment:")
+        print(self.dd01[0,3], self.nn01[:,0,3])
+        print("Trasfer from |1> to |(1,4)> = monomer 4 transition dipole")
+        print(self.dd12[0,2], self.nn12[:,0,2])
+        print("Monomer 3 transition dipole moment:")
+        print(self.dd01[0,2], self.nn01[:,0,2])
+        print("Trasfer from |2> to |(2,3)> = monomer 3 transition dipole")
+        print(self.dd12[1,3], self.nn12[:,1,3])
+        print("Monomer 4 transition dipole moment:")
+        print(self.dd01[0,3], self.nn01[:,0,3])        
+        print("Trasfer from |2> to |(2,4)> = monomer 4 transition dipole")
+        print(self.dd12[1,4], self.nn12[:,1,4])
+        print("Monomer 4 transition dipole moment:")
+        print(self.dd01[0,3], self.nn01[:,0,3])   
+        print("Trasfer from |2> to |(2,4)> = monomer 4 transition dipole")
+        print(self.dd12[2,5], self.nn12[:,2,5])
+        
+        print("Monomer 1 transition dipole moment:")
+        print(self.dd01[0,0], self.nn01[:,0,0])        
+        print("Trasfer from |4> to |(1,4)> = monomer13 transition dipole")
+        print(self.dd12[3,2], self.nn12[:,3,2])
+        
+        print("Trasfer from |4> to |(1,3)> = 0")
+        print(self.dd12[3,1], self.nn12[:,3,1])
+        
     def set_gofts(self,gofts):
         self.gofts = gofts
         
