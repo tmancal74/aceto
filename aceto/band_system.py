@@ -44,6 +44,8 @@ class band_system:
                                 - self.en[self.Ns[0]+self.Ns[1]+j])
                 
     def set_dipoles(self, Nbi, Nbf, dab):
+        
+        # FIXME: some of the arrays need to be turned in 'F'order
         if not (dab.shape == (3,self.Ns[Nbi],self.Ns[Nbf])):
             raise Exception("Wrong shape of dipole matrix")
         if (Nbi == 0) and (Nbf == 1):
@@ -169,6 +171,12 @@ class band_system:
         self.Kd12 = numpy.zeros((self.Ns[1], self.Ns[2]), 
                                     dtype=numpy.float64, order='F')
     
+    def set_population_propagation_matrix(self, Ueet2):
+        """Set the population evolution matrix of certain t2 time
+        
+        """
+        self.Ueet2 = Ueet2
+        
     
         
         
