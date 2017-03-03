@@ -144,7 +144,7 @@ subroutine nr3_r2g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       end do
       end do
     
-      resp(it1,it3) = resp(it1,it3) + r
+      resp(it3,it1) = resp(it3,it1) + r
     
     end do
     end do
@@ -289,7 +289,7 @@ subroutine nr3_r3g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       end do
       end do
     
-      resp(it1,it3) = resp(it1,it3) + r
+      resp(it3,it1) = resp(it3,it1) + r
     
     end do
     end do
@@ -435,7 +435,7 @@ subroutine nr3_r1g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       end do
       end do
     
-      resp(it1,it3) = resp(it1,it3) + r
+      resp(it3,it1) = resp(it3,it1) + r
     
     end do
     end do
@@ -578,7 +578,7 @@ subroutine nr3_r4g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       end do
       end do
     
-      resp(it1,it3) = resp(it1,it3) + r
+      resp(it3,it1) = resp(it3,it1) + r
     
     end do
     end do
@@ -777,7 +777,7 @@ subroutine nr3_r1fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
 
       end do
     
-      resp(it1,it3) = resp(it1,it3) + r
+      resp(it3,it1) = resp(it3,it1) + r
     
     end do
     end do
@@ -971,7 +971,7 @@ subroutine nr3_r2fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
 
       end do
     
-      resp(it1,it3) = resp(it1,it3) + r
+      resp(it3,it1) = resp(it3,it1) + r
     
     end do
     end do
@@ -1109,7 +1109,7 @@ subroutine nr3_r2g_trans_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       end do
       end do
     
-      resp(it1,it3) = resp(it1,it3) + r
+      resp(it3,it1) = resp(it3,it1) + r
     
     end do
     end do
@@ -1236,7 +1236,7 @@ subroutine nr3_r1g_trans_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       end do
       end do
     
-      resp(it1,it3) = resp(it1,it3) + r
+      resp(it3,it1) = resp(it3,it1) + r
     
     end do
     end do
@@ -1387,7 +1387,7 @@ subroutine nr3_r1fs_trans_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, &
 
       end do
     
-      resp(it1,it3) = resp(it1,it3) + r
+      resp(it3,it1) = resp(it3,it1) + r
     
     end do
     end do
@@ -1541,7 +1541,7 @@ subroutine nr3_r2fs_trans_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, &
 
       end do
     
-      resp(it1,it3) = resp(it1,it3) + r
+      resp(it3,it1) = resp(it3,it1) + r
     
     end do
     end do
