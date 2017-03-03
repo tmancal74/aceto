@@ -56,9 +56,11 @@ Nr = 500
 #      
 ta = TimeAxis(0.0, Nr, 2.0)
 
+tsbi = TimeAxis(0.0, 3*Nr, 2.0)
+
 params = dict(ftype="OverdampedBrownian", T=300, reorg=200.0, cortime=100.0)
 with energy_units('1/cm'):
-    cf = CorrelationFunction(ta, params)
+    cf = CorrelationFunction(tsbi, params)
 mol1.set_transition_environment((0,1),cf)
 mol2.set_transition_environment((0,1),cf)
 mol3.set_transition_environment((0,1),cf)
@@ -241,8 +243,9 @@ t3s = ta.data
 
 #t2 = 200.0
 
-teetoos = [i*100.0 for i in range(5)]
+#teetoos = [i*100.0 for i in range(5)]
 t2s = TimeAxis(0.0, 5, 100.0)
+teetoos = t2s.data
 
 prop = PopulationPropagator(ta, Kr)
 Uee = prop.get_PropagationMatrix(t2s)
@@ -312,20 +315,23 @@ for tt2 in teetoos:
     print("max = ", numpy.max(numpy.real(ftresp_n)))
                                          
     tots = numpy.real(ftresp_r) + numpy.real(ftresp_n)
-    #tots = numpy.real(ftresp_n)
     
-    
-    #plt.contourf(om1,om3,numpy.real(ftresp_r),100)
-    #plt.contourf(om1,om3,numpy.real(ftresp_n),100)
+    if tc == 0:
+        max_tot = numpy.max(tots)
+
+
     Np = resp_r.shape[0]
     Nst = 44*Np//100 
     print(Nst, Np)
     Nfi = Np - Nst
-    plt.contourf(om1[Nst:Nfi],om3[Nst:Nfi],
-                 numpy.real(tots[Nst:Nfi,Nst:Nfi]),100)
+    Ncontour = 100
+    
+    realout = numpy.real(tots[Nst:Nfi,Nst:Nfi])/max_tot
+    
+    plt.contourf(om1[Nst:Nfi],om3[Nst:Nfi], realout, Ncontour)
     
     t_end = time.time()
-    print("Finished in ", t_end-t_start, " secs")
+    print("Finished at ", t_end-t_start, " secs")
     figname = "fig"+str(round(tt2))+".png"
     print(figname)
     plt.savefig(figname)

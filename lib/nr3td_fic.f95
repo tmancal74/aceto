@@ -43,7 +43,7 @@ subroutine nr3_r2g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
            
     ! local
     integer :: Ng, Ne
-    integer :: Nt1, Nt3
+    integer :: Nt1, Nt3, Ntsbi
     integer :: it1, it3
     integer :: e1, e2, g1, f1
     real(8) :: t1,t2,t3
@@ -65,6 +65,7 @@ subroutine nr3_r2g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
         
     Nt1 = size(t1s)
     Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
@@ -93,12 +94,12 @@ subroutine nr3_r2g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Ntsbi, gofts, ptn, t1s)
       
       ! assuming Ng = 1
       do e1 = 1, Ne
@@ -191,7 +192,7 @@ subroutine nr3_r3g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
            
     ! local
     integer :: Ng, Ne
-    integer :: Nt1, Nt3
+    integer :: Nt1, Nt3, Ntsbi
     integer :: it1, it3
     integer :: e1, e2, g1, f1
     real(8) :: t1,t2,t3
@@ -213,6 +214,7 @@ subroutine nr3_r3g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
         
     Nt1 = size(t1s)
     Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
@@ -241,12 +243,12 @@ subroutine nr3_r3g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Ntsbi, gofts, ptn, t1s)
       
       ! assuming Ng = 1
       do e1 = 1, Ne
@@ -334,7 +336,7 @@ subroutine nr3_r1g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
            
     ! local
     integer :: Ng, Ne
-    integer :: Nt1, Nt3
+    integer :: Nt1, Nt3, Ntsbi
     integer :: it1, it3
     integer :: e1, e2, g1, f1
     real(8) :: t1,t2,t3
@@ -355,6 +357,7 @@ subroutine nr3_r1g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
         
     Nt1 = size(t1s)
     Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
@@ -383,12 +386,12 @@ subroutine nr3_r1g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Ntsbi, gofts, ptn, t1s)
       
       ! assuming Ng = 1
       do e1 = 1, Ne
@@ -480,7 +483,7 @@ subroutine nr3_r4g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
            
     ! local
     integer :: Ng, Ne
-    integer :: Nt1, Nt3
+    integer :: Nt1, Nt3, Ntsbi
     integer :: it1, it3
     integer :: e1, e2, g1, f1
     real(8) :: t1,t2,t3
@@ -502,6 +505,7 @@ subroutine nr3_r4g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
         
     Nt1 = size(t1s)
     Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
@@ -530,12 +534,12 @@ subroutine nr3_r4g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Ntsbi, gofts, ptn, t1s)
       
       ! assuming Ng = 1
       do e1 = 1, Ne
@@ -637,7 +641,7 @@ subroutine nr3_r1fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
            
     ! local
     integer :: Ng, Ne, Nf
-    integer :: Nt1, Nt3
+    integer :: Nt1, Nt3, Ntsbi
     integer :: it1, it3
     integer :: ea, eb, g1, f1
     real(8) :: t1,t2,t3
@@ -663,6 +667,7 @@ subroutine nr3_r1fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     
     Nt1 = size(t1s)
     Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
@@ -698,12 +703,12 @@ subroutine nr3_r1fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Ntsbi, gofts, ptn, t1s)
       
       ! assuming Ng = 1
 
@@ -830,7 +835,7 @@ subroutine nr3_r2fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
            
     ! local
     integer :: Ng, Ne, Nf
-    integer :: Nt1, Nt3
+    integer :: Nt1, Nt3, Ntsbi
     integer :: it1, it3
     integer :: ea, eb, g1, f1
     real(8) :: t1,t2,t3
@@ -855,6 +860,7 @@ subroutine nr3_r2fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     
     Nt1 = size(t1s)
     Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
@@ -891,12 +897,12 @@ subroutine nr3_r2fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2, it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2, it1+it2, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t2t3, it2+it3, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t1t2t3, it1+it2+it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2, it1+it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t1t2t3, it1+it2+it3, Ntsbi, gofts, ptn, t1s)
       
       ! assuming Ng = 1
       do f1 = 1, Nf  
@@ -1029,7 +1035,7 @@ subroutine nr3_r2g_trans_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
            
     ! local
     integer :: Ng, Ne
-    integer :: Nt1, Nt3
+    integer :: Nt1, Nt3, Ntsbi
     integer :: it1, it3
     integer :: e1, e2, g1, f1
     real(8) :: t1,t2,t3
@@ -1049,6 +1055,7 @@ subroutine nr3_r2g_trans_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
         
     Nt1 = size(t1s)
     Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
@@ -1077,8 +1084,8 @@ subroutine nr3_r2g_trans_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t1s)
       
       ! assuming Ng = 1
       do e1 = 1, Ne
@@ -1156,7 +1163,7 @@ subroutine nr3_r1g_trans_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
            
     ! local
     integer :: Ng, Ne
-    integer :: Nt1, Nt3
+    integer :: Nt1, Nt3, Ntsbi
     integer :: it1, it3
     integer :: e1, e2, g1, f1
     real(8) :: t1,t2,t3
@@ -1176,6 +1183,7 @@ subroutine nr3_r1g_trans_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
         
     Nt1 = size(t1s)
     Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
@@ -1204,8 +1212,8 @@ subroutine nr3_r1g_trans_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t1s)
       
       ! assuming Ng = 1
       do e1 = 1, Ne
@@ -1288,7 +1296,7 @@ subroutine nr3_r1fs_trans_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, &
            
     ! local
     integer :: Ng, Ne, Nf
-    integer :: Nt1, Nt3
+    integer :: Nt1, Nt3, Ntsbi
     integer :: it1, it3
     integer :: ea, eb, g1, f1
     real(8) :: t1,t2,t3
@@ -1312,6 +1320,7 @@ subroutine nr3_r1fs_trans_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, &
     
     Nt1 = size(t1s)
     Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
@@ -1344,8 +1353,8 @@ subroutine nr3_r1fs_trans_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t1s)
 
       
       ! assuming Ng = 1
@@ -1442,7 +1451,7 @@ subroutine nr3_r2fs_trans_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, &
            
     ! local
     integer :: Ng, Ne, Nf
-    integer :: Nt1, Nt3
+    integer :: Nt1, Nt3, Ntsbi
     integer :: it1, it3
     integer :: ea, eb, g1, f1
     real(8) :: t1,t2,t3
@@ -1466,6 +1475,7 @@ subroutine nr3_r2fs_trans_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, &
     
     Nt1 = size(t1s)
     Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
@@ -1498,8 +1508,8 @@ subroutine nr3_r2fs_trans_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, &
       t1 = t1s(it1)
       t3 = t3s(it3)
 
-      call set_goft_g(gn_t1, it1, Nt1, gofts, ptn, t1s)
-      call set_goft_g(gn_t3, it3, Nt1, gofts, ptn, t1s)
+      call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t1s)
 
       
       ! assuming Ng = 1
