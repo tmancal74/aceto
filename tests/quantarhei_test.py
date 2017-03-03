@@ -32,19 +32,19 @@ t_start = time.time()
 #
 with energy_units("1/cm"):
     mol1 = Molecule(elenergies=[0.0, 12000.0])
-    mol2 = Molecule(elenergies=[0.0, 12200.0])
-    mol3 = Molecule(elenergies=[0.0, 12400.0])
-    mol4 = Molecule(elenergies=[0.0, 12800.0])
+    mol2 = Molecule(elenergies=[0.0, 12600.0])
+#    mol3 = Molecule(elenergies=[0.0, 12400.0])
+#    mol4 = Molecule(elenergies=[0.0, 12800.0])
 mol1.position = [0.0, 0.0, 0.0]
 mol2.position = [0.0, 10.0, 0.0]
-mol3.position = [10.0, 0.0, 0.0]
-mol4.position = [0.0, 0.0, 10.0]
+#mol3.position = [10.0, 0.0, 0.0]
+#mol4.position = [0.0, 0.0, 10.0]
 mol1.set_dipole(0,1,[1.0, 0.0, 0.0])
 mol2.set_dipole(0,1,[1.0, 0.0, 0.0])
-mol3.set_dipole(0,1,[0.0, 0.0, 1.0])
-v1 = numpy.array([0.3, 0.3, 0.3])
-v1 = 1.0*v1/numpy.sqrt(numpy.dot(v1,v1))
-mol4.set_dipole(0,1,v1)
+#mol3.set_dipole(0,1,[0.0, 0.0, 1.0])
+#v1 = numpy.array([0.3, 0.3, 0.3])
+#v1 = 1.0*v1/numpy.sqrt(numpy.dot(v1,v1))
+#mol4.set_dipole(0,1,v1)
 
 # rwa frequency as an average transition frequency
 rwa = (mol1.elenergies[1]+mol2.elenergies[1])/2.0
@@ -58,20 +58,20 @@ with energy_units('1/cm'):
     cf = CorrelationFunction(ta, params)
 mol1.set_transition_environment((0,1),cf)
 mol2.set_transition_environment((0,1),cf)
-mol3.set_transition_environment((0,1),cf)
-mol4.set_transition_environment((0,1),cf)
+#mol3.set_transition_environment((0,1),cf)
+#mol4.set_transition_environment((0,1),cf)
 
 #
 # Creating aggregate
 #      
-agg = Aggregate("Dimer", molecules=[mol1, mol2, mol3, mol4])
-#agg = Aggregate("Dimer", molecules=[mol1, mol2])
+#agg = Aggregate("Dimer", molecules=[mol1, mol2, mol3, mol4])
+agg = Aggregate("Dimer", molecules=[mol1, mol2])
 
 with energy_units("1/cm"):
     agg.set_resonance_coupling(0,1, 60.0)
-    agg.set_resonance_coupling(1,2, 60.0)
-    agg.set_resonance_coupling(0,2, 100.0)
-    agg.set_resonance_coupling(1,3, 100.0)
+#    agg.set_resonance_coupling(1,2, 60.0)
+#    agg.set_resonance_coupling(0,2, 100.0)
+#    agg.set_resonance_coupling(1,3, 100.0)
     pass
 
 agg.build(mult=2)
@@ -175,7 +175,9 @@ if False:
 # Relaxation rates
 #
 KK = agg.get_RedfieldRateMatrix()
-Kr = KK.data[Ns[0]:Ns[0]+Ns[1],Ns[0]:Ns[0]+Ns[1]]*10.0
+Kr = KK.data[Ns[0]:Ns[0]+Ns[1],Ns[0]:Ns[0]+Ns[1]]*100.0
+Kr[0,0] = -0.0000001
+Kr[1,0] = 0.0000001
 print(1.0/Kr)
 sys.init_dephasing_rates()
 sys.set_relaxation_rates(1,Kr)
@@ -210,7 +212,7 @@ sys.set_transcoef(1,SS1)      # matrix of transformation coefficients
 sys.set_transcoef(2,SS2)      # matrix of transformation coefficients  
 
 
-sys._check_twoex_dipoles()
+#sys._check_twoex_dipoles()
 
 
 #
@@ -235,8 +237,8 @@ t3s = ta.data
 
 #t2 = 200.0
 
-teetoos = [i*10.0 for i in range(5)]
-t2s = TimeAxis(0.0, 5, 10.0)
+teetoos = [i*100.0 for i in range(5)]
+t2s = TimeAxis(0.0, 5, 100.0)
 
 prop = PopulationPropagator(ta, Kr)
 Uee = prop.get_PropagationMatrix(t2s)
@@ -257,18 +259,28 @@ for tt2 in teetoos:
     rmin = 0.0001
     t1 = time.time()
     
-    nr3td.nr3_r2g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
-    nr3td.nr3_r3g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
-    
-    nr3td.nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
+    # GSB
+    nr3td.nr3_r3g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r) 
     nr3td.nr3_r4g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
+
+    # SE
+    nr3td.nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
+    nr3td.nr3_r2g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
     
+    # ESA
     nr3td.nr3_r1fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
     nr3td.nr3_r2fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
     
+    # Transfer
     sys.set_population_propagation_matrix(Uee[:,:,tc])
-
+    
+    # SE
+    nr3td.nr3_r1g_trans(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
     nr3td.nr3_r2g_trans(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
+
+    # ESA
+    nr3td.nr3_r1fs_trans(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
+    nr3td.nr3_r2fs_trans(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
     
     
     t2 = time.time()
@@ -286,8 +298,10 @@ for tt2 in teetoos:
     ftresp = numpy.fft.ifft(ftresp,axis=1)*ftresp.shape[1]
     ftresp_n = numpy.fft.fftshift(ftresp)
     
-    om1 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t1s), d=dt)) + rwa
-    om3 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t3s), d=dt)) + rwa
+    om1 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t1s),
+                                                            d=dt)) + rwa
+    om3 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t3s),
+                                                            d=dt)) + rwa
     
     print("max = ", numpy.max(numpy.real(ftresp_r)))
     print("max = ", numpy.max(numpy.real(ftresp_n)))
@@ -302,7 +316,8 @@ for tt2 in teetoos:
     Nst = 44*Np//100 
     print(Nst, Np)
     Nfi = Np - Nst
-    plt.contourf(om1[Nst:Nfi],om3[Nst:Nfi],numpy.real(tots[Nst:Nfi,Nst:Nfi]),100)
+    plt.contourf(om1[Nst:Nfi],om3[Nst:Nfi],
+                 numpy.real(tots[Nst:Nfi,Nst:Nfi]),100)
     
     t_end = time.time()
     print("Finished in ", t_end-t_start, " secs")

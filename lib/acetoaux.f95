@@ -2,76 +2,41 @@ module acetoaux
 
 contains
 
+!******************************************************************************
+!
+! Routines calculating dipole prefactors and orintational averaging of 
+! Liouville pathways
+!
+!
+!******************************************************************************
+
 subroutine set_dipole_factor_g(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
                              oafac, rtol, minfac)
-    use acetolab
-    implicit none
-
-    integer, intent(in) :: g1, f1
-    character(3) :: pathw
-    real(8), dimension(:), intent(in) :: orient_av
-    integer, intent(in) :: Ne
-    real(8), dimension(:,:), intent(in) :: ddge
-    real(8), dimension(:,:,:), intent(in) :: nnge
-    
-    real(8), dimension(:,:), intent(out) :: oafac
-    real(8), intent(in)   :: rtol
-    real(8), intent(out)  :: minfac
-    
-    integer :: e1, e2
-    
-    ! reconstruction of the LAB object
-    type(lab_settings) :: LAB
-
-    LAB%orient_aver = orient_av
-
-    if (pathw == 'R1g') then
-        do e1 = 1, Ne
-        do e2 = 1, Ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
-                                           nnge(:,f1,e2),nnge(:,f1,e1))
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
-                                       ddge(f1,e2)*ddge(f1,e1)       
-        end do
-        end do       
-    else if (pathw == 'R2g') then
-        do e1 = 1, Ne
-        do e2 = 1, ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
-                                           nnge(:,f1,e1),nnge(:,f1,e2))
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
-                                       ddge(f1,e1)*ddge(f1,e2)       
-        end do
-        end do
-    else if (pathw == 'R3g') then
-        do e1 = 1, Ne
-        do e2 = 1, ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
-                                           nnge(:,f1,e2),nnge(:,f1,e2))
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
-                                       ddge(f1,e2)*ddge(f1,e2)       
-        end do
-        end do                        
-    else if (pathw == 'R4g') then
-        do e1 = 1, Ne
-        do e2 = 1, ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
-                                           nnge(:,f1,e2),nnge(:,f1,e2))
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
-                                       ddge(f1,e2)*ddge(f1,e2)       
-        end do
-        end do                        
-    else
-        stop "Unsupported pathway"
-    end if
-
-    minfac = rtol*maxval(oafac)
-    !print *, minfac
-    
-end subroutine set_dipole_factor_g
-
-subroutine set_dipole_factor_gt(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
-                             oafac, rtol, minfac)
+    ! Sets dipole prefactor and orientational averaging for electronic pathways
+    ! 
+    ! Sets the prefactor for purely electronic Liouville pathways. Returns 
+    ! minimal acceptable prefactor based on submitted rtol, but prefactors of 
+    ! all pathways are returned.
+    ! 
+    !
+    ! Parameters
+    ! ----------
+    !
+    ! g1 : integer
+    !     Index of the state in the electronic groundstate where the pathway
+    !     starts
+    !
+    ! f1 : integer
+    !     index of the state where the pathway ands. This can be in the
+    !     electronic ground- or excited state. For third order spectroscopy
+    !     excited state has to be some doubly excited state.
+    !
+    ! pathw : character(3), {'R1g', 'R2g', 'R3g', 'R4g'}
+    !     Pathway identification string
+    !
+    ! orient_av : real, double precision
+    ! ... to be continued
+    !
     use acetolab
     implicit none
 
@@ -93,17 +58,16 @@ subroutine set_dipole_factor_gt(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
 
     LAB%orient_aver = orient_av
 
-!    if (pathw == 'R1gt') then
-!        do e1 = 1, Ne
-!        do e2 = 1, ne
-!           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
-!                                           nnge(:,f1,e2),nnge(:,f1,e1))
-!           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
-!                                       ddge(f1,e2)*ddge(f1,e1)       
-!        end do
-!        end do       
-!    else 
-    if (pathw == 'R2gt') then
+    if (pathw == 'R1g0') then
+        do e1 = 1, Ne
+        do e2 = 1, Ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
+                                           nnge(:,f1,e2),nnge(:,f1,e1))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
+                                       ddge(f1,e2)*ddge(f1,e1)       
+        end do
+        end do       
+    else if (pathw == 'R2g0') then
         do e1 = 1, Ne
         do e2 = 1, ne
            oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
@@ -112,7 +76,7 @@ subroutine set_dipole_factor_gt(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
                                        ddge(f1,e1)*ddge(f1,e2)       
         end do
         end do
-    else if (pathw == 'R3gt') then
+    else if (pathw == 'R3g0') then
         do e1 = 1, Ne
         do e2 = 1, ne
            oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
@@ -121,6 +85,102 @@ subroutine set_dipole_factor_gt(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
                                        ddge(f1,e2)*ddge(f1,e2)       
         end do
         end do                        
+    else if (pathw == 'R4g0') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+                                           nnge(:,f1,e2),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+                                       ddge(f1,e2)*ddge(f1,e2)       
+        end do
+        end do                        
+    else
+        stop "Unsupported pathway"
+    end if
+
+    minfac = rtol*maxval(oafac)
+    !print *, minfac
+    
+end subroutine set_dipole_factor_g
+
+
+
+subroutine set_dipole_factor_gt(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
+                             oafac, rtol, minfac)
+    ! Sets prefactors for Liouville pathways with energy transfer
+    !
+    ! Sets dipole prefactors and orientational evaraging for electronic
+    ! Liouville pathways with energy transfer. Returns minimal acceptable 
+    ! prefactor based on submitted rtol, but prefactors of all pathways are
+    ! returned.
+    !
+    !
+    ! Parameters
+    ! ----------
+    !
+    ! g1 : integer
+    !     Index of the state in the electronic groundstate where the pathway
+    !     starts
+    !
+    ! f1 : integer
+    !     index of the state where the pathway ands. This can be in the
+    !     electronic ground- or excited state. For third order spectroscopy
+    !     excited state has to be some doubly excited state.
+    !
+    ! pathw : character(3), {'R1g', 'R2g', 'R3g', 'R4g'}
+    !     Pathway identification string
+    !
+    ! orient_av : real, double precision
+    ! ... to be continued
+    !    
+    use acetolab
+    implicit none
+
+    integer, intent(in) :: g1, f1
+    character(4) :: pathw
+    real(8), dimension(:), intent(in) :: orient_av
+    integer, intent(in) :: Ne
+    real(8), dimension(:,:), intent(in) :: ddge
+    real(8), dimension(:,:,:), intent(in) :: nnge
+    
+    real(8), dimension(:,:), intent(out) :: oafac
+    real(8), intent(in)   :: rtol
+    real(8), intent(out)  :: minfac
+    
+    integer :: e1, e2
+    
+    ! reconstruction of the LAB object
+    type(lab_settings) :: LAB
+
+    LAB%orient_aver = orient_av
+
+    if (pathw == 'R1gt') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+                                           nnge(:,f1,e2),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+                                       ddge(f1,e2)*ddge(f1,e2)       
+        end do
+        end do       
+    else if (pathw == 'R2gt') then
+        do e1 = 1, Ne
+        do e2 = 1, ne
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+                                           nnge(:,f1,e2),nnge(:,f1,e2))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+                                       ddge(f1,e2)*ddge(f1,e2)       
+        end do
+        end do
+!    else if (pathw == 'R3gt') then
+!        do e1 = 1, Ne
+!        do e2 = 1, ne
+!           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+!                                           nnge(:,f1,e2),nnge(:,f1,e2))
+!           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+!                                       ddge(f1,e2)*ddge(f1,e2)       
+!        end do
+!        end do                        
 !    else if (pathw == 'R4gt') then
 !        do e1 = 1, Ne
 !        do e2 = 1, ne
@@ -135,18 +195,44 @@ subroutine set_dipole_factor_gt(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     end if
 
     minfac = rtol*maxval(oafac)
-    print *, minfac
+    !print *, minfac
     
 end subroutine set_dipole_factor_gt
+
 
 subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
                                ddef, nnef, &
                                oafac, rtol, minfac)
+    ! Sets dipole prefactor and orientational averaging for electronic pathways
+    ! 
+    ! Sets the prefactor for purely electronic Liouville pathways involving
+    ! higher excited state. Returns minimal acceptable prefactor based on 
+    ! submitted rtol, but prefactors of all pathways are returned.
+    ! 
+    !
+    ! Parameters
+    ! ----------
+    !
+    ! g1 : integer
+    !     Index of the state in the electronic groundstate where the pathway
+    !     starts
+    !
+    ! f1 : integer
+    !     index of the state where the pathway ands. This can be in the
+    !     electronic ground- or excited state. For third order spectroscopy
+    !     excited state has to be some doubly excited state.
+    !
+    ! pathw : character(3), {'R1g', 'R2g', 'R3g', 'R4g'}
+    !     Pathway identification string
+    !
+    ! orient_av : real, double precision
+    ! ... to be continued
+    !
     use acetolab
     implicit none
 
     integer, intent(in) :: g1, f1
-    character(3) :: pathw
+    character(4) :: pathw
     real(8), dimension(:), intent(in) :: orient_av
     integer, intent(in) :: Ne
     real(8), dimension(:,:), intent(in) :: ddge
@@ -166,8 +252,8 @@ subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     LAB%orient_aver = orient_av
     
     ff = f1
-    !print *, "!!!!!!!!!! ff = ", ff
-    if (pathw == 'R1f') then
+
+    if (pathw == 'R1f0') then
         do e1 = 1, Ne
         do e2 = 1, Ne
            aux = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
@@ -176,7 +262,7 @@ subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
                                        ddef(e2,ff)*ddef(e1,ff)  
         end do
         end do       
-    else if (pathw == 'R2f') then
+    else if (pathw == 'R2f0') then
         do e1 = 1, Ne
         do e2 = 1, Ne
            aux = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
@@ -208,12 +294,40 @@ subroutine set_dipole_factor_f(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     end if
 
     minfac = rtol*maxval(oafac)
-    !print *, minfac, "(", rtol, maxval(oafac),")"
+
     
 end subroutine set_dipole_factor_f
 
+
 subroutine set_dipole_factor_ft(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
-                             oafac, rtol, minfac)
+                               ddef, nnef, &
+                               oafac, rtol, minfac)
+    ! Sets prefactors for Liouville pathways with energy transfer
+    !
+    ! Sets dipole prefactors and orientational evaraging for electronic
+    ! Liouville pathways with energy transfer that involve higher excited 
+    ! state. Returns minimal acceptable prefactor based on submitted rtol, 
+    ! but prefactors of all pathways are returned.
+    !
+    !
+    ! Parameters
+    ! ----------
+    !
+    ! g1 : integer
+    !     Index of the state in the electronic groundstate where the pathway
+    !     starts
+    !
+    ! f1 : integer
+    !     index of the state where the pathway ands. This can be in the
+    !     electronic ground- or excited state. For third order spectroscopy
+    !     excited state has to be some doubly excited state.
+    !
+    ! pathw : character(3), {'R1g', 'R2g', 'R3g', 'R4g'}
+    !     Pathway identification string
+    !
+    ! orient_av : real, double precision
+    ! ... to be continued
+    !
     use acetolab
     implicit none
 
@@ -223,7 +337,8 @@ subroutine set_dipole_factor_ft(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     integer, intent(in) :: Ne
     real(8), dimension(:,:), intent(in) :: ddge
     real(8), dimension(:,:,:), intent(in) :: nnge
-    
+    real(8), dimension(:,:), intent(in) :: ddef
+    real(8), dimension(:,:,:), intent(in) :: nnef    
     real(8), dimension(:,:), intent(out) :: oafac
     real(8), intent(in)   :: rtol
     real(8), intent(out)  :: minfac
@@ -238,48 +353,55 @@ subroutine set_dipole_factor_ft(g1, f1, pathw, orient_av, Ne, ddge, nnge, &
     if (pathw == 'R1ft') then
         do e1 = 1, Ne
         do e2 = 1, ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
-                                           nnge(:,f1,e2),nnge(:,f1,e1))
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
-                                       ddge(f1,e2)*ddge(f1,e1)       
+           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+                                           nnef(:,e2,f1),nnef(:,e2,f1))
+           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+                                       ddef(e2,f1)*ddef(e2,f1)       
         end do
         end do       
     else if (pathw == 'R2ft') then
         do e1 = 1, Ne
         do e2 = 1, ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e2), &
-                                           nnge(:,f1,e1),nnge(:,f1,e2))
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e2)* &
-                                       ddge(f1,e1)*ddge(f1,e2)       
-        end do
-        end do
-    else if (pathw == 'R3ft') then
-        do e1 = 1, Ne
-        do e2 = 1, ne
            oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
-                                           nnge(:,f1,e2),nnge(:,f1,e2))
+                                           nnef(:,e2,f1),nnef(:,e2,f1))
            oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
-                                       ddge(f1,e2)*ddge(f1,e2)       
+                                       ddef(e2,f1)*ddef(e2,f1)       
         end do
-        end do                        
-    else if (pathw == 'R4ft') then
-        do e1 = 1, Ne
-        do e2 = 1, ne
-           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
-                                           nnge(:,f1,e2),nnge(:,f1,e2))
-           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
-                                       ddge(f1,e2)*ddge(f1,e2)       
         end do
-        end do                        
+!    else if (pathw == 'R3ft') then
+!        do e1 = 1, Ne
+!        do e2 = 1, ne
+!           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+!                                           nnge(:,f1,e2),nnge(:,f1,e2))
+!           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+!                                       ddge(f1,e2)*ddge(f1,e2)       
+!        end do
+!        end do                        
+!    else if (pathw == 'R4ft') then
+!        do e1 = 1, Ne
+!        do e2 = 1, ne
+!           oafac(e1,e2) = LAB%get_oafactor(nnge(:,g1,e1),nnge(:,g1,e1), &
+!                                           nnge(:,f1,e2),nnge(:,f1,e2))
+!           oafac(e1,e2) = oafac(e1,e2)*ddge(g1,e1)*ddge(g1,e1)* &
+!                                       ddge(f1,e2)*ddge(f1,e2)       
+!        end do
+!        end do                        
     else
         stop "Unsupported pathway"
     end if
 
     minfac = rtol*maxval(oafac)
-    print *, minfac
+    !print *, minfac
     
 end subroutine set_dipole_factor_ft
 
+
+
+!******************************************************************************
+!
+! Routines asignment and interpolation of lineshape functions
+!
+!******************************************************************************
 
 subroutine set_goft_g(gn, it, nmax, gofts, ptn, t1s)
     ! Assignment of line shapes in single exciton block
@@ -363,7 +485,20 @@ subroutine set_goft_f(gn, it, nmax, gofts, ptn, t1s)
     
 end subroutine set_goft_f
 
+
+
+!******************************************************************************
+!
+! Routines calculating lineshape function mixing factors
+!
+!******************************************************************************
+
 subroutine set_goft_mixing(SS1, ss2)
+    ! Mixing matrix for calculation of exciton lineshape functions
+    !
+    !
+    !
+    !
     real(8), dimension(:,:), intent(in) :: SS1
     real(8), dimension(:,:,:), intent(out) :: ss2 
     ! local
@@ -377,6 +512,7 @@ subroutine set_goft_mixing(SS1, ss2)
     end do
 
 end subroutine set_goft_mixing
+
 
 subroutine set_goft_mixing_22(SS2, A22, N1)
     ! Mixing matrix for calculation of two-exciton lineshape functions
@@ -451,7 +587,12 @@ subroutine set_goft_mixing_22(SS2, A22, N1)
 end subroutine set_goft_mixing_22
 
 subroutine set_goft_mixing_21(SS2, SS1, A21)
-    ! FIXME: finish this
+    ! Mixing matrix for calculation of two-exciton - single-exciton
+    ! lineshape functions
+    !
+    !
+    !
+    !
     implicit none
     real(8), dimension(:,:), intent(in) :: SS2
     real(8), dimension(:,:), intent(in) :: SS1
