@@ -193,7 +193,7 @@ t2s = TimeAxis(0.0, 5, 100.0)
 # Finding population evolution matrix
 #
 prop = PopulationPropagator(ta, Kr)
-Uee = prop.get_PropagationMatrix(t2s)
+Uee, Uc0 = prop.get_PropagationMatrix(t2s, corrections=True)
 
 tc = 0
 teetoos = t2s.data
@@ -231,7 +231,7 @@ for tt2 in teetoos:
     nr3td.nr3_r2fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
     
     # Transfer
-    sys.set_population_propagation_matrix(Uee[:,:,tc])
+    sys.set_population_propagation_matrix(Uee[:,:,tc]-Uc0[:,:,tc])
     
     print(" - stimulated emission with transfer")    
     # SE
