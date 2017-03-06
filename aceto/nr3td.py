@@ -5,7 +5,7 @@
 
 
 """
-import numpy
+#import numpy
 
 import aceto.nr3td_fic as nr3td_fic
     
@@ -22,7 +22,7 @@ def nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     
     
     """
-    
+   
     
     nr3td_fic.nr3_r1g_fic(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
                         sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
@@ -91,6 +91,26 @@ def nr3_r3g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     
     """
     
+#
+#    For debugging, check if all arrays are fortran continuous
+#
+#    print(lab.orient_aver.flags['F_CONTIGUOUS'])
+#    print(sys.Ns.flags['F_CONTIGUOUS'])
+#    print(sys.om01.flags['F_CONTIGUOUS'])
+#    print(sys.nn01.flags['F_CONTIGUOUS'])
+#    print(sys.dd01.flags['F_CONTIGUOUS'])
+#    print(sys.Kd01.flags['F_CONTIGUOUS'])
+#    print(sys.Kd11.flags['F_CONTIGUOUS'])
+#    print(sys.gofts.flags['F_CONTIGUOUS'])
+#    print(sys.fptn.flags['F_CONTIGUOUS']) 
+#    print(sys.SS1.flags['F_CONTIGUOUS'])
+#    print(t1s.flags['F_CONTIGUOUS'])
+#    print(t3s.flags['F_CONTIGUOUS'])
+#    print(resp.flags['F_CONTIGUOUS'])
+#    
+#    it2_in = it2+1
+#    
+#    print(type(sys.Ns), sys.Ns.dtype)
     
     nr3td_fic.nr3_r3g_fic(lab.orient_aver, sys.Ns, sys.om01, sys.nn01,
                         sys.dd01, sys.Kd01, sys.Kd11, sys.gofts, sys.fptn, 
@@ -115,12 +135,9 @@ def nr3_r1fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     
     """
 
-    print(sys.gofts.flags['F_CONTIGUOUS'])
-    xx = numpy.asfortranarray(sys.gofts)
-
     nr3td_fic.nr3_r1fs_fic(lab.orient_aver, sys.Ns, sys.om01, sys.om12, 
                            sys.nn01, sys.dd01, sys.nn12, sys.dd12, sys.Kd01,
-                           sys.Kd11, sys.Kd12, xx, sys.fptn, 
+                           sys.Kd11, sys.Kd12, sys.gofts, sys.fptn, 
                            sys.SS1, sys.SS2, it2+1, t1s, t3s, rwa, rmin, resp)
     
 
@@ -128,12 +145,10 @@ def nr3_r2fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     """ Calculates R2f* response function
     
     """
-    print(sys.gofts.flags['F_CONTIGUOUS'])
-    xx = numpy.asfortranarray(sys.gofts)
     
     nr3td_fic.nr3_r2fs_fic(lab.orient_aver, sys.Ns, sys.om01, sys.om12, 
                            sys.nn01, sys.dd01, sys.nn12, sys.dd12, sys.Kd01,
-                           sys.Kd11, sys.Kd12, xx, sys.fptn, 
+                           sys.Kd11, sys.Kd12, sys.gofts, sys.fptn, 
                            sys.SS1, sys.SS2, it2+1, t1s, t3s, rwa, rmin, resp)
 
 
@@ -232,12 +247,9 @@ def nr3_r1fs_trans(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     
     """
 
-    print(sys.gofts.flags['F_CONTIGUOUS'])
-    xx = numpy.asfortranarray(sys.gofts)
-
     nr3td_fic.nr3_r1fs_trans_fic(lab.orient_aver, sys.Ns, sys.om01, sys.om12, 
                            sys.nn01, sys.dd01, sys.nn12, sys.dd12, sys.Kd01,
-                           sys.Kd11, sys.Kd12, xx, sys.fptn, 
+                           sys.Kd11, sys.Kd12, sys.gofts, sys.fptn, 
                            sys.SS1, sys.SS2, sys.Ueet2, it2+1, t1s, t3s, rwa,
                            rmin, resp)
 
@@ -247,11 +259,8 @@ def nr3_r2fs_trans(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
     
     """
 
-    print(sys.gofts.flags['F_CONTIGUOUS'])
-    xx = numpy.asfortranarray(sys.gofts)
-
     nr3td_fic.nr3_r2fs_trans_fic(lab.orient_aver, sys.Ns, sys.om01, sys.om12, 
                            sys.nn01, sys.dd01, sys.nn12, sys.dd12, sys.Kd01,
-                           sys.Kd11, sys.Kd12, xx, sys.fptn, 
+                           sys.Kd11, sys.Kd12, sys.gofts, sys.fptn, 
                            sys.SS1, sys.SS2, sys.Ueet2, it2+1, t1s, t3s, rwa,
                            rmin, resp)

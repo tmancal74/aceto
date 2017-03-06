@@ -8,7 +8,8 @@ class band_system:
     """    
     def __init__(self, Nb, Ns):
         self.Nb = Nb
-        self.Ns = numpy.array(Ns, dtype=numpy.int)
+        # the type of Ns should be default fortran integer
+        self.Ns = numpy.array(Ns, dtype=numpy.int32)
         self.Ne = numpy.sum(Ns)
         
         self.en = None
@@ -30,7 +31,7 @@ class band_system:
         
         
     def set_energies(self, en):
-        self.en = en
+        self.en = numpy.asfortranarray(en)
         self.om01 = numpy.zeros((self.Ns[0],self.Ns[1]), 
                                 dtype=numpy.float64, order='F')
         self.om12 = numpy.zeros((self.Ns[1],self.Ns[2]), 
@@ -49,7 +50,7 @@ class band_system:
         if not (dab.shape == (3,self.Ns[Nbi],self.Ns[Nbf])):
             raise Exception("Wrong shape of dipole matrix")
         if (Nbi == 0) and (Nbf == 1):
-            self.nn01 = dab.copy()
+            self.nn01 = numpy.asfortranarray(dab.copy())
             self.dd01 = numpy.zeros((self.Ns[0],self.Ns[1]),
                                     dtype=numpy.float64, order='F')
             N1 = self.Ns[0]
@@ -62,7 +63,7 @@ class band_system:
                     if dd != 0.0:
                         self.nn01[:,i,j] = self.nn01[:,i,j]/dd
         elif (Nbi == 1) and (Nbf == 2):
-            self.nn12 = dab.copy()
+            self.nn12 = numpy.asfortranarray(dab.copy())
             self.dd12 = numpy.zeros((self.Ns[1],self.Ns[2]),
                                     dtype=numpy.float64, order='F')
             N1 = self.Ns[1]
@@ -119,26 +120,26 @@ class band_system:
         print(self.dd12[3,1], self.nn12[:,3,1])
         
     def set_gofts(self,gofts):
-        self.gofts = gofts
+        self.gofts = numpy.asfortranarray(gofts)
         
     def set_sitep(self, ptn):
         self.ptn = ptn
-        self.fptn = self.ptn + 1
+        self.fptn = numpy.asfortranarray(self.ptn + 1)
         
     def set_transcoef(self, Nb, SS):
         if Nb == 1:
-            self.SS1 = SS
+            self.SS1 = numpy.asfortranarray(SS)
         elif Nb == 2:
-            self.SS2 = SS
+            self.SS2 = numpy.asfortranarray(SS)
         else:
             raise Exception("Attempt to assign unsupported block")
 
     
     def set_relaxation_rates(self, Nb, RR):
         if Nb == 1:
-            self.Kr11 = RR
+            self.Kr11 = numpy.asfortranarray(RR)
         elif Nb == 2:
-            self.Kr22 = RR
+            self.Kr22 = numpy.asfortranarray(RR)
         else:
             raise Exception("Attempt to set usupported rate block")
         self.update_dephasing_rates(Nb)
@@ -175,7 +176,7 @@ class band_system:
         """Set the population evolution matrix of certain t2 time
         
         """
-        self.Ueet2 = Ueet2
+        self.Ueet2 = numpy.asfortranarray(Ueet2)
         
     
         

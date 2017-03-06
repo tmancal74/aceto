@@ -9,7 +9,7 @@ from quantarhei import eigenbasis_of
 from quantarhei import PopulationPropagator
 
 import numpy
-import scipy
+#import scipy
 import time
 
 from aceto.lab_settings import lab_settings
@@ -21,9 +21,13 @@ import matplotlib.pyplot as plt
 
 t_start = time.time()
 
+# Time axis for t1 and t3 times
+Nr = 500
+ta = TimeAxis(0.0, Nr, 2.0)
+
 ###############################################################################
 #
-# Create band_system from quantarhei classes
+# Define problem
 #
 ###############################################################################
 
@@ -49,18 +53,16 @@ mol4.set_dipole(0,1,v1)
 # rwa frequency as an average transition frequency
 rwa = (mol1.elenergies[1]+mol2.elenergies[1])/2.0
 
-Nr = 500
-
 #
 # System-bath interaction
 #      
-ta = TimeAxis(0.0, Nr, 2.0)
 
 tsbi = TimeAxis(0.0, 3*Nr, 2.0)
 
 params = dict(ftype="OverdampedBrownian", T=300, reorg=200.0, cortime=100.0)
 with energy_units('1/cm'):
     cf = CorrelationFunction(tsbi, params)
+    
 mol1.set_transition_environment((0,1),cf)
 mol2.set_transition_environment((0,1),cf)
 mol3.set_transition_environment((0,1),cf)
@@ -83,13 +85,19 @@ with energy_units("1/cm"):
 
 agg.build(mult=2)
 
+
+###############################################################################
+#
+# Create band_system from quantarhei classes
+#
+###############################################################################
+
 #
 # hamiltonian and transition dipole moment operators
 #
 H = agg.get_Hamiltonian()
 D = agg.get_TransitionDipoleMoment()
 
-            
 #
 # Construct band_system object
 #
@@ -100,16 +108,6 @@ Ns[1] = agg.nmono
 Ns[2] = Ns[1]*(Ns[1]-1)/2
 sys = band_system(Nb, Ns)
 
-#print(D.data.shape)
-#
-#for n in range(Ns[1]):
-#    m = 0
-#    for k in range(Ns[1]):
-#        for l in range(k+1,Ns[1]):
-#            print(n,m+1+Ns[1],"(",k,l,")", D.data[1+n, 1+Ns[1]+m,:])
-#            m += 1
-
-#raise Exception()
 
 #
 # Set energies
@@ -136,59 +134,18 @@ with eigenbasis_of(H):
     sys.set_dipoles(0,1,dge)
     sys.set_dipoles(1,2,deff)
 
-if False:
-    AK = numpy.zeros((D.data.shape[0],D.data.shape[1]))
-    A1 = numpy.zeros((1,Ns[1]))
-    A2 = numpy.zeros((Ns[1],Ns[2]))
-    
-    for n in range(D.data.shape[0]):
-        for m in range(D.data.shape[1]):
-            v = D.data[n,m,:]
-            v2 = numpy.dot(v,v)
-            AK[n,m] = v2
-    print(AK)
-    for n in range(Ns[1]):
-        v = dge[:,0,n]
-        v2 = numpy.dot(v,v)  
-        A1[0,n] = v2
-    for n in range(Ns[1]):
-        for m in range(Ns[2]):
-            v = deff[:,n,m]
-            v2 = numpy.dot(v,v)  
-            A2[n,m] = v2        
-    print(A1)
-    print(A2)
-
-    k = 0
-    for n in range(Ns[1]):
-        for m in range(n+1,Ns[1]):
-            print("*: ", n,m)
-            d1 = dge[:,0,m]
-            d2 = deff[:,n,k]
-            
-            print("0", m, " (g->S) = ", d1)
-            print(n,k, " (S->D) = ", d2)
-            print(n," -> ",k, "(",n,",",m,") is ",m,": difference is ", d2-d1)
-            print(AK[1+n,Ns[1]+k],AK[0,1+m])
-            k += 1
-            
-
-    raise Exception()
-
-
-
 
 #
 # Relaxation rates
 #
 KK = agg.get_RedfieldRateMatrix()
+
+# relaxation rate in single exciton band
 Kr = KK.data[Ns[0]:Ns[0]+Ns[1],Ns[0]:Ns[0]+Ns[1]]*10.0
-#Kr[0,0] = -0.0000001
-#Kr[1,0] = 0.0000001
-print(1.0/Kr)
+#print(1.0/Kr)
+
 sys.init_dephasing_rates()
 sys.set_relaxation_rates(1,Kr)
-
 
 
 #
@@ -197,8 +154,7 @@ sys.set_relaxation_rates(1,Kr)
 sbi = agg.get_SystemBathInteraction()
 cfm = sbi.CC
 cfm.create_double_integral()
-#print(cfm.cpointer)
-#print(cfm._gofts.shape)
+
 
 #
 # Transformation matrices
@@ -208,18 +164,11 @@ SS1 = SS[1:Ns[1]+1,1:Ns[1]+1]
 SS2 = SS[Ns[1]+1:,Ns[1]+1:]
 H.undiagonalize()
 
-#NN1 = SS1.shape[0]
-#SS1 = numpy.eye(NN1)
-#NN2 = SS2.shape[0]
-#SS2 = numpy.eye(NN2)
-
 sys.set_gofts(cfm._gofts)    # line shape functions
 sys.set_sitep(cfm.cpointer)  # pointer to sites
 sys.set_transcoef(1,SS1)      # matrix of transformation coefficients  
 sys.set_transcoef(2,SS2)      # matrix of transformation coefficients  
 
-
-#sys._check_twoex_dipoles()
 
 
 #
@@ -230,10 +179,6 @@ X = numpy.array([1.0, 0.0, 0.0], dtype=numpy.float64)
 lab.set_laser_polarizations(X, X, X, X)
 
 #
-# Initialize response storage
-#
-
-#
 # Other parameters
 #
 
@@ -241,23 +186,27 @@ dt = ta.step
 t1s = ta.data 
 t3s = ta.data 
 
-#t2 = 200.0
-
-#teetoos = [i*100.0 for i in range(5)]
+# TimeAxis for t2 waiting time
 t2s = TimeAxis(0.0, 5, 100.0)
-teetoos = t2s.data
 
+#
+# Finding population evolution matrix
+#
 prop = PopulationPropagator(ta, Kr)
 Uee = prop.get_PropagationMatrix(t2s)
 
 tc = 0
+teetoos = t2s.data
 for tt2 in teetoos:
 
+    #
+    # Initialize response storage
+    #
     resp_r = numpy.zeros((Nr, Nr), dtype=numpy.complex128, order='F')
     resp_n = numpy.zeros((Nr, Nr), dtype=numpy.complex128, order='F')
 
     (it2, err) = ta.locate(tt2) 
-    print("it2 = ", it2)
+    print("t2 = ", tt2, "fs (it2 = ", it2,")")
     
     #
     # calcute response
@@ -266,14 +215,17 @@ for tt2 in teetoos:
     rmin = 0.0001
     t1 = time.time()
     
+    print(" - ground state bleach")
     # GSB
     nr3td.nr3_r3g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r) 
     nr3td.nr3_r4g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
 
+    print(" - stimulated emission")
     # SE
     nr3td.nr3_r1g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
     nr3td.nr3_r2g(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
     
+    print(" - excited state absorption")
     # ESA
     nr3td.nr3_r1fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
     nr3td.nr3_r2fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
@@ -281,10 +233,12 @@ for tt2 in teetoos:
     # Transfer
     sys.set_population_propagation_matrix(Uee[:,:,tc])
     
+    print(" - stimulated emission with transfer")    
     # SE
     nr3td.nr3_r1g_trans(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
     nr3td.nr3_r2g_trans(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
 
+    print(" - excited state absorption with transfer") 
     # ESA
     nr3td.nr3_r1fs_trans(lab, sys, it2, t1s, t3s, rwa, rmin, resp_r)
     nr3td.nr3_r2fs_trans(lab, sys, it2, t1s, t3s, rwa, rmin, resp_n)
@@ -295,40 +249,67 @@ for tt2 in teetoos:
     
     
     #
-    # Show corresponding 2D spectrum
+    # Calculate corresponding 2D spectrum
     #
     
     ftresp = numpy.fft.fft(resp_r,axis=1)
     ftresp = numpy.fft.ifft(ftresp,axis=0)
-    ftresp_r = numpy.fft.fftshift(ftresp)
+    reph2D = numpy.fft.fftshift(ftresp)
     
     ftresp = numpy.fft.ifft(resp_n,axis=1)
     ftresp = numpy.fft.ifft(ftresp,axis=0)*ftresp.shape[1]
-    ftresp_n = numpy.fft.fftshift(ftresp)
+    nonr2D = numpy.fft.fftshift(ftresp)
     
-    om1 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t1s),
-                                                            d=dt)) + rwa
-    om3 = 2.0*scipy.pi*numpy.fft.fftshift(numpy.fft.fftfreq(len(t3s),
-                                                            d=dt)) + rwa
+    atype = ta.atype
+    ta.atype = 'complete'
+    oa1 = ta.get_FrequencyAxis() 
+    oa1.data += rwa
+    oa1.start += rwa
+    ta.atype = atype
     
-    print("max = ", numpy.max(numpy.real(ftresp_r)))
-    print("max = ", numpy.max(numpy.real(ftresp_n)))
-                                         
-    tots = numpy.real(ftresp_r) + numpy.real(ftresp_n)
+    atype = ta.atype
+    ta.atype = 'complete'
+    oa3 = ta.get_FrequencyAxis() 
+    oa3.data += rwa
+    oa3.start += rwa
+    ta.atype = atype
+    
+        
+
+    #
+    # Show 2D specrtrum
+    #
+
+    tot2D_real = numpy.real(reph2D) + numpy.real(nonr2D)
     
     if tc == 0:
-        max_tot = numpy.max(tots)
-
-
-    Np = resp_r.shape[0]
-    Nst = 44*Np//100 
-    print(Nst, Np)
-    Nfi = Np - Nst
-    Ncontour = 100
+        max_tot = numpy.max(tot2D_real)
+            
+    w1_min = 11000.0
+    w1_max = 13000.0
+    w3_min = 11000.0
+    w3_max = 13000.0
     
-    realout = numpy.real(tots[Nst:Nfi,Nst:Nfi])/max_tot
+    with energy_units("1/cm"):
+        #
+        # Plotting with given units on axes
+        #
+        #print("Frequency span w1: ", oa1.min, oa1.max)      
+        (i1_min, dist) = oa1.locate(w1_min)
+        (i1_max, dist) = oa1.locate(w1_max)
+        #print("Frequency span w3: ", oa3.min, oa3.max)      
+        (i3_min, dist) = oa3.locate(w3_min)
+        (i3_max, dist) = oa3.locate(w3_max)    
     
-    plt.contourf(om1[Nst:Nfi],om3[Nst:Nfi], realout, Ncontour)
+        realout = numpy.real(tot2D_real[i1_min:i1_max,i3_min:i3_max])/max_tot
+    
+        Ncontour = 100
+        plt.contourf(oa1.data[i1_min:i1_max],oa3.data[i3_min:i3_max],
+                     realout, Ncontour)
+    
+    
+    
+    
     
     t_end = time.time()
     print("Finished at ", t_end-t_start, " secs")
