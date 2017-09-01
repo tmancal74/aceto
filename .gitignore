@@ -11,6 +11,7 @@ build
 __pycache__
 dist
 aceto.egg*
+tests/*.png
 
 
 

@@ -67,7 +67,11 @@ delete: clean
 	cd tests/; make delete
 	cd aceto/; make clean
      
-
+uninst: 
+	pip uninstall -y aceto
+	
+reinst: uninst install
+	@echo "Reinstallation complete"
 
 
 

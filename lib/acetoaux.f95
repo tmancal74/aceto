@@ -438,6 +438,49 @@ subroutine set_goft_g(gn, it, nmax, gofts, ptn, t1s)
     
 end subroutine set_goft_g
 
+subroutine set_goft_g_td(gn, it2, it, nmax, gofts, ptn, t1s)
+    ! Assignment of line shapes in single exciton block
+    ! version which sets a whole array of times from it to 0
+    !
+    !
+    implicit none
+    complex(8), dimension(:,:), intent(out) :: gn
+    integer :: nmax
+    integer :: it, it2
+    complex(8), dimension(:,:), intent(in) :: gofts
+    integer, dimension(:,:), intent(in) :: ptn
+    real(8), dimension(:), intent(in) :: t1s
+    ! local
+    integer :: k, Ne, iti
+    real(8) :: tt1, tt2
+    complex(8) :: aa, bb
+           
+    Ne = size(gn,1)    
+    
+    do iti = 1, it2
+    
+        !print *, iti
+        
+        if ((it-(iti-1)) > nmax) then
+            do k = 1, Ne
+                ! linear extrapolation
+                aa = gofts(ptn(k,k),nmax)
+                bb = gofts(ptn(k,k),nmax-1)
+                tt2 = t1s(nmax)
+                tt1 = t1s(nmax-1)
+                gn(k,iti) = aa + (aa - bb)*(((it-(iti-1))-nmax))
+            end do
+        else
+            do k = 1, Ne
+                gn(k,iti) = gofts(ptn(k,k),it-(iti-1))
+            end do
+        end if
+              
+    end do     
+    
+end subroutine set_goft_g_td
+
+
 subroutine set_goft_f(gn, it, nmax, gofts, ptn, t1s)
     ! Assignment of line shapes in the two-exciton block
     !

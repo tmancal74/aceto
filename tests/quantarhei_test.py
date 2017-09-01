@@ -97,7 +97,7 @@ agg.build(mult=2)
 #
 
 # TimeAxis for t2 waiting time
-t2s = TimeAxis(0.0, 5, 100.0)
+t2s = TimeAxis(0.0, 10, 6.0)
 tcalc = TwoDSpectrumCalculator(t1axis=ta, t2axis=t2s, t3axis=ta,
                                system=agg)
 twods = tcalc.calculate(rwa, verbose=True)
@@ -113,12 +113,40 @@ w3_max = 13000.0
 
 with energy_units("1/cm"):
 
+    
+    # find info for normalization to the largest value across the whole set
+    k = 0
+    mx = numpy.zeros(len(t2s.data))
+    for tt2 in t2s.data:
+        spectrum = twods[k]
+        spect2D = numpy.real(spectrum.reph2D) + numpy.real(spectrum.nonr2D)
+        mx[k] = numpy.amax(spect2D)
+        k += 1
+        
+    mloc = numpy.argmax(mx)
+    mval = mx[mloc]
+    
+    print(mloc, mval)
+    
+    normalize = True
+
+    # normalize
     k = 0
     for tt2 in t2s.data:
+        
+        if normalize:
+            twods[k].devide_by(mval)
+        k += 1
+        
+    cbmax = twods[mloc].plot(axis=[w1_min, w1_max, w3_min, w3_max],vmax=1.0)
+    
+    k = 0
+    for tt2 in t2s.data:
+            
         #
         # Plotting with given units on axes
         #
-        twods[k].plot(axis=[w1_min, w1_max, w3_min, w3_max])
+        twods[k].plot(axis=[w1_min, w1_max, w3_min, w3_max],vmax=1.0, cbmax=cbmax)
 
         figname = "fig"+str(round(tt2))+".png"
         print("saving file: ", figname, " with 2D spectrum at ", tt2, "fs")
