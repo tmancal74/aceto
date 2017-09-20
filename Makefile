@@ -36,11 +36,12 @@ egg: library
 
 install: library src aceto_test 
 	python setup.py install
-	python postinstall.py
+	aceto_conf
 
 
 post: 
-	python postinstall.py
+	aceto_conf
+	
 
 
 

@@ -19,7 +19,8 @@ def main():
     here = os.path.dirname(realPath)
     
     # shared lib current location
-    shlib = os.path.join(here,"lib","libaceto.so")
+    shlib = os.path.join(here,"..", "..","lib","libaceto.so")
+    
     # target location
     dest = os.path.join(home,"lib","libaceto.so")
     

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os, sys
+import setuptools
 from setuptools import find_packages
 from numpy.distutils.core import Extension
 from numpy.distutils.core import setup
@@ -43,7 +44,7 @@ ext1 = Extension(name="aceto.nr3td_fic",
 
 
 setup(name = "aceto",
-      version="0.0.2",
+      version="0.0.3",
       
       description = "Accelerated Charge and Energy Transfer Objects",
       long_description=long_description, 
@@ -86,7 +87,7 @@ setup(name = "aceto",
       keywords='physics, chemistry, quantum mechanics, open quantum systems',
       
       packages = find_packages(exclude=['lib','conf','src','tests','docs']),
-      data_files = [("lib/",["./lib/libaceto.so"]),("",["./postinstall.py"])],
+      data_files = [("lib/",["./lib/libaceto.so"])],
       include_package_data = True, 
       ext_modules = [ext1],
                     
@@ -94,6 +95,12 @@ setup(name = "aceto",
       # This will be use when I figure out how to copy a file from within an egg
       #
       #cmdclass={'install': install},
+
+        
+      entry_points={
+        'console_scripts': ['aceto_conf=aceto.scripts.aceto_conf:main'],
+      }
+
 
 )
 
