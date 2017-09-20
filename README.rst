@@ -12,6 +12,8 @@ open quantum system theory package Quantarhei (see http://github.com/tmancal74/q
 HOW TO INSTALL ACETO
 --------------------
 
+Aceto can be installed on Linux and Mac
+
 Installation from source:
 
 One way of installing is by downloading source code from github.com. You need
@@ -47,4 +49,10 @@ You will be asked to confirm that the 'libaceto.so' file can be moved to the
 directory 'lib' in your home directory. If this directory is not present, you
 have to create it.
 
- 
+
+Linux specific:
+
+On Linux it seems that LD_LIBRARY_PATH variable set in qrhei script which is
+used to run the quantarhei input files (as a subprocess) does not influence the setting for
+the subprocess. The solution is to export the LD_LIBRARY_PATH in something like
+.bashrc to point to the ${HOME}/lib directory.
