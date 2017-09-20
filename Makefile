@@ -31,7 +31,7 @@ src:
 aceto_test:
 	cd tests; make
 
-egg:
+egg: library
 	python setup.py bdist_egg
 
 install: library src aceto_test 
