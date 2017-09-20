@@ -22,8 +22,8 @@ trp2.o: trp2.f95
 	${COMP} trp2.o  trp2.f95
 
 
-nr3td_fic.o: nr3td_fic.f95 acetoaux.o
-	${COMP} nr3td_fic.o nr3td_fic.f95
+nr3td_fic.o: nr3td_fic.f90 acetoaux.o
+	${COMP} nr3td_fic.o nr3td_fic.f90
 
 nr3td_int.o: nr3td_int.f95
 	${COMP} nr3td_int.o nr3td_int.f95

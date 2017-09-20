@@ -5,19 +5,20 @@
 #
 #
 
+#
 # select suitable predefined variables for compilation
+#
 include conf/conf.in
 include conf/${COMPILER_SETTINGS}
 
 
 #
-# 
+# compiler flags are read from conf.in file 
 #
-
 COMP = ${FC} ${FFLAGS}
 LINK = ${FC} -L./lib/ ${LFLAGS}
 
-all: library src  aceto_test
+all: library src aceto_test
 
 .PHONY: library src aceto_test
 
@@ -30,9 +31,16 @@ src:
 aceto_test:
 	cd tests; make
 
+egg:
+	python setup.py bdist_egg
+
 install: library src aceto_test 
 	python setup.py install
+	python postinstall.py
 
+
+post: 
+	python postinstall.py
 
 
 
@@ -42,12 +50,7 @@ install: library src aceto_test
 .PHONY: test quantarhei_test
 
 test:  
-	cd tests; ./tests_quantarhei.sh
-
-
-quantarhei_test:
-	cd tests; python quantarhei_test.py
-
+	cd tests; qrhei test.py
 
 
 .PHONY: clean delete

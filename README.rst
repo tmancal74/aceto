@@ -8,3 +8,43 @@ Preferred pronounciation of the library's abbreviation is the Italian one. ACETO
 in Italian. The library is designed to add some extra flavour to another project, the Python
 open quantum system theory package Quantarhei (see http://github.com/tmancal74/quantarhei).
 
+
+HOW TO INSTALL ACETO
+--------------------
+
+Installation from source:
+
+One way of installing is by downloading source code from github.com. You need
+to configur the Makefile by changing the content of the 'conf/conf.in' file to point to
+a file containing gcc flags (gcc_linux.in and gcc_mac.in files are tested). Of course
+your system has to have gcc compiler istalled. Then you
+need to create a 'lib' directory in your home directory. This is a temporal 
+fix, but right now, shared library 'libaceto.so' is "installed" locally this way.
+Then you need to issue
+
+> make
+> make install
+
+series of commnads. You will be asked to confirm that a shared library that was
+created in the 'lib' subdirectory can be copied to the 'lib' directory in your 
+home directory.
+
+Binary installation:
+
+The installation procedure of Aceto is still in development. Currently we
+provide binary distribution for macOS and Linux compiled with gcc complilers
+through a Python egg awailable from PyPa via the 'easy_install' command. Typing
+
+> easy_install aceto
+
+will instal aceto, but in order for it to run correctly, you have to go to the
+directory whete aceto is installed (this informatio is displayed during
+installation by 'easy_install') and type
+
+> python postinstall.py
+
+You will be asked to confirm that the 'libaceto.so' file can be moved to the
+directory 'lib' in your home directory. If this directory is not present, you
+have to create it.
+
+ 

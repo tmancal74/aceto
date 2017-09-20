@@ -16,7 +16,7 @@ libaceto.so:
 	cp ../lib/libaceto.so .
 
 clean:
-	rm -rf *.so 
+	rm -rf *.so *.png 
 	cd fortran; make clean
 
 delete: clean

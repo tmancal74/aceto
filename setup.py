@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os, sys
 from setuptools import find_packages
 from numpy.distutils.core import Extension
 from numpy.distutils.core import setup
@@ -7,6 +8,22 @@ from numpy.distutils.core import setup
 from codecs import open
 from os import path
 
+from distutils.command.install import install as _install
+
+
+def _post_install(dir):
+    from subprocess import call
+    call([sys.executable, os.path.join('scripts','postinstall.py')],
+         cwd=os.path.join(dir, 'aceto'))
+
+
+class install(_install):
+    def run(self):
+        _install.run(self)
+        self.execute(_post_install, (self.install_lib,),
+                     msg="Running post install task")
+
+
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
@@ -14,7 +31,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
     
 ext1 = Extension(name="aceto.nr3td_fic",
-                 sources=["lib/nr3td_fic.f95"],
+                 sources=["lib/nr3td_fic.f90"],
                  define_macros = [('F2PY_REPORT_ON_ARRAY_COPY','1')],
                  extra_f90_compile_args=["-I./lib"],
                  extra_f77_compile_args=["-I./lib"],                                  
@@ -69,10 +86,14 @@ setup(name = "aceto",
       keywords='physics, chemistry, quantum mechanics, open quantum systems',
       
       packages = find_packages(exclude=['lib','conf','src','tests','docs']),
-      #data_files = [("/usr/local/lib/",["./lib/libaceto.so"])],
-      #include_package_data = True, 
+      data_files = [("lib/",["./lib/libaceto.so"]),("",["./postinstall.py"])],
+      include_package_data = True, 
       ext_modules = [ext1],
                     
+      #
+      # This will be use when I figure out how to copy a file from within an egg
+      #
+      #cmdclass={'install': install},
 
-      
-      )
+)
+
