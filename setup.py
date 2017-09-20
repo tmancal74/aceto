@@ -43,7 +43,7 @@ ext1 = Extension(name="aceto.nr3td_fic",
 
 
 setup(name = "aceto",
-      version="0.0.1",
+      version="0.0.2",
       
       description = "Accelerated Charge and Energy Transfer Objects",
       long_description=long_description, 
