@@ -12,27 +12,30 @@ module acetolab
         
   contains
   
-    procedure :: init => lab_init
-    procedure :: set_laser_polarizations => lab_set_laser_polarizations
-    procedure :: get_oafactor => lab_oafactor
+    procedure :: init !=> lab_init
+    procedure :: set_laser_polarizations !=> lab_set_laser_polarizations
+    procedure :: get_oafactor !=> lab_oafactor
     
   end type
 
-  private :: lab_init, lab_set_laser_polarizations
-  private :: lab_oafactor
+!  private :: lab_init, lab_set_laser_polarizations
+!  private :: lab_oafactor
 
 contains
 
-  subroutine lab_init(this, exptype)
+  subroutine init(this, exptype)
+!  subroutine lab_init(this, exptype)
     class(lab_settings) :: this
     integer :: exptype
     
     this%exptype = exptype
   
-  end subroutine lab_init
+!  end subroutine lab_init
+  end subroutine init
 
   
-  subroutine lab_set_laser_polarizations(this, e1, e2, e3, e4)
+  subroutine set_laser_polarizations(this, e1, e2, e3, e4)
+!  subroutine lab_set_laser_polarizations(this, e1, e2, e3, e4)
     class(lab_settings) :: this
     real(dp), dimension(:) :: e1, e2, e3, e4
     ! local
@@ -61,10 +64,12 @@ contains
     
     this%orient_aver = matmul(transpose(M4),F4) 
     
-  end subroutine lab_set_laser_polarizations
+!  end subroutine lab_set_laser_polarizations
+  end subroutine set_laser_polarizations
     
   
-  function lab_oafactor(this, d1, d2, d3, d4) result(ret)
+  function get_oafactor(this, d1, d2, d3, d4) result(ret)
+!  function lab_oafactor(this, d1, d2, d3, d4) result(ret)
     class(lab_settings) :: this
     real(dp), dimension(:) :: d1, d2, d3, d4
     real(dp) :: ret
@@ -77,6 +82,7 @@ contains
     
     ret = dot_product(this%orient_aver,F4)
                       
-  end function lab_oafactor
+!  end function lab_oafactor
+  end function get_oafactor
     
 end module acetolab

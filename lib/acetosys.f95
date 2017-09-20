@@ -56,25 +56,26 @@ type band_system
       
 contains
 
-  procedure :: init => bs_init
-  procedure :: set_energies => bs_set_energies
-  procedure :: set_dipoles => bs_set_dipoles
-  procedure :: set_relaxation_rates => bs_set_relaxation_rates
-  procedure :: update_dephasing_rates => bs_update_dephasing_rates
-  procedure :: delete_dephasing_rates => bs_delete_dephasing_rates
+  procedure :: init !=> bs_init
+  procedure :: set_energies !=> bs_set_energies
+  procedure :: set_dipoles !=> bs_set_dipoles
+  procedure :: set_relaxation_rates !=> bs_set_relaxation_rates
+  procedure :: update_dephasing_rates !=> bs_update_dephasing_rates
+  procedure :: delete_dephasing_rates !=> bs_delete_dephasing_rates
   
 end type band_system
 
 ! all procedures below are private
-private :: bs_init, bs_set_energies
-private :: bs_set_dipoles
-private :: bs_set_relaxation_rates
-private :: bs_update_dephasing_rates
-private :: bs_delete_dephasing_rates
+!private :: bs_init, bs_set_energies
+!private :: bs_set_dipoles
+!private :: bs_set_relaxation_rates
+!private :: bs_update_dephasing_rates
+!private :: bs_delete_dephasing_rates
 
 contains
 
-  subroutine bs_init(this, Nb, Ns)
+  subroutine init(this, Nb, Ns)
+!  subroutine bs_init(this, Nb, Ns)
     ! Initializes the band_system object
     !
     ! This accepts all posible values of Nb and Ns
@@ -93,10 +94,12 @@ contains
     ! calculate total number of states
     this%Ne = sum(this%Ns)    
     
-  end subroutine bs_init
+!  end subroutine bs_init
+  end subroutine init
 
 
-  subroutine bs_set_energies(this, en)
+  subroutine set_energies(this, en)
+!  subroutine bs_set_energies(this, en)
     ! sets energies of the band_system
     !
     !
@@ -120,11 +123,13 @@ contains
       end do
     end do
     
-  end subroutine bs_set_energies
+!  end subroutine bs_set_energies
+  end subroutine set_energies
 
 
 
-  subroutine bs_set_dipoles(this, Nbi, Nbf, dab)
+  subroutine set_dipoles(this, Nbi, Nbf, dab)
+!  subroutine bs_set_dipoles(this, Nbi, Nbf, dab)
     ! sets transition dipole moments between two bands
     !
     !
@@ -182,9 +187,11 @@ contains
         stop "Attempt to assign unsupported dipole block"
     end if
                    
-  end subroutine bs_set_dipoles
+!  end subroutine bs_set_dipoles
+  end subroutine set_dipoles
 
-  subroutine bs_set_relaxation_rates(this, Nb, RR)
+  subroutine set_relaxation_rates(this, Nb, RR)
+!  subroutine bs_set_relaxation_rates(this, Nb, RR)
     class(band_system) :: this
     integer :: Nb
     real(dp), dimension(:,:), target :: RR
@@ -202,9 +209,11 @@ contains
     
     call this%update_dephasing_rates(Nb)
     
-  end subroutine bs_set_relaxation_rates
+!  end subroutine bs_set_relaxation_rates
+  end subroutine set_relaxation_rates
   
-  subroutine bs_update_dephasing_rates(this, Nb)
+  subroutine update_dephasing_rates(this, Nb)
+!  subroutine bs_update_dephasing_rates(this, Nb)
     class(band_system) :: this
     integer :: Nb
     ! local
@@ -254,9 +263,11 @@ contains
        stop "Attempt to update wrong block of dephasing rates"
     end if
     
-  end subroutine bs_update_dephasing_rates
+!  end subroutine bs_update_dephasing_rates
+  end subroutine update_dephasing_rates
   
-  subroutine bs_delete_dephasing_rates(this)
+  subroutine delete_dephasing_rates(this)
+!  subroutine bs_delete_dephasing_rates(this)
     class(band_system) :: this
     ! check existence of dephasing rate matrices
     if (.not. associated(this%Kd01)) then
@@ -271,6 +282,7 @@ contains
     this%Kd01 = 0.0d0
     this%Kd12 = 0.0d0
     this%Kd11 = 0.0d0
-  end subroutine bs_delete_dephasing_rates
+!  end subroutine bs_delete_dephasing_rates
+  end subroutine delete_dephasing_rates
     
 end module acetosys

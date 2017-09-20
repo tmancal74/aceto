@@ -29,7 +29,7 @@ setup(name = "aceto",
       version="0.0.1",
       
       description = "Accelerated Charge and Energy Transfer Objects",
-      long_description=long_description,
+      long_description=long_description, 
 
       # The project's main homepage.
       url='https://github.com/tmancal74/aceto',

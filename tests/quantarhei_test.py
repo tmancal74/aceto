@@ -108,7 +108,9 @@ rwa = agg.get_RWA_suggestion()
 #
 
 # TimeAxis for t2 waiting time
-t2s = TimeAxis(0.0, 5, 200.0)
+
+t2s = TimeAxis(0.0, 2, 10.0)
+
 tcalc = TwoDSpectrumCalculator(t1axis=ta, t2axis=t2s, t3axis=ta,
                                system=agg)
 twods = tcalc.calculate(rwa, verbose=True, lab=lab)
