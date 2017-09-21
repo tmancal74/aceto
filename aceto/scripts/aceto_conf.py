@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from shutil import copyfile
-import os
+import os, sys
 from pathlib import Path
 import pkg_resources
 from sys import platform as _platform
@@ -17,8 +17,16 @@ def main():
     libname = "aceto-"+version+"-"+_platform
     libfile = "lib"+libname+".so"    
     
-    # home
-    home = str(Path.home())
+    if sys.version_info[0] < 3:
+        raise Exception("This package needs Python 3!")
+        
+    if sys.version_info[1] > 4:
+        # home
+        home = str(Path.home())
+    else:
+        from os.path import expanduser
+        home = expanduser("~")
+        
     
     # working directory
     realPath = os.path.realpath(__file__) 
