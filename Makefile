@@ -17,7 +17,7 @@ include conf/${COMPILER_SETTINGS}
 #
 COMP = ${FC} ${FFLAGS}
 LINK = ${FC} -L./lib/ ${LFLAGS}
-LIBNAME = "aceto-0.0.4-darwin"
+LIBNAME = "aceto-0.0.5-darwin"
 
 all: library src aceto_test
 
@@ -45,14 +45,13 @@ post:
 	
 
 
-
 #-----------------------------------------------------------
 # Predefined tasks
 #-----------------------------------------------------------
 .PHONY: test quantarhei_test
 
 test:  
-	cd tests; qrhei test.py
+	cd tests; make test 
 
 
 .PHONY: clean delete

@@ -16,13 +16,13 @@ Aceto can be installed on Linux and Mac
 
 Installation from source:
 
-One way of installing is by downloading source code from github.com. You need
+The safest way of installing Aceto is by downloading source code from github.com. You need
 to configur the Makefile by changing the content of the 'conf/conf.in' file to point to
 a file containing gcc flags (gcc_linux.in and gcc_mac.in files are tested). Of course
-your system has to have gcc compiler istalled. Then you
+your system has to have gcc and gfortran compilers installed. Then you
 need to create a 'lib' directory in your home directory. This is a temporal 
-fix, but right now, shared library 'libaceto.so' is "installed" locally this way.
-Then you need to issue
+fix, but right now, shared library 'libaceto-version-platform.so' is "installed" 
+locally to this directory. Then you need to issue
 
 > make
 > make install
@@ -39,15 +39,15 @@ through a Python egg awailable from PyPa via the 'easy_install' command. Typing
 
 > easy_install aceto
 
-will instal aceto, but in order for it to run correctly, you have to go to the
-directory whete aceto is installed (this informatio is displayed during
-installation by 'easy_install') and type
+will instal aceto, but in order for it to run correctly, you have to type
 
-> python postinstall.py
+> aceto_conf
 
-You will be asked to confirm that the 'libaceto.so' file can be moved to the
-directory 'lib' in your home directory. If this directory is not present, you
-have to create it.
+after the installation is over.
+
+You will be asked to confirm that the 'libaceto-version-platform.so' file can be
+moved to the directory 'lib' in your home directory. If this directory is not present, you
+will be asked to confirm its creation.
 
 
 Linux specific:

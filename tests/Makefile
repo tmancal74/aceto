@@ -22,3 +22,9 @@ clean:
 
 delete: clean
 	cd fortran; make delete 
+
+
+test:
+	qrhei aceto_2D_test.py
+    
+    
