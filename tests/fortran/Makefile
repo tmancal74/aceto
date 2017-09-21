@@ -6,9 +6,12 @@ COMP = ${FC} -I../../src/ -I../../lib ${FFLAGS}
 LINK = ${FC} -L../../lib/ -L../../src/ -I../../src/ ${LFLAGS}
 
 # List of library routines
-LIBO =  ../../src/aceto.o -laceto
+LLINK = -l${LNAME}
+LIBO =  ../../src/aceto.o ${LLINK}
+LFILE = lib${LNAME}.so
 
-all: libaceto.so aceto_test.x band_system_test.x 
+
+all: ${LFILE} aceto_test.x band_system_test.x 
 
 #-----------------------------------------------------------
 # Test drivers
@@ -41,9 +44,9 @@ test_aceto: aceto_test.x tests_aceto.sh
 test_bs: band_system_test.x tests_bs.sh
 	./tests_bs.sh
 
-libaceto.so:
+${LFILE}:
 	cd ../../lib; make;
-	cp ../../lib/libaceto.so .
+	cp ../../lib/${LFILE} .
 
 
 .PHONY: clean delete

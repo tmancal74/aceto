@@ -17,19 +17,20 @@ include conf/${COMPILER_SETTINGS}
 #
 COMP = ${FC} ${FFLAGS}
 LINK = ${FC} -L./lib/ ${LFLAGS}
+LIBNAME = "aceto-0.0.3-darwin"
 
 all: library src aceto_test
 
 .PHONY: library src aceto_test
 
 library: 
-	cd lib; make 
+	cd lib; make LNAME=${LIBNAME}
 
 src:
 	cd src; make
 	
 aceto_test:
-	cd tests; make
+	cd tests; make LNAME=${LIBNAME}
 
 egg: library
 	python setup.py bdist_egg

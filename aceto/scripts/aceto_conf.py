@@ -3,14 +3,20 @@
 from shutil import copyfile
 import os
 from pathlib import Path
-#import aceto
-#from os import path
+import pkg_resources
+from sys import platform as _platform
+
 
 def main():
     
     print("Post installation tasks: copying binary shared libraries")
     #shlib_dir = os.path.join(os.path.dirname(aceto.__file__), 'shared_lib')
 
+    # library filename
+    version = pkg_resources.require("aceto")[0].version
+    libname = "aceto-"+version+"-"+_platform
+    libfile = "lib"+libname+".so"    
+    
     # home
     home = str(Path.home())
     
@@ -19,10 +25,10 @@ def main():
     here = os.path.dirname(realPath)
     
     # shared lib current location
-    shlib = os.path.join(here,"..", "..","lib","libaceto.so")
+    shlib = os.path.join(here,"..", "..","lib",libfile)
     
     # target location
-    dest = os.path.join(home,"lib","libaceto.so")
+    dest = os.path.join(home,"lib",libfile)
     
     ddir = os.path.dirname(dest)      
     
@@ -66,7 +72,7 @@ def main():
             yn = input("Would you like to specify a different destinatiob directory? (y/n)")
             if yn == "y" or yn == "Y":
                 ddir = input("Shared library destination: ")
-                dest = os.path.join(ddir,"libaceto.so")
+                dest = os.path.join(ddir,libfile)
                 go_copy = False
             else:
                 print("Installation not finished ... aborting!")

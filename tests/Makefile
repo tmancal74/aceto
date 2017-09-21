@@ -1,19 +1,20 @@
+LNAME = aceto
 
 all: ftrn
 
 
 ftrn: 
-	cd fortran; make
+	cd fortran; make LNAME=${LNAME}
 
-quantarhei: libaceto.so
+quantarhei: ${LNAME}
 	python quantarhei_test.py
     
     
 
 
-libaceto.so:
+${LNAME}:
 	cd ../lib; make;
-	cp ../lib/libaceto.so .
+	cp ../lib/lib${LNAME}.so .
 
 clean:
 	rm -rf *.so *.png 
