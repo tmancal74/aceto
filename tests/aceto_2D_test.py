@@ -111,7 +111,8 @@ t2s = TimeAxis(0.0, 2, 10.0)
 
 tcalc = TwoDSpectrumCalculator(t1axis=ta, t2axis=t2s, t3axis=ta,
                                system=agg)
-twods = tcalc.calculate(rwa, verbose=True, lab=lab)
+twods.bootstrap(rwa, verbose=True, lab=lab)
+twods = tcalc.calculate()
 
 #
 # Show 2D spectra (save them)

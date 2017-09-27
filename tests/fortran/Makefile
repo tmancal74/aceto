@@ -8,7 +8,7 @@ LINK = ${FC} -L../../lib/ -L../../src/ -I../../src/ ${LFLAGS}
 # List of library routines
 LLINK = -l${LNAME}
 LIBO =  ../../src/aceto.o ${LLINK}
-LFILE = lib${LNAME}.so
+LFILE = lib${LNAME}.a
 
 
 all: ${LFILE} aceto_test.x band_system_test.x 
@@ -52,7 +52,7 @@ ${LFILE}:
 .PHONY: clean delete
 
 clean:
-	rm -rf *.o *.mod *.so
+	rm -rf *.o *.mod *.so *.a
 
 delete: clean
 	rm -rf *.x

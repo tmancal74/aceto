@@ -19,8 +19,8 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 # library name is comprised of the version number and platform 
 version = "0.0.5"
 
-libname = "aceto-"+version+"-"+_platform
-libfile = "lib"+libname+".so"
+libname = "aceto" #+"-"+version+"-"+_platform
+libfile = "lib"+libname+".a"
 liblink = "-l"+libname  
 liblocn = path.join(".","lib",libfile)  
 Ilib = "-I"+path.join(".","lib")

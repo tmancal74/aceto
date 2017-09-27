@@ -14,7 +14,7 @@ quantarhei: ${LNAME}
 
 ${LNAME}:
 	cd ../lib; make;
-	cp ../lib/lib${LNAME}.so .
+	cp ../lib/lib${LNAME}.a .
 
 clean:
 	rm -rf *.so *.png 
