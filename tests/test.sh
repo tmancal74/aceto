@@ -1,8 +1,8 @@
 #! /bin/sh
 
 # path to shared libraries for different platforms
-#lib1=LD_LIBRARY_PATH=`pwd`/../lib/:$LD_LIBRARY_PATH
-#lib2=DYLD_LIBRARY_PATH=`pwd`/../lib/:$DYLD_LIBRARY_PATH
+#lib1=LD_LIBRARY_PATH=${HOME}/lib/:$LD_LIBRARY_PATH
+#lib2=DYLD_LIBRARY_PATH=${HOME}/../lib/:$DYLD_LIBRARY_PATH
 
 # exporting variables
 #export ${lib1}

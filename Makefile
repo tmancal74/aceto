@@ -17,7 +17,7 @@ include conf/${COMPILER_SETTINGS}
 #
 COMP = ${FC} ${FFLAGS}
 LINK = ${FC} -L./lib/ ${LFLAGS}
-LIBNAME = "aceto-0.0.4-darwin"
+LIBNAME = "aceto-0.0.5-linux"
 
 all: library src aceto_test
 
