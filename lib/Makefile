@@ -2,15 +2,17 @@ include ../conf/conf.in
 include ../conf/${COMPILER_SETTINGS}
 
 LNAME = aceto # this is default, LNAME is defined on command line
-LFILE = lib${LNAME}.so
+LFILE = lib${LNAME}.a
 COMP = ${FC} -I../src  ${PICFLAGS} ${FFLAGS}  
 LINK = ${CC} -L../src  ${DYNFLAGS}
+
+AR = ar -r
 
 # List of library routines
 LIBO = acetosys.o acetodef.o acetolab.o acetoaux.o trp2.o nr3td.o nr3td_fic.o
 
-libaceto.so: echo_building_library ${LIBO}
-	${LINK} ${LFILE} ${LIBO} ${DYNLIBS}
+libaceto.a: echo_building_library ${LIBO}
+	${AR} ${LFILE} ${LIBO} ${DYNLIBS}
 	@echo "...library built"
 
 echo_building_library:
@@ -55,7 +57,7 @@ acetoaux.o: acetoaux.f95
 .PHONY: clean delete
 
 clean: 
-	rm -rf *.mod *.o *.so 
+	rm -rf *.mod *.o *.so *.a
 
 delete: clean
 	rm -rf libaceto* 

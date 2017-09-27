@@ -5,6 +5,7 @@ run_tests
 .project
 .spyproject
 *.so
+*.a
 *.x
 aceto/*.so*
 build
