@@ -1,26 +1,24 @@
 # -*- coding: utf-8 -*-
+import matplotlib.pyplot as plt
+import numpy
+import time
+
 from quantarhei import Molecule
 from quantarhei import Aggregate
 from quantarhei import energy_units
 from quantarhei import TimeAxis
 from quantarhei import CorrelationFunction
-from quantarhei import eigenbasis_of
+#from quantarhei import eigenbasis_of
 
-from quantarhei import PopulationPropagator
+#from quantarhei import PopulationPropagator
 
-from quantarhei.spectroscopy.twod2 import TwoDSpectrumContainer
+#from quantarhei.spectroscopy.twod2 import TwoDSpectrumContainer
 from quantarhei.spectroscopy.twod2 import TwoDSpectrumCalculator
 
-import numpy
-#import scipy
-import time
 
 from aceto.lab_settings import lab_settings
-from aceto.band_system import band_system
-
-import aceto.nr3td as nr3td
-
-import matplotlib.pyplot as plt
+#from aceto.band_system import band_system
+#import aceto.nr3td as nr3td
 
 t_start = time.time()
 

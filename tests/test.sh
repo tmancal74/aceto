@@ -12,13 +12,13 @@
 #echo ${lib1}
 #echo ${lib2}
 
-#exec python quantarhei_test.py
+#exec python aceto_2D_test.py
  
 echo "Testing integration of ACETO with Quantarhei"
 echo "Running without failure means passing the test"
 echo "Short calculation will be started below by 'qrhei' script"
 echo " "
-exec qrhei quantarhei_test.py
+exec qrhei aceto_2D_test.py
 
 
 

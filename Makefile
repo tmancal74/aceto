@@ -45,14 +45,13 @@ post:
 	
 
 
-
 #-----------------------------------------------------------
 # Predefined tasks
 #-----------------------------------------------------------
 .PHONY: test quantarhei_test
 
 test:  
-	cd tests; qrhei test.py
+	cd tests; make test 
 
 
 .PHONY: clean delete

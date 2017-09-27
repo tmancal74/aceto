@@ -10,24 +10,6 @@ from sys import platform as _platform
 from codecs import open
 from os import path
 
-# FIXME: delete in the next version
-# --- NO MORE NEEDED --- now the post installation task is handled by a
-# configuration script
-#from distutils.command.install import install as _install
-#
-#
-#def _post_install(dir):
-#    from subprocess import call
-#    call([sys.executable, os.path.join('scripts','postinstall.py')],
-#         cwd=os.path.join(dir, 'aceto'))
-#
-#
-#class install(_install):
-#    def run(self):
-#        _install.run(self)
-#        self.execute(_post_install, (self.install_lib,),
-#                     msg="Running post install task")
-
 
 # Get the long description from the README file
 here = path.abspath(path.dirname(__file__))
@@ -105,13 +87,6 @@ setup(name = "aceto",
       include_package_data = True, 
       
       ext_modules = [ext1],
-       
-      # FIXME: delete in next version             
-      # NO MORE NEEDED
-      # This will be use when I figure out how to copy a file from within an egg
-      #
-      #cmdclass={'install': install},
-
         
       entry_points={
         'console_scripts': ['aceto_conf=aceto.scripts.aceto_conf:main'],
