@@ -1,5 +1,6 @@
 
-            Accelerated Charge and Energy Transfer Objects (ACETO) library
+Accelerated Charge and Energy Transfer Objects (ACETO) library
+==============================================================
  
 Contains Fortran (2003) routines for some common tasks in quantum theory of molecular charge
 and energy transfer. 
