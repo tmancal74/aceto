@@ -32,8 +32,8 @@ src:
 aceto_test:
 	cd tests; make LNAME=${LIBNAME}
 
-egg: library
-	python setup.py bdist_egg
+wheel: library
+	python setup.py bdist_wheel
 
 install: library src aceto_test 
 	python setup.py install
