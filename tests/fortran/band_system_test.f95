@@ -88,9 +88,9 @@ program band_system_test
   rwa = 1.0d0
   rmin = 0.01d0
   
-  print *, "Calculation of response R2g"
-  call nr3_r2g(LAB, bs, 20, t1, t3, rwa, rmin, resp)
+  !print *, "Calculation of response R2g"
+  !call nr3_r2g(LAB, bs, 20, t1, t3, rwa, rmin, resp)
   
-  print *, resp
+  !print *, resp
   
 end program
