@@ -1,8 +1,8 @@
 
-Accelerated Charge and Energy Transfer Objects (ACETO) library
-==============================================================
+Accelerated Charge and Energy Transfer Objects (ACETO) 
+======================================================
  
-Contains Fortran (2003) routines for some common tasks in quantum theory of molecular charge
+Aceto is a Fortran (2003) library containing routines for some common tasks in quantum theory of molecular charge
 and energy transfer. 
 
 Preferred pronounciation of the library's abbreviation is the Italian one. ACETO means vinegar
