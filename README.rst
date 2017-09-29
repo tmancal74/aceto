@@ -6,7 +6,7 @@ and energy transfer.
 
 Preferred pronounciation of the library's abbreviation is the Italian one. ACETO means vinegar
 in Italian. The library is designed to add some extra flavour to another project, the Python
-open quantum system theory package [Quantarhei](http://github.com/tmancal74/quantarhei).
+open quantum system theory package Quantarhei (see http://github.com/tmancal74/quantarhei).
 
 
 HOW TO INSTALL ACETO
