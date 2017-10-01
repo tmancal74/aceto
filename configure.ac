@@ -4,12 +4,12 @@ AC_PROG_CC
 AC_PROG_FC
 AM_PROG_AR
 AC_PROG_RANLIB
-AC_CONFIG_HEADERS([config.h])
+AC_CONFIG
 AC_CONFIG_FILES([
  Makefile
  src/Makefile
- lib/Makefile
 ])
+AC_CONFIG_SUBDIRS([src/lib])
 AC_OUTPUT
 
 

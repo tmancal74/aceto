@@ -393,7 +393,7 @@ on `(hostname || uname -n) 2>/dev/null | sed 1q`
 "
 
 # Files that config.status was made for.
-config_files=" Makefile src/Makefile"
+config_files=" Makefile"
 config_commands=" depfiles"
 
 ac_cs_usage="\
@@ -419,7 +419,7 @@ $config_files
 Configuration commands:
 $config_commands
 
-Report bugs to <mancal@karlov.mff.cuni.cz>."
+Report bugs to the package provider."
 
 ac_cs_config=""
 ac_cs_version="\
@@ -431,7 +431,7 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/Users/tomas/GitHub/aceto'
+ac_pwd='/Users/tomas/GitHub/aceto/src/lib'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='./install-sh -c -d'
@@ -531,7 +531,6 @@ do
   case $ac_config_target in
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -600,16 +599,10 @@ S["am__EXEEXT_FALSE"]=""
 S["am__EXEEXT_TRUE"]="#"
 S["LTLIBOBJS"]=""
 S["LIBOBJS"]=""
-S["subdirs"]=" src/lib"
 S["RANLIB"]="ranlib"
-S["ac_ct_AR"]="ar"
-S["AR"]="ar"
-S["ac_ct_FC"]="gfortran"
-S["FCFLAGS"]="-g -O2"
-S["FC"]="gfortran"
-S["am__fastdepCC_FALSE"]="#"
-S["am__fastdepCC_TRUE"]=""
-S["CCDEPMODE"]="depmode=gcc3"
+S["am__fastdepCC_FALSE"]=""
+S["am__fastdepCC_TRUE"]="#"
+S["CCDEPMODE"]="depmode=none"
 S["am__nodep"]="_no"
 S["AMDEPBACKSLASH"]="\\"
 S["AMDEP_FALSE"]="#"
@@ -617,13 +610,18 @@ S["AMDEP_TRUE"]=""
 S["am__quote"]=""
 S["am__include"]="include"
 S["DEPDIR"]=".deps"
-S["OBJEXT"]="o"
-S["EXEEXT"]=""
 S["ac_ct_CC"]="gcc"
 S["CPPFLAGS"]=""
-S["LDFLAGS"]=""
 S["CFLAGS"]="-g -O2"
 S["CC"]="gcc"
+S["ac_ct_AR"]="ar"
+S["AR"]="ar"
+S["OBJEXT"]="o"
+S["EXEEXT"]=""
+S["ac_ct_FC"]="gfortran"
+S["LDFLAGS"]=""
+S["FCFLAGS"]="-g -O2"
+S["FC"]="gfortran"
 S["AM_BACKSLASH"]="\\"
 S["AM_DEFAULT_VERBOSITY"]="1"
 S["AM_DEFAULT_V"]="$(AM_DEFAULT_VERBOSITY)"
@@ -638,12 +636,12 @@ S["mkdir_p"]="$(MKDIR_P)"
 S["MKDIR_P"]="./install-sh -c -d"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]=""
-S["install_sh"]="${SHELL} /Users/tomas/GitHub/aceto/install-sh"
-S["MAKEINFO"]="${SHELL} /Users/tomas/GitHub/aceto/missing makeinfo"
-S["AUTOHEADER"]="${SHELL} /Users/tomas/GitHub/aceto/missing autoheader"
-S["AUTOMAKE"]="${SHELL} /Users/tomas/GitHub/aceto/missing automake-1.15"
-S["AUTOCONF"]="${SHELL} /Users/tomas/GitHub/aceto/missing autoconf"
-S["ACLOCAL"]="${SHELL} /Users/tomas/GitHub/aceto/missing aclocal-1.15"
+S["install_sh"]="${SHELL} /Users/tomas/GitHub/aceto/src/lib/install-sh"
+S["MAKEINFO"]="${SHELL} /Users/tomas/GitHub/aceto/src/lib/missing makeinfo"
+S["AUTOHEADER"]="${SHELL} /Users/tomas/GitHub/aceto/src/lib/missing autoheader"
+S["AUTOMAKE"]="${SHELL} /Users/tomas/GitHub/aceto/src/lib/missing automake-1.15"
+S["AUTOCONF"]="${SHELL} /Users/tomas/GitHub/aceto/src/lib/missing autoconf"
+S["ACLOCAL"]="${SHELL} /Users/tomas/GitHub/aceto/src/lib/missing aclocal-1.15"
 S["VERSION"]="0.0.5"
 S["PACKAGE"]="aceto"
 S["CYGPATH_W"]="echo"
@@ -658,8 +656,8 @@ S["LIBS"]=""
 S["ECHO_T"]=""
 S["ECHO_N"]=""
 S["ECHO_C"]="\\c"
-S["DEFS"]="-DPACKAGE_NAME=\\\"aceto\\\" -DPACKAGE_TARNAME=\\\"aceto\\\" -DPACKAGE_VERSION=\\\"0.0.5\\\" -DPACKAGE_STRING=\\\"aceto\\ 0.0.5\\\" -DPACKAGE_BUGREPORT=\\\"mancal@karl"\
-"ov.mff.cuni.cz\\\" -DPACKAGE_URL=\\\"\\\" -DPACKAGE=\\\"aceto\\\" -DVERSION=\\\"0.0.5\\\""
+S["DEFS"]="-DPACKAGE_NAME=\\\"aceto\\\" -DPACKAGE_TARNAME=\\\"aceto\\\" -DPACKAGE_VERSION=\\\"0.0.5\\\" -DPACKAGE_STRING=\\\"aceto\\ 0.0.5\\\" -DPACKAGE_BUGREPORT=\\\"\\\" -DPACKAG"\
+"E_URL=\\\"\\\" -DPACKAGE=\\\"aceto\\\" -DVERSION=\\\"0.0.5\\\""
 S["mandir"]="${datarootdir}/man"
 S["localedir"]="${datarootdir}/locale"
 S["libdir"]="${exec_prefix}/lib"
@@ -683,7 +681,7 @@ S["program_transform_name"]="s,x,x,"
 S["prefix"]="/usr/local"
 S["exec_prefix"]="${prefix}"
 S["PACKAGE_URL"]=""
-S["PACKAGE_BUGREPORT"]="mancal@karlov.mff.cuni.cz"
+S["PACKAGE_BUGREPORT"]=""
 S["PACKAGE_STRING"]="aceto 0.0.5"
 S["PACKAGE_VERSION"]="0.0.5"
 S["PACKAGE_TARNAME"]="aceto"

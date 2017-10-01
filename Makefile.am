@@ -1,4 +1,4 @@
-SUBDIRS = src lib
+SUBDIRS = src
 dist_doc_DATA = README.rst
 
 
