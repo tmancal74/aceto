@@ -185,8 +185,8 @@ ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
-am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in compile \
-	depcomp install-sh missing
+am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in ar-lib \
+	compile depcomp install-sh missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -232,6 +232,7 @@ distcleancheck_listfiles = find . -type f -print
 ACLOCAL = ${SHELL} /Users/tomas/GitHub/aceto/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
+AR = ar
 AUTOCONF = ${SHELL} /Users/tomas/GitHub/aceto/missing autoconf
 AUTOHEADER = ${SHELL} /Users/tomas/GitHub/aceto/missing autoheader
 AUTOMAKE = ${SHELL} /Users/tomas/GitHub/aceto/missing automake-1.15
@@ -269,6 +270,7 @@ PACKAGE_TARNAME = aceto
 PACKAGE_URL = 
 PACKAGE_VERSION = 0.0.5
 PATH_SEPARATOR = :
+RANLIB = ranlib
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = 
@@ -277,6 +279,7 @@ abs_builddir = /Users/tomas/GitHub/aceto
 abs_srcdir = /Users/tomas/GitHub/aceto
 abs_top_builddir = /Users/tomas/GitHub/aceto
 abs_top_srcdir = /Users/tomas/GitHub/aceto
+ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_FC = gfortran
 am__include = include
@@ -316,8 +319,8 @@ target_alias =
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
-SUBDIRS = src
-dist_doc_DATA = README
+SUBDIRS = src lib
+dist_doc_DATA = README.rst
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
