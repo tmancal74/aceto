@@ -29,13 +29,18 @@ enter the directory:
 
 > cd aceto
 
-and configure the compilation by changing the content of the 'conf/conf.in' file to point to
-a file containing gcc flags for your system (gcc_linux.in and gcc_mac.in files are tested).
-Then you need to issue
+Aceto uses autotools to manage compilation of the Fortran source code. Compilation proceeds in the usual autotools
+way, i.e.
 
-> make wheel
+> ./configure
+> make
 
-which compiles the Fortran source and creates a *.whl file in the 'dist/' subdirectory.
+This results in compilation of the Fortran/C part of the aceto library. To create an installable python package
+type the following:
+
+> python setup.py bdist_wheel 
+
+which compiles Python part of the package and links it with the Fortran part. It also creates a *.whl file in the 'dist/' subdirectory
 To install the wheel, enter the 'dist' directory and use 'pip'
 
 > cd dist
