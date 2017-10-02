@@ -90,15 +90,18 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-LTLIBRARIES = $(noinst_LTLIBRARIES)
-libaceto_la_LIBADD =
-am_libaceto_la_OBJECTS = acetodef.lo acetosys.lo acetolab.lo \
-	nr3td_int.lo nr3td.lo acetoaux.lo nr3td_fic.lo trp2.lo
-libaceto_la_OBJECTS = $(am_libaceto_la_OBJECTS)
-AM_V_lt = $(am__v_lt_@AM_V@)
-am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
-am__v_lt_0 = --silent
-am__v_lt_1 = 
+LIBRARIES = $(noinst_LIBRARIES)
+ARFLAGS = cru
+AM_V_AR = $(am__v_AR_@AM_V@)
+am__v_AR_ = $(am__v_AR_@AM_DEFAULT_V@)
+am__v_AR_0 = @echo "  AR      " $@;
+am__v_AR_1 = 
+libaceto_a_AR = $(AR) $(ARFLAGS)
+libaceto_a_LIBADD =
+am_libaceto_a_OBJECTS = acetodef.$(OBJEXT) acetosys.$(OBJEXT) \
+	acetolab.$(OBJEXT) nr3td_int.$(OBJEXT) nr3td.$(OBJEXT) \
+	acetoaux.$(OBJEXT) nr3td_fic.$(OBJEXT) trp2.$(OBJEXT)
+libaceto_a_OBJECTS = $(am_libaceto_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -113,6 +116,10 @@ am__v_at_0 = @
 am__v_at_1 = 
 DEFAULT_INCLUDES = -I.@am__isrc@
 FCCOMPILE = $(FC) $(AM_FCFLAGS) $(FCFLAGS)
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
 LTFCCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=FC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS)
 AM_V_FC = $(am__v_FC_@AM_V@)
@@ -127,8 +134,8 @@ AM_V_FCLD = $(am__v_FCLD_@AM_V@)
 am__v_FCLD_ = $(am__v_FCLD_@AM_DEFAULT_V@)
 am__v_FCLD_0 = @echo "  FCLD    " $@;
 am__v_FCLD_1 = 
-SOURCES = $(libaceto_la_SOURCES)
-DIST_SOURCES = $(libaceto_la_SOURCES)
+SOURCES = $(libaceto_a_SOURCES)
+DIST_SOURCES = $(libaceto_a_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -272,8 +279,10 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I ../m4
-noinst_LTLIBRARIES = libaceto.la
-libaceto_la_SOURCES = acetodef.f95 acetosys.f95 acetolab.f95 nr3td_int.f95 nr3td.f95 \
+
+#noinst_LTLIBRARIES = libaceto.la
+noinst_LIBRARIES = libaceto.a
+libaceto_a_SOURCES = acetodef.f95 acetosys.f95 acetolab.f95 nr3td_int.f95 nr3td.f95 \
 acetoaux.f95 nr3td_fic.f90 trp2.f95
 
 all: all-am
@@ -311,19 +320,13 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 
-clean-noinstLTLIBRARIES:
-	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-	@list='$(noinst_LTLIBRARIES)'; \
-	locs=`for p in $$list; do echo $$p; done | \
-	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
-	      sort -u`; \
-	test -z "$$locs" || { \
-	  echo rm -f $${locs}; \
-	  rm -f $${locs}; \
-	}
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 
-libaceto.la: $(libaceto_la_OBJECTS) $(libaceto_la_DEPENDENCIES) $(EXTRA_libaceto_la_DEPENDENCIES) 
-	$(AM_V_FCLD)$(FCLINK)  $(libaceto_la_OBJECTS) $(libaceto_la_LIBADD) $(LIBS)
+libaceto.a: $(libaceto_a_OBJECTS) $(libaceto_a_DEPENDENCIES) $(EXTRA_libaceto_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f libaceto.a
+	$(AM_V_AR)$(libaceto_a_AR) libaceto.a $(libaceto_a_OBJECTS) $(libaceto_a_LIBADD)
+	$(AM_V_at)$(RANLIB) libaceto.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -439,7 +442,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LIBRARIES)
 installdirs:
 install: install-am
 install-exec: install-exec-am
@@ -473,7 +476,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -543,7 +546,7 @@ uninstall-am:
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
-	clean-libtool clean-noinstLTLIBRARIES cscopelist-am ctags \
+	clean-libtool clean-noinstLIBRARIES cscopelist-am ctags \
 	ctags-am distclean distclean-compile distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \

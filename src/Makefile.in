@@ -92,7 +92,7 @@ am__v_AR_ = $(am__v_AR_@AM_DEFAULT_V@)
 am__v_AR_0 = @echo "  AR      " $@;
 am__v_AR_1 = 
 libfaceto_a_AR = $(AR) $(ARFLAGS)
-libfaceto_a_DEPENDENCIES = lib/src/libaceto.la
+libfaceto_a_DEPENDENCIES = lib/src/libaceto.a
 am_libfaceto_a_OBJECTS = aceto.$(OBJEXT)
 libfaceto_a_OBJECTS = $(am_libfaceto_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -241,7 +241,7 @@ top_srcdir = @top_srcdir@
 AM_FCFLAGS = -I$(srcdir)/lib/src/
 noinst_LIBRARIES = libfaceto.a
 libfaceto_a_SOURCES = aceto.f95
-libfaceto_a_LIBADD = lib/src/libaceto.la
+libfaceto_a_LIBADD = lib/src/libaceto.a
 all: all-am
 
 .SUFFIXES:

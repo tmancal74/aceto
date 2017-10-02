@@ -20,7 +20,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 version = "0.0.6"
 
 libname = "aceto" #+"-"+version+"-"+_platform
-libfile = "lib"+libname+".la"
+libfile = "lib"+libname+".a"
 liblink = "-l"+libname  
 liblocn = path.join(".","src","lib","src",libfile)  
 Ilib = "-I"+path.join(".","src","lib","src")
