@@ -1,7 +1,0 @@
-FC = pgfortran
-CC = pgfortran
-FFLAGS = -c -fast -Mipa=fast,inline -mp -o
-LFLAGS = -mp -o
-PICFLAGS = -fPIC
-DYNFLAGS = -mp -shared -o
-
