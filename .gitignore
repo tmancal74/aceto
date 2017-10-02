@@ -1,5 +1,7 @@
 run_tests
 *.o
+*.lo
+*.la
 *.mod
 .cproject
 .project
@@ -17,6 +19,7 @@ autom4te.cache
 Makefile
 config.log
 config.status
+libtool
 
 
 
