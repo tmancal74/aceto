@@ -154,6 +154,159 @@ end subroutine nr3_r2g_fic
 
 
 
+subroutine nr3_r2gt10_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
+                      gofts, ptn, SS1, &
+                      it2, t3s, rwa, rmin, resp)
+    !
+    ! R2g response of an three band multi-level system, for the case
+    ! of t1 = 0 (impulsive pump-probe situation)
+    !
+    ! Implementation with full interface
+    !
+    !
+    !
+    use acetodef 
+    use acetolab
+    use acetoaux
+    implicit none
+    
+    ! arguments representing lab_settings
+    real(8), dimension(:) :: orient_av
+        
+    ! arguments representing band_system
+    integer, dimension(:) :: Ns
+    real(8), dimension(:,:) :: omge
+    real(8), dimension(:,:,:) :: nnge
+    real(8), dimension(:,:) :: ddge
+    real(8), dimension(:,:) :: Kdge
+    real(8), dimension(:,:) :: Kdee
+    complex(8), dimension(:,:) :: gofts
+    integer, dimension(:,:) :: ptn
+    real(8), dimension(:,:) :: SS1    
+        
+    ! original arguments           
+    integer, intent(in) :: it2
+    real(8), dimension(:), intent(in) :: t3s
+    real(8), intent(in) :: rwa
+    real(8), intent(in) :: rmin
+    complex(8), dimension(:), intent(inout) :: resp
+           
+    ! local
+    integer :: Ng, Ne
+    integer :: Nt3, Ntsbi
+    integer :: it3
+    integer :: e1, e2, g1, f1
+    real(8) :: t1,t2,t3
+    real(8), dimension(:,:), allocatable :: oafac
+    complex(8) :: r, prod, exparg
+           
+    real(8), dimension(:,:,:), allocatable :: ss2
+        
+    ! lineshape function values
+    complex(8), dimension(:), allocatable :: gn_t2, gn_t3
+    complex(8), dimension(:), allocatable :: gn_t2t3
+
+    complex(8) :: gg_21_t3, gg_21_t2, gg_22_t2
+    complex(8) :: gg_11_t2t3, gg_21_t2t3
+    
+    ! minimal value of the dipole factor
+    real(8) :: minfac    
+           
+        
+    Nt3 = size(t3s)
+    Ntsbi = size(gofts,2)
+    
+    Ng = Ns(1)
+    Ne = Ns(2)
+    
+    allocate(oafac(Ne,Ne))
+    allocate(ss2(Ne,Ne,Ne))
+    allocate(gn_t2(Ne), gn_t3(Ne))
+    allocate(gn_t2t3(Ne))
+
+    call set_goft_mixing(SS1,ss2)
+
+    ! initial and final states (normally there is a sum over them)
+    g1 = 1
+    f1 = 1 ! this points to ground state
+    
+    call set_dipole_factor_g(g1, f1, "R2g0", orient_av, Ne, ddge, nnge, oafac, &
+                           rmin, minfac)
+
+    t2 = t3s(it2)
+
+
+    !do it1 = 1,Nt1
+    do it3 = 1,Nt3
+    
+      r = 0.0d0
+      !t1 = t1s(it1)
+      t3 = t3s(it3)
+
+      !call set_goft_g(gn_t1, it1, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2, it2, Ntsbi, gofts, ptn, t3s)
+      call set_goft_g(gn_t3, it3, Ntsbi, gofts, ptn, t3s)
+      !call set_goft_g(gn_t1t2, it1+it2, Ntsbi, gofts, ptn, t1s)
+      call set_goft_g(gn_t2t3, it2+it3, Ntsbi, gofts, ptn, t3s)
+      !call set_goft_g(gn_t1t2t3, it1+it2+it3, Ntsbi, gofts, ptn, t1s)
+      
+      ! assuming Ng = 1
+      do e1 = 1, Ne
+      do e2 = 1, Ne
+                                 
+          if (oafac(e1,e2) > minfac) then
+
+              ! frequencies
+              exparg = -j1*((omge(1,e1)+rwa)*t1 - (omge(1,e2)+rwa)*t3) &
+                       -j1*(omge(1,e2)-omge(1,e1))*t2
+
+              ! dephasing
+              exparg = exparg + & 
+                (-Kdge(1,e1)*t1 - Kdge(1,e2)*t3)
+            
+              ! decay
+              if (e1 /= e2) then
+                  exparg = exparg - Kdee(e2,e1)*t2
+              else
+                  ! dephasing rates for e1 == e2 contain -depopulation rates
+                  exparg = exparg + Kdee(e2,e1)*t2             
+              end if
+
+              !gg_21_t1 = dot_product(ss2(:,e2,e1),gn_t1)
+              gg_21_t2 = dot_product(ss2(:,e2,e1),gn_t2)
+              gg_21_t3 = dot_product(ss2(:,e2,e1),gn_t3)
+              gg_22_t2 = dot_product(ss2(:,e2,e2),gn_t2)
+              gg_11_t2t3 = dot_product(ss2(:,e1,e1),gn_t2t3)
+              gg_21_t2t3 = dot_product(ss2(:,e2,e1),gn_t2t3)
+        
+              ! line-shape functions
+              !exparg = exparg + &
+              !  (-conjg(gg_21_t1) -conjg(gg_21_t3) + gg_21_t2 &
+              !   - conjg(gg_22_t1t2) -gg_11_t2t3 + conjg(gg_21_t1t2t3))
+
+              exparg = exparg + &
+                ( -conjg(gg_21_t3) + gg_21_t2 &
+                 - conjg(gg_22_t2) -gg_11_t2t3 + conjg(gg_21_t2t3))
+
+            
+              ! exp
+              prod = oafac(e1,e2)*exp(exparg)
+          
+              r = r + prod
+          
+          end if
+    
+      end do
+      end do
+    
+      resp(it3) = resp(it3) + r
+    
+    end do
+    !end do
+
+end subroutine nr3_r2gt10_fic
+
+
 subroutine nr3_r3g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
                       gofts, ptn, SS1, &
                       it2, t1s, t3s, rwa, rmin, resp)

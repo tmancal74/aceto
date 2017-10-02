@@ -1,7 +1,8 @@
 
-            Accelerated Charge and Energy Transfer Objects (ACETO) library
+Accelerated Charge and Energy Transfer Objects (ACETO) 
+======================================================
  
-Contains Fortran (2003) routines for some common tasks in quantum theory of molecular charge
+Aceto is a Fortran (2003) library containing routines for some common tasks in quantum theory of molecular charge
 and energy transfer. 
 
 Preferred pronounciation of the library's abbreviation is the Italian one. ACETO means vinegar
@@ -15,44 +16,48 @@ HOW TO INSTALL ACETO
 Aceto can be installed on Linux and Mac
 
 Installation from source:
+-------------------------
 
-The safest way of installing Aceto is by downloading source code from github.com. You need
-to configur the Makefile by changing the content of the 'conf/conf.in' file to point to
-a file containing gcc flags (gcc_linux.in and gcc_mac.in files are tested). Of course
-your system has to have gcc and gfortran compilers installed. Then you
-need to create a 'lib' directory in your home directory. This is a temporal 
-fix, but right now, shared library 'libaceto-version-platform.so' is "installed" 
-locally to this directory. Then you need to issue
+The safest way of installing Aceto is by downloading source code from GitHub. You need 'git'
+and a Fortran compiler installed on your system. Currently we support 'gnufortran', but
+some more compiler will follow soon. Get the source code by typing:
 
-> make
-> make install
+> git clone https://github.com/tmancal74/aceto
 
-series of commnads. You will be asked to confirm that a shared library that was
-created in the 'lib' subdirectory can be copied to the 'lib' directory in your 
-home directory.
+This will create a directory 'aceto' in your working directory. To compile,
+enter the directory:
+
+> cd aceto
+
+and configure the compilation by changing the content of the 'conf/conf.in' file to point to
+a file containing gcc flags for your system (gcc_linux.in and gcc_mac.in files are tested).
+Then you need to issue
+
+> make wheel
+
+which compiles the Fortran source and creates a *.whl file in the 'dist/' subdirectory.
+To install the wheel, enter the 'dist' directory and use 'pip'
+
+> cd dist
+> pip install 'aceto_wheel_file'
+
+Use the file you find in the 'dist' directory instead of 'aceto_wheel_file'.
+I recommend to enter the 'dist' directory before you install - in this way
+the installation is the same as if you just downloaded the wheel file from
+internet. Some problems with 'pip uninstall' can occur if you install from 
+the source directory.
+
 
 Binary installation:
+--------------------
 
-The installation procedure of Aceto is still in development. Currently we
-provide binary distribution for macOS and Linux compiled with gcc complilers
-through a Python egg awailable from PyPa via the 'easy_install' command. Typing
+The installation procedure of Aceto is still in development. Currently, without
+any warranty, we provide binary distribution for macOS. Windows will follow
+soon (it is hoped). Use 'pip' to install the binary version:
 
-> easy_install aceto
+> pip install aceto
 
-will instal aceto, but in order for it to run correctly, you have to type
-
-> aceto_conf
-
-after the installation is over.
-
-You will be asked to confirm that the 'libaceto-version-platform.so' file can be
-moved to the directory 'lib' in your home directory. If this directory is not present, you
-will be asked to confirm its creation.
+You might need to have gfortran installed on your system even if you install
+binaries due to dependency on the fortran shared libraries.
 
 
-Linux specific:
-
-On Linux it seems that LD_LIBRARY_PATH variable set in qrhei script which is
-used to run the quantarhei input files (as a subprocess) does not influence the setting for
-the subprocess. The solution is to export the LD_LIBRARY_PATH in something like
-.bashrc to point to the ${HOME}/lib directory.
