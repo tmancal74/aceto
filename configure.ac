@@ -1,4 +1,4 @@
-AC_INIT([aceto], [0.0.6], [mancal@karlov.mff.cuni.cz])
+AC_INIT([aceto], [0.0.7], [mancal@karlov.mff.cuni.cz])
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_PROG_CC
