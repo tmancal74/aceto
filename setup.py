@@ -4,7 +4,7 @@ import setuptools  # needed for interoperation with numpy.distutils
 from setuptools import find_packages
 from numpy.distutils.core import Extension
 from numpy.distutils.core import setup
-from sys import platform as _platform
+#from sys import platform as _platform
 
 # To use a consistent encoding
 from codecs import open
@@ -17,18 +17,18 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
  
 # library name is comprised of the version number and platform 
-version = "0.0.5"
+version = "0.0.6"
 
 libname = "aceto" #+"-"+version+"-"+_platform
 libfile = "lib"+libname+".a"
 liblink = "-l"+libname  
-liblocn = path.join(".","lib",libfile)  
-Ilib = "-I"+path.join(".","lib")
-Llib = "-L"+path.join(".","lib")
+liblocn = path.join(".","src","lib","src",libfile)  
+Ilib = "-I"+path.join(".","src","lib","src")
+Llib = "-L"+path.join(".","src","lib","src")
     
 
 ext1 = Extension(name="aceto.nr3td_fic",
-                 sources=[path.join("lib","nr3td_fic.f90")],
+                 sources=[path.join("src","lib","src","nr3td_fic.f90")],
                  define_macros = [('F2PY_REPORT_ON_ARRAY_COPY','1')],
                  extra_f90_compile_args=[Ilib],
                  extra_f77_compile_args=[Ilib],                                  
