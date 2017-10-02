@@ -15,14 +15,8 @@ aceto.egg*
 tests/*.png
 autom4te.cache
 Makefile
-Makefile.in
-src/Makefile
-src/Makefile.in
-src/lib/Makefile.in
-src/lib/Makefile
-src/lib/src/Makefile.in
-src/lib/src/Makefile
 config.log
+config.status
 
 
 
