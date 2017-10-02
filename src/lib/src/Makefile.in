@@ -98,9 +98,11 @@ am__v_AR_0 = @echo "  AR      " $@;
 am__v_AR_1 = 
 libaceto_a_AR = $(AR) $(ARFLAGS)
 libaceto_a_LIBADD =
-am_libaceto_a_OBJECTS = acetodef.$(OBJEXT) acetosys.$(OBJEXT) \
-	acetolab.$(OBJEXT) nr3td_int.$(OBJEXT) nr3td.$(OBJEXT) \
-	acetoaux.$(OBJEXT) nr3td_fic.$(OBJEXT) trp2.$(OBJEXT)
+am_libaceto_a_OBJECTS = libaceto_a-acetodef.$(OBJEXT) \
+	libaceto_a-acetosys.$(OBJEXT) libaceto_a-acetolab.$(OBJEXT) \
+	libaceto_a-nr3td_int.$(OBJEXT) libaceto_a-nr3td.$(OBJEXT) \
+	libaceto_a-acetoaux.$(OBJEXT) libaceto_a-nr3td_fic.$(OBJEXT) \
+	libaceto_a-trp2.$(OBJEXT)
 libaceto_a_OBJECTS = $(am_libaceto_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -115,11 +117,11 @@ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
 DEFAULT_INCLUDES = -I.@am__isrc@
-FCCOMPILE = $(FC) $(AM_FCFLAGS) $(FCFLAGS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+FCCOMPILE = $(FC) $(AM_FCFLAGS) $(FCFLAGS)
 LTFCCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=FC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS)
 AM_V_FC = $(am__v_FC_@AM_V@)
@@ -282,6 +284,7 @@ ACLOCAL_AMFLAGS = -I ../m4
 
 #noinst_LTLIBRARIES = libaceto.la
 noinst_LIBRARIES = libaceto.a
+libaceto_a_FCFLAGS = -fPIC
 libaceto_a_SOURCES = acetodef.f95 acetosys.f95 acetolab.f95 nr3td_int.f95 nr3td.f95 \
 acetoaux.f95 nr3td_fic.f90 trp2.f95
 
@@ -342,6 +345,54 @@ distclean-compile:
 
 .f90.lo:
 	$(AM_V_FC)$(LTFCCOMPILE) -c -o $@ $<
+
+libaceto_a-acetodef.o: acetodef.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-acetodef.o `test -f 'acetodef.f95' || echo '$(srcdir)/'`acetodef.f95
+
+libaceto_a-acetodef.obj: acetodef.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-acetodef.obj `if test -f 'acetodef.f95'; then $(CYGPATH_W) 'acetodef.f95'; else $(CYGPATH_W) '$(srcdir)/acetodef.f95'; fi`
+
+libaceto_a-acetosys.o: acetosys.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-acetosys.o `test -f 'acetosys.f95' || echo '$(srcdir)/'`acetosys.f95
+
+libaceto_a-acetosys.obj: acetosys.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-acetosys.obj `if test -f 'acetosys.f95'; then $(CYGPATH_W) 'acetosys.f95'; else $(CYGPATH_W) '$(srcdir)/acetosys.f95'; fi`
+
+libaceto_a-acetolab.o: acetolab.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-acetolab.o `test -f 'acetolab.f95' || echo '$(srcdir)/'`acetolab.f95
+
+libaceto_a-acetolab.obj: acetolab.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-acetolab.obj `if test -f 'acetolab.f95'; then $(CYGPATH_W) 'acetolab.f95'; else $(CYGPATH_W) '$(srcdir)/acetolab.f95'; fi`
+
+libaceto_a-nr3td_int.o: nr3td_int.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-nr3td_int.o `test -f 'nr3td_int.f95' || echo '$(srcdir)/'`nr3td_int.f95
+
+libaceto_a-nr3td_int.obj: nr3td_int.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-nr3td_int.obj `if test -f 'nr3td_int.f95'; then $(CYGPATH_W) 'nr3td_int.f95'; else $(CYGPATH_W) '$(srcdir)/nr3td_int.f95'; fi`
+
+libaceto_a-nr3td.o: nr3td.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-nr3td.o `test -f 'nr3td.f95' || echo '$(srcdir)/'`nr3td.f95
+
+libaceto_a-nr3td.obj: nr3td.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-nr3td.obj `if test -f 'nr3td.f95'; then $(CYGPATH_W) 'nr3td.f95'; else $(CYGPATH_W) '$(srcdir)/nr3td.f95'; fi`
+
+libaceto_a-acetoaux.o: acetoaux.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-acetoaux.o `test -f 'acetoaux.f95' || echo '$(srcdir)/'`acetoaux.f95
+
+libaceto_a-acetoaux.obj: acetoaux.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-acetoaux.obj `if test -f 'acetoaux.f95'; then $(CYGPATH_W) 'acetoaux.f95'; else $(CYGPATH_W) '$(srcdir)/acetoaux.f95'; fi`
+
+libaceto_a-nr3td_fic.o: nr3td_fic.f90
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-nr3td_fic.o `test -f 'nr3td_fic.f90' || echo '$(srcdir)/'`nr3td_fic.f90
+
+libaceto_a-nr3td_fic.obj: nr3td_fic.f90
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-nr3td_fic.obj `if test -f 'nr3td_fic.f90'; then $(CYGPATH_W) 'nr3td_fic.f90'; else $(CYGPATH_W) '$(srcdir)/nr3td_fic.f90'; fi`
+
+libaceto_a-trp2.o: trp2.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-trp2.o `test -f 'trp2.f95' || echo '$(srcdir)/'`trp2.f95
+
+libaceto_a-trp2.obj: trp2.f95
+	$(AM_V_FC)$(FC) $(libaceto_a_FCFLAGS) $(FCFLAGS) -c -o libaceto_a-trp2.obj `if test -f 'trp2.f95'; then $(CYGPATH_W) 'trp2.f95'; else $(CYGPATH_W) '$(srcdir)/trp2.f95'; fi`
 
 .f95.o:
 	$(AM_V_FC)$(FCCOMPILE) -c -o $@ $<
