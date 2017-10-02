@@ -3955,7 +3955,6 @@ else
   RANLIB="$ac_cv_prog_RANLIB"
 fi
 
-AC_CONFIG
 ac_config_files="$ac_config_files Makefile src/Makefile"
 
 
