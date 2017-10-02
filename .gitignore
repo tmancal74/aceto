@@ -1,5 +1,7 @@
 run_tests
 *.o
+*.lo
+*.la
 *.mod
 .cproject
 .project
