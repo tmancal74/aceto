@@ -1,5 +1,4 @@
-SUBDIRS = src
-
+SUBDIRS = src/lib src
 
 
 
