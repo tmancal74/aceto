@@ -58,10 +58,14 @@ contains
 
   procedure :: init !=> bs_init
   procedure :: set_energies !=> bs_set_energies
+  procedure :: set_couplings
+  procedure :: diagonalize
   procedure :: set_dipoles !=> bs_set_dipoles
   procedure :: set_relaxation_rates !=> bs_set_relaxation_rates
   procedure :: update_dephasing_rates !=> bs_update_dephasing_rates
   procedure :: delete_dephasing_rates !=> bs_delete_dephasing_rates
+  procedure :: set_gofts
+
   
 end type band_system
 
@@ -126,6 +130,19 @@ contains
 !  end subroutine bs_set_energies
   end subroutine set_energies
 
+  subroutine set_couplings(this, coup)
+    class(band_system) :: this
+    real(dp), dimension(:,:), target :: coup
+  
+  
+  end subroutine set_couplings
+  
+  subroutine diagonalize(this)
+    class(band_system) :: this
+  
+  
+  end subroutine diagonalize
+  
 
 
   subroutine set_dipoles(this, Nbi, Nbf, dab)
@@ -284,5 +301,20 @@ contains
     this%Kd11 = 0.0d0
 !  end subroutine bs_delete_dephasing_rates
   end subroutine delete_dephasing_rates
+  
+  subroutine set_gofts(this, gofts)
+    class(band_system) :: this
+    complex(dpc), dimension(:,:), target :: gofts
+    
+    
+  
+  end subroutine set_gofts
+  
+  subroutine set_ptn(this, ptn)
+    class(band_system) :: this
+    integer, dimension(:,:), target :: ptn
+      
+  end subroutine set_ptn
+
     
 end module acetosys
