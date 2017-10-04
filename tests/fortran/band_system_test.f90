@@ -11,8 +11,8 @@ program band_system_test
 
   integer, dimension(3) :: Ns
   type(band_system) :: bs
-  real(dp), dimension(3,1,2) :: dge    
-  real(dp), dimension(3,2,1) :: def
+  real(dp), dimension(3,1,2), target :: dge    
+  real(dp), dimension(3,2,1), target :: def
   real(dp), dimension(2,2) :: Kr1
   real(dp), dimension(4) :: en
 
@@ -22,7 +22,7 @@ program band_system_test
   complex(dpc), dimension(:,:), allocatable :: resp
   real(dp), dimension(:), allocatable :: t1, t3
   real(dp) :: rwa, rmin
-  integer :: i
+  integer :: i, Nt, Ngofts
       
   print *, ""
   print *, "Testing Band System class"
@@ -35,14 +35,14 @@ program band_system_test
   en(1) = 0.0
   en(2) = -0.9
   en(3) = 1.1
-  en(4) = 2.0
+  en(4) = 0.0
   
   call bs%set_energies(en)
   print *, "Energies"
   print *, bs%en
   print *, "Frequencies"
-  print *, bs%om01
-  print *, bs%om12
+  print *, "0-1", bs%om01
+  print *, "1-2", bs%om12
 
   
   dge = 1.0
@@ -87,6 +87,14 @@ program band_system_test
   
   rwa = 1.0d0
   rmin = 0.01d0
+  
+  Ngofts = 2
+  
+  call bs%load_gofts(t1, Nt, Ngofts, "gofts.dat")
+  
+  print *, "Read ", Nt, "time points of g(t) functions"
+  
+  call bs%load_ptn("gofts_ptn.dat")
   
   !print *, "Calculation of response R2g"
   !call nr3_r2g(LAB, bs, 20, t1, t3, rwa, rmin, resp)

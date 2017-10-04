@@ -8,6 +8,8 @@ module acetosys
 
 use acetodef
 
+implicit none
+
 type band_system
   !
   ! System of level bands. Currently, only 2 and 3 band systems can be
@@ -56,25 +58,21 @@ type band_system
       
 contains
 
-  procedure :: init !=> bs_init
-  procedure :: set_energies !=> bs_set_energies
+  procedure :: init 
+  procedure :: set_energies 
   procedure :: set_couplings
   procedure :: diagonalize
-  procedure :: set_dipoles !=> bs_set_dipoles
-  procedure :: set_relaxation_rates !=> bs_set_relaxation_rates
-  procedure :: update_dephasing_rates !=> bs_update_dephasing_rates
-  procedure :: delete_dephasing_rates !=> bs_delete_dephasing_rates
+  procedure :: set_dipoles 
+  procedure :: set_relaxation_rates 
+  procedure :: update_dephasing_rates 
+  procedure :: delete_dephasing_rates 
   procedure :: set_gofts
-
+  procedure :: load_gofts
+  procedure :: set_ptn
+  procedure :: load_ptn
   
 end type band_system
 
-! all procedures below are private
-!private :: bs_init, bs_set_energies
-!private :: bs_set_dipoles
-!private :: bs_set_relaxation_rates
-!private :: bs_update_dephasing_rates
-!private :: bs_delete_dephasing_rates
 
 contains
 
@@ -103,13 +101,14 @@ contains
 
 
   subroutine set_energies(this, en)
-!  subroutine bs_set_energies(this, en)
     ! sets energies of the band_system
     !
     !
     !
     class(band_system) :: this
     real(dp), dimension(:), target :: en
+    
+    integer :: i, j
           
     this%en => en(1:this%Ne)
               
@@ -138,11 +137,13 @@ contains
   end subroutine set_couplings
   
   subroutine diagonalize(this)
+    ! diagonalizes the Hamiltonian of the system
+    !
+    !
     class(band_system) :: this
   
   
   end subroutine diagonalize
-  
 
 
   subroutine set_dipoles(this, Nbi, Nbf, dab)
@@ -169,7 +170,7 @@ contains
       this%nn01 => dab
       ! calculate dipole lengths
       if (.not.associated(this%dd01)) then
-         allocate(this%dd01(this%Ns(Nbi),this%Ns(Nbd)))
+         allocate(this%dd01(this%Ns(Nbi),this%Ns(Nbf)))
       end if
       N1 = this%Ns(Nbi)
       N2 = this%Ns(Nbf)
@@ -187,7 +188,7 @@ contains
       this%nn12 => dab
       ! calculate dipole lengths
       if (.not.associated(this%dd12)) then
-         allocate(this%dd12(this%Ns(Nbi),this%Ns(Nbd)))
+         allocate(this%dd12(this%Ns(Nbi),this%Ns(Nbf)))
       end if
       N1 = this%Ns(Nbi)
       N2 = this%Ns(Nbf)
@@ -306,15 +307,78 @@ contains
     class(band_system) :: this
     complex(dpc), dimension(:,:), target :: gofts
     
-    
-  
+      
   end subroutine set_gofts
   
+  subroutine load_gofts(this, tt, Nt, Ngofts, filename)
+    ! loads gofts from a file
+    !
+    ! File should have Nt lines and at least 1+2Ngofts columns
+    !
+    class(band_system) :: this
+    real(dp), dimension(:), intent(out) :: tt
+    integer, intent(out) :: Nt
+    integer, intent(in) :: Ngofts
+    character(len=*) :: filename
+    
+    integer :: io
+    integer :: nlines
+    real(dp), dimension(:), allocatable :: line
+    
+    integer :: i, k 
+    
+    ! get the number of lines
+    nlines = 0 
+    open(10, file=filename)
+    do
+      read(10,*,iostat=io)
+      if (io/=0) exit
+      nlines = nlines + 1
+    end do
+    rewind(10)
+    
+    Nt = nlines
+
+    ! allocate this%gofts if not already allocated
+    if (.not.associated(this%gofts)) then
+      allocate(this%gofts(Ngofts,Nt))
+    end if
+    
+    ! check that this%gofts is large enough to store the data
+    if ((size(this%gofts,1) < Ngofts) .or. (size(this%gofts,2) < Nt)) then
+      stop "gofts attribute has smaller dimension than expected data"
+    end if
+    
+    
+    ! allocate an auxiliary storage for a line of reading
+    allocate(line(1+2*Ngofts))
+    
+    ! loop over all lines
+    do i=1,Nt
+      read(10,*) line
+      ! first column is time
+      tt(i) = line(1)
+      ! real and imaginary parts of g(t) functions follow
+      do k=1,Ngofts
+        this%gofts(k,i) = complex(line(1+2*k),line(2+2*k))
+      end do
+    end do
+    close(10)
+
+  end subroutine load_gofts
+    
   subroutine set_ptn(this, ptn)
     class(band_system) :: this
     integer, dimension(:,:), target :: ptn
       
   end subroutine set_ptn
+
+  subroutine load_ptn(this, filename)
+    class(band_system) :: this
+    character(len=*) :: filename
+      
+  end subroutine load_ptn
+
 
     
 end module acetosys

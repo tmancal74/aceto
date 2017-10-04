@@ -63,12 +63,16 @@ subroutine nr3_r2g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     real(8) :: minfac    
            
         
+!    print *, "Inside "
+        
     Nt1 = size(t1s)
     Nt3 = size(t3s)
     Ntsbi = size(gofts,2)
     
     Ng = Ns(1)
     Ne = Ns(2)
+    
+!    print *, "Allocation: ", Ne, Ng
     
     allocate(oafac(Ne,Ne))
     allocate(ss2(Ne,Ne,Ne))
@@ -196,7 +200,7 @@ subroutine nr3_r2gt10_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     integer :: Nt3, Ntsbi
     integer :: it3
     integer :: e1, e2, g1, f1
-    real(8) :: t1,t2,t3
+    real(8) :: t2,t3
     real(8), dimension(:,:), allocatable :: oafac
     complex(8) :: r, prod, exparg
            
@@ -210,7 +214,9 @@ subroutine nr3_r2gt10_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     complex(8) :: gg_11_t2t3, gg_21_t2t3
     
     ! minimal value of the dipole factor
-    real(8) :: minfac    
+    real(8) :: minfac  
+    
+    real(8) :: t1  
            
         
     Nt3 = size(t3s)
@@ -237,6 +243,8 @@ subroutine nr3_r2gt10_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
 
 
     !do it1 = 1,Nt1
+    t1 = 0.0d0
+    
     do it3 = 1,Nt3
     
       r = 0.0d0

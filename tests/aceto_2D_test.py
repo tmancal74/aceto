@@ -111,7 +111,7 @@ t2s = TimeAxis(0.0, 2, 10.0)
 
 tcalc = TwoDSpectrumCalculator(t1axis=ta, t2axis=t2s, t3axis=ta,
                                system=agg)
-twods.bootstrap(rwa, verbose=True, lab=lab)
+tcalc.bootstrap(rwa, verbose=True, lab=lab)
 twods = tcalc.calculate()
 
 #
@@ -162,7 +162,8 @@ with energy_units("1/cm"):
         #
         # Plotting with given units on axes
         #
-        twods[k].plot(axis=[w1_min, w1_max, w3_min, w3_max]) #,vmax=1.0, cbmax=cbmax)
+        sp = twods.get_spectrum(tt2)
+        sp.plot(axis=[w1_min, w1_max, w3_min, w3_max]) #,vmax=1.0, cbmax=cbmax)
 
         figname = "fig"+str(round(tt2))+".png"
         print("saving file: ", figname, " with 2D spectrum at ", tt2, "fs")
