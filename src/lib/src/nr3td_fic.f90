@@ -63,8 +63,11 @@ subroutine nr3_r2g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     real(8) :: minfac    
            
         
-!    print *, "Inside "
-        
+    print *, "Inside nr3_r2g_fic"
+    print *, 1.0d0/Kdge
+              
+              
+              
     Nt1 = size(t1s)
     Nt3 = size(t3s)
     Ntsbi = size(gofts,2)
@@ -218,7 +221,8 @@ subroutine nr3_r2gt10_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     
     real(8) :: t1  
            
-        
+    print *, "Inside nr3_r2gt10_fic"
+                
     Nt3 = size(t3s)
     Ntsbi = size(gofts,2)
     
@@ -372,7 +376,8 @@ subroutine nr3_r3g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     ! minimal value of the dipole factor
     real(8) :: minfac    
            
-        
+    print *, "Inside nr3_r3g_fic"
+                
     Nt1 = size(t1s)
     Nt3 = size(t3s)
     Ntsbi = size(gofts,2)
@@ -515,7 +520,9 @@ subroutine nr3_r1g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
 
     ! minimal value of the dipole factor
     real(8) :: minfac    
-        
+
+    print *, "Inside nr3_r1g_fic"
+            
     Nt1 = size(t1s)
     Nt3 = size(t3s)
     Ntsbi = size(gofts,2)
@@ -663,7 +670,8 @@ subroutine nr3_r4g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
     ! minimal value of the dipole factor
     real(8) :: minfac    
            
-        
+    print *, "Inside nr3_r4g_fic"
+                
     Nt1 = size(t1s)
     Nt3 = size(t3s)
     Ntsbi = size(gofts,2)
@@ -825,7 +833,8 @@ subroutine nr3_r1fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     ! minimal value of the dipole factor
     real(8) :: minfac    
            
-    
+    print *, "Inside nr3_r1fs_fic"
+        
     Nt1 = size(t1s)
     Nt3 = size(t3s)
     Ntsbi = size(gofts,2)
@@ -1019,6 +1028,8 @@ subroutine nr3_r2fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     ! minimal value of the dipole factor
     real(8) :: minfac      
     
+    print *, "Inside nr3_r2fs_fic"
+        
     Nt1 = size(t1s)
     Nt3 = size(t3s)
     Ntsbi = size(gofts,2)
@@ -1221,7 +1232,8 @@ subroutine nr3_r1fs_list_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, 
     ! minimal value of the dipole factor
     real(8) :: minfac    
            
-    
+    print *, "nr3_r1fs_list_fic"
+      
     Nt1 = size(t1s)
     Nt3 = size(t3s)
     Ntsbi = size(gofts,2)

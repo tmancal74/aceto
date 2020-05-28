@@ -148,17 +148,17 @@ class band_system:
         if Nb == 1:
             for i in range(self.Ns[0]):
                 for j in range(self.Ns[1]):
-                    self.Kd01[i,j] += self.Kr11[j,j]/2.0
+                    self.Kd01[i,j] -= self.Kr11[j,j]/2.0
             for i in range(self.Ns[1]):
                 for j in range(self.Ns[1]):
-                    self.Kd11[i,j] += (self.Kr11[i,i] + self.Kr11[j,j])/2.0
+                    self.Kd11[i,j] -= (self.Kr11[i,i] + self.Kr11[j,j])/2.0
             for i in range(self.Ns[1]):
                 for j in range(self.Ns[2]):
-                    self.Kd12[i,j] += self.Kr11[i,i]/2.0
+                    self.Kd12[i,j] -= self.Kr11[i,i]/2.0
         elif Nb == 2:
             for i in range(self.Ns[1]):
                 for j in range(self.Ns[2]):
-                    self.Kd12[i,j] += self.Kr22[j,j]/2.0            
+                    self.Kd12[i,j] -= self.Kr22[j,j]/2.0            
         else:
             raise Exception("Attempt to update unsupported "+
                             "dephasing rate block")
