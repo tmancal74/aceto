@@ -17,7 +17,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 # library name is comprised of the version number and platform
-version = "0.0.8"
+version = "0.0.9"
 
 libname = "aceto" #+"-"+version+"-"+_platform
 libfile = "lib"+libname+".a"

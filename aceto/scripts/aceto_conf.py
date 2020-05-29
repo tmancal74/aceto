@@ -9,7 +9,7 @@ from sys import platform as _platform
 
 def main():
     
-    print("Aceto configuratio: current does nothing")
+    print("Aceto configuratio: currently does nothing")
     
     
 if __name__ == "__main__":
