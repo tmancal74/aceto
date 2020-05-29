@@ -127,7 +127,7 @@ subroutine nr3_r2g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
                   exparg = exparg - Kdee(e2,e1)*t2
               else
                   ! dephasing rates for e1 == e2 contain -depopulation rates
-                  exparg = exparg + Kdee(e2,e1)*t2             
+                  exparg = exparg - Kdee(e2,e1)*t2             
               end if
 
               gg_21_t1 = dot_product(ss2(:,e2,e1),gn_t1)
@@ -281,7 +281,7 @@ subroutine nr3_r2gt10_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
                   exparg = exparg - Kdee(e2,e1)*t2
               else
                   ! dephasing rates for e1 == e2 contain -depopulation rates
-                  exparg = exparg + Kdee(e2,e1)*t2             
+                  exparg = exparg - Kdee(e2,e1)*t2             
               end if
 
               !gg_21_t1 = dot_product(ss2(:,e2,e1),gn_t1)
@@ -580,7 +580,7 @@ subroutine nr3_r1g_fic(orient_av, Ns, omge, nnge, ddge, Kdge, Kdee, &
                   exparg = exparg - Kdee(e2,e1)*t2
               else
                   ! dephasing rates for e1 == e2 contain -depopulation rates
-                  exparg = exparg + Kdee(e2,e1)*t2
+                  exparg = exparg - Kdee(e2,e1)*t2
               end if
 
               gg_12_t3 = dot_product(ss2(:,e1,e2),gn_t3)
@@ -834,6 +834,10 @@ subroutine nr3_r1fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     real(8) :: minfac    
            
     print *, "Inside nr3_r1fs_fic"
+    print *, "Kdef"
+    print *, 1.0/Kdef
+    print *, "Kdeg"
+    print *, 1.0/Kdge
         
     Nt1 = size(t1s)
     Nt3 = size(t3s)
@@ -905,7 +909,7 @@ subroutine nr3_r1fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
                   exparg = exparg - Kdee(ea,eb)*t2
               else
                   ! dephasing rates for e1 == e2 contain -depopulation rates
-                  exparg = exparg + Kdee(ea,eb)*t2              
+                  exparg = exparg - Kdee(ea,eb)*t2              
               end if
 
               gg_aa_t1t2t3 = dot_product(zz2(:,ea,ea),gn_t1t2t3)
@@ -1027,8 +1031,6 @@ subroutine nr3_r2fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
     
     ! minimal value of the dipole factor
     real(8) :: minfac      
-    
-    print *, "Inside nr3_r2fs_fic"
         
     Nt1 = size(t1s)
     Nt3 = size(t3s)
@@ -1100,7 +1102,7 @@ subroutine nr3_r2fs_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, &
                   exparg = exparg - Kdee(ea,eb)*t2
               else
                   ! dephasing rates for e1 == e2 contain -depopulation rates
-                  exparg = exparg + Kdee(ea,eb)*t2              
+                  exparg = exparg - Kdee(ea,eb)*t2              
               end if
 
               gg_ab_t2 = dot_product(zz2(:,ea,eb),gn_t2)
@@ -1231,8 +1233,6 @@ subroutine nr3_r1fs_list_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, 
     
     ! minimal value of the dipole factor
     real(8) :: minfac    
-           
-    print *, "nr3_r1fs_list_fic"
       
     Nt1 = size(t1s)
     Nt3 = size(t3s)
@@ -1304,7 +1304,7 @@ subroutine nr3_r1fs_list_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, 
                   exparg = exparg - Kdee(ea,eb)*t2
               else
                   ! dephasing rates for e1 == e2 contain -depopulation rates
-                  exparg = exparg + Kdee(ea,eb)*t2              
+                  exparg = exparg - Kdee(ea,eb)*t2              
               end if
 
               gg_aa_t1t2t3 = dot_product(zz2(:,ea,ea),gn_t1t2t3)
@@ -1498,7 +1498,7 @@ subroutine nr3_r2fs_list_fic(orient_av, Ns, omge, omef, nnge, ddge, nnef, ddef, 
                   exparg = exparg - Kdee(ea,eb)*t2
               else
                   ! dephasing rates for e1 == e2 contain -depopulation rates
-                  exparg = exparg + Kdee(ea,eb)*t2              
+                  exparg = exparg - Kdee(ea,eb)*t2              
               end if
 
               gg_ab_t2 = dot_product(zz2(:,ea,eb),gn_t2)
