@@ -172,23 +172,38 @@ def nr3_r4g(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
                         sys.SS1, it2+1, t1s, t3s, rwa, rmin, resp)
     
 
-def nr3_r1fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
+def nr3_r1fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp, plist=False):
     """ Calculates R1f* response function
     
     """
 
-    nr3td_fic.nr3_r1fs_fic(lab.orient_aver, sys.Ns, sys.om01, sys.om12, 
+    if plist:
+        nr3td_fic.nr3_r1fs_list_fic(lab.orient_aver, sys.Ns, sys.om01, 
+                                    sys.om12, sys.nn01, sys.dd01, sys.nn12,
+                                    sys.dd12, sys.Kd01, sys.Kd11, sys.Kd12,
+                                    sys.gofts, sys.fptn, sys.SS1, sys.SS2,
+                                    it2+1, t1s, t3s, rwa, rmin, resp)
+        
+    else:
+        nr3td_fic.nr3_r1fs_fic(lab.orient_aver, sys.Ns, sys.om01, sys.om12, 
                            sys.nn01, sys.dd01, sys.nn12, sys.dd12, sys.Kd01,
                            sys.Kd11, sys.Kd12, sys.gofts, sys.fptn, 
                            sys.SS1, sys.SS2, it2+1, t1s, t3s, rwa, rmin, resp)
     
 
-def nr3_r2fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp):
+def nr3_r2fs(lab, sys, it2, t1s, t3s, rwa, rmin, resp, plist=False):
     """ Calculates R2f* response function
     
     """
+    if plist:
+        nr3td_fic.nr3_r2fs_list_fic(lab.orient_aver, sys.Ns, sys.om01,
+                                    sys.om12, sys.nn01, sys.dd01, sys.nn12,
+                                    sys.dd12, sys.Kd01, sys.Kd11, sys.Kd12,
+                                    sys.gofts, sys.fptn, sys.SS1, sys.SS2,
+                                    it2+1, t1s, t3s, rwa, rmin, resp)
     
-    nr3td_fic.nr3_r2fs_fic(lab.orient_aver, sys.Ns, sys.om01, sys.om12, 
+    else:
+        nr3td_fic.nr3_r2fs_fic(lab.orient_aver, sys.Ns, sys.om01, sys.om12, 
                            sys.nn01, sys.dd01, sys.nn12, sys.dd12, sys.Kd01,
                            sys.Kd11, sys.Kd12, sys.gofts, sys.fptn, 
                            sys.SS1, sys.SS2, it2+1, t1s, t3s, rwa, rmin, resp)
