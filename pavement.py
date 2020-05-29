@@ -1,79 +1,23 @@
 """
-    Quantarhei Package Tests
-    ========================
-    
-    To run the tests, the following packages have to be installed
-    
+    Aceto Package Managemant and Tests
+    ==================================
+
+    To compile aceto conveniently, the following packages have to be installed
+
     paver (pip install paver)
-    nose (pip install nose)
-    aloe (pip install aloe)
-    behave (pip install behave)
-    pylint (pip install pylint)
-    
-    About our tests
-    ---------------
-    
-    Quantarhei is tested against unit tests run by the `nose` tool, against
-    acceptance tests run by `aloe` tool and against doc tests (run by `nose`).
-    We also calculate coverege using the `coverage` tool and we plan to 
-    check the code by `pylint`.
-    
-    
-    The ultimit goal of testing in 100 % coverage and perfect code style.
-    
-    
+
     The following tasks are available. Run them with `paver` as
-    
+
     .. code:: bash
-    
+
         $ paver TASK_NAME
-        
+
     To test the whole suit, just run `paver` without any task.
 
     .. code:: bash
 
         $ paver
-        
-        
-        
-    Doctest Tasks
-    -------------
-    
-    doc_tests
-    doc_tests_v
-    doc_tests_vs
-    doc_tests_cov
-    doc_tests_cov_v
-    doc_tests_cov_vs
-        
-    Runs test doc tests. _cov means `--with-coverage` option, _v means
-    with `-v` option for verbose output and _vs means with `-vs` option, i.e.
-    verbose and printing standard output of the tests.
-        
-        
-    Unit tests
-    ----------
-    
-    unit_tests_vs
-    unit_tests_cov_vs
 
-
-    Acceptance tests
-    ----------------
-    
-    aloe_tests_vs
-    aloe_tests_cov_vs
-    
-    
-    Tests to be run during development
-    ----------------------------------
-    
-    doc_dev
-    unit_dev
-    
-    Edit the list of files or directories that you want to test during
-    development.
-    
 
 """
 import contextlib
@@ -87,7 +31,7 @@ from paver.tasks import needs
 from paver.easy import sh
 
 
-version = "0.0.8"
+version = "0.0.9"
 
 sys_name = platform.system()
 
@@ -96,7 +40,7 @@ sys_name = platform.system()
 pip = 'pip'
 python = 'python'
 
-# 
+#
 # Commands for deleting files and directories silently and without error codes
 #
 if sys_name == "Darwin" or sys_name == "Linux":
@@ -113,7 +57,7 @@ else:
 #
 repository = 'https://github.com/tmancal74/aceto'
 
-    
+
 
 #
 # Context manager for getting into subdirectories
@@ -126,28 +70,36 @@ def cd(path):
        yield
    finally:
        os.chdir(old_path)
-       
+
 def rm_rf(path):
     """Removal of files and directories, recursively and silently
-    
+
     """
     pass
-    
+
 #
 ###############################################################################
 #
 #      Standard developer tasks
 #
 ###############################################################################
-#   
-    
+#
+@task
+def bootstrap():
+    sh('./bootstrap')
+
+@task
+def configure():
+    sh('./configure')
+
+@needs('configure')
 @task
 def compile():
     sh('make')
-    
+
 ###############################################################################
 #  Creates distribution
-###############################################################################   
+###############################################################################
 @needs('compile')
 @task
 def wheel():
@@ -159,9 +111,9 @@ def wheel():
 @needs('wheel')
 @task
 def inst():
-    
+
     sh(pip+' install dist/a*.whl')
-    
+
 #
 #  The same as above
 #
@@ -179,15 +131,15 @@ def uninstall():
     pass
 
 #
-# The same as above  
+# The same as above
 #
 @task
 def uninst():
 	sh(pip+' uninstall -y aceto')
-    
+
 
 ###############################################################################
-#  Upload to pypi 
+#  Upload to pypi
 ###############################################################################
 @needs('wheel')
 @task
@@ -197,7 +149,7 @@ def upload():
 
 
 ###############################################################################
-#  Clean-up 
+#  Clean-up
 ###############################################################################
 @task
 def clean():
@@ -205,7 +157,7 @@ def clean():
         sh(deldir+'dist')
     except:
         print("Directory not present - no problem")
-    try:    
+    try:
         sh(delfile+'aceto.egg-info')
     except:
         print("File not present - no problem")
@@ -220,7 +172,7 @@ def clean():
 
 
 ###############################################################################
-# Reinstallation with clean-up 
+# Reinstallation with clean-up
 ###############################################################################
 @needs('clean','uninst', 'inst')
 @task
@@ -228,7 +180,7 @@ def reinst():
     pass
 
 ###############################################################################
-# Local tests: this will reinstall Quantarhei and run tests 
+# Local tests: this will reinstall Quantarhei and run tests
 ###############################################################################
 @needs('reinst')
 @task
@@ -252,5 +204,3 @@ def tasks():
 	print("wheel       ... create distribution")
 	print("clean       ... clean the repository")
 	print("")
-
-
