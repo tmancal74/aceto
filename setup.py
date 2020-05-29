@@ -15,33 +15,34 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
- 
-# library name is comprised of the version number and platform 
-version = "0.0.7"
+
+# library name is comprised of the version number and platform
+version = "0.0.8"
 
 libname = "aceto" #+"-"+version+"-"+_platform
 libfile = "lib"+libname+".a"
-liblink = "-l"+libname  
-liblocn = path.join(".","src","lib","src",libfile)  
+liblink = "-l"+libname
+liblocn = path.join(".","src","lib","src",libfile)
 Ilib = "-I"+path.join(".","src","lib","src")
 Llib = "-L"+path.join(".","src","lib","src")
-    
+
 
 ext1 = Extension(name="aceto.nr3td_fic",
                  sources=[path.join("src","lib","src","nr3td_fic.f90")],
+                 libraries=["mylib"],
                  define_macros = [('F2PY_REPORT_ON_ARRAY_COPY','1')],
                  extra_f90_compile_args=[Ilib],
-                 extra_f77_compile_args=[Ilib],                                  
+                 extra_f77_compile_args=[Ilib],
                  extra_link_args=[Llib+" "+liblink],
                 )
 
-
+libpath = path.join("src","lib","src")
 
 setup(name = "aceto",
       version=version,
-      
+
       description = "Accelerated Charge and Energy Transfer Objects",
-      long_description=long_description, 
+      long_description=long_description,
 
       # The project's main homepage.
       url='https://github.com/tmancal74/aceto',
@@ -52,7 +53,7 @@ setup(name = "aceto",
 
       # Choose your license
       license='MIT',
-      
+
 
       # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
@@ -71,7 +72,7 @@ setup(name = "aceto",
         # Pick your license as you wish (should match "license" above)
         'License :: OSI Approved :: MIT License',
 
-        # Specify the Python versions you support here. In particular, ensure        
+        # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
@@ -80,18 +81,22 @@ setup(name = "aceto",
       ],
 
       keywords='physics, chemistry, quantum mechanics, open quantum systems',
-      
+
       packages = find_packages(exclude=['lib','conf','src','tests','docs']),
-      
+
       data_files = [("lib/",[liblocn])],
-      include_package_data = True, 
-      
+      include_package_data = True,
+
+      libraries = [("mylib", dict(sources=[path.join(libpath, "acetoaux.f95"),
+                                           path.join(libpath, "acetodef.f95"),
+                                           path.join(libpath, "acetolab.f95"),
+                                           path.join(libpath, "acetosys.f95")
+                                           ]))],
       ext_modules = [ext1],
-        
+
       entry_points={
         'console_scripts': ['aceto_conf=aceto.scripts.aceto_conf:main'],
       }
 
 
 )
-
